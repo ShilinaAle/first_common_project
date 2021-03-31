@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Project_X</string>
+    <string name="permissions">Permissions</string>
+    <string name="perm1">Perm1</string>
+    <string name="perm2">Perm2</string>
+    <string name="perm3">Perm3</string>
+    <string name="perm4">Perm4</string>
+    <string name="perm5">Perm5</string>
+    <string name="perm6">Perm6</string>
+    <string name="perm7">Perm7</string>
+    <string name="accept">Принять</string>
+    <string name="alarmAccept">Необходимо принять все разрешения</string>
+    <string name="alarmAcceptText">Проверьте еще раз</string>
+    <string name="sign_in">Войти</string>
+    <string name="sign_up">Зарегистрироваться</string>
+    <string name="nameOfWindow">%1$s</string>
+</resources>
