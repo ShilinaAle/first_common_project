@@ -2,6 +2,27 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.shilina.project_x">
 
+    <uses-permission android:name="android.permission.READ_CONTACTS" /> <!-- уровень защиты: dangerous -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" /> <!-- уровень защиты: dangerous -->
+    <uses-permission android:name="android.permission.ANSWER_PHONE_CALLS" /> <!-- уровень защиты: dangerous -->
+    <uses-permission android:name="android.permission.READ_CALL_LOG" /> <!-- уровень защиты: dangerous -->
+    <uses-permission android:name="android.permission.READ_CALENDAR" /> <!-- уровень защиты: dangerous -->
+    <uses-permission android:name="android.permission.WRITE_CALENDAR" /> <!-- уровень защиты: dangerous -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> <!-- уровень защиты: dangerous -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!-- уровень защиты: dangerous -->
+    <uses-permission android:name="android.permission.MANAGE_OWN_CALLS" /> <!-- уровень защиты: normal -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" /> <!-- уровень защиты: normal -->
+    <uses-permission android:name="android.permission.CALL_COMPANION_APP" /> <!-- уровень защиты: normal -->
+    <uses-permission android:name="android.permission.ACCESS_CALL_AUDIO" /> <!-- уровень защиты: signature|appop -->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" /> <!-- уровень защиты: signature|preinstalled|appop|pre23|development -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" /> <!-- уровень защиты: normal -->
+    <uses-permission android:name="android.permission.SEND_SMS" /> <!-- уровень защиты: dangerous -->
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" /> <!-- уровень защиты: normal -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- уровень защиты: normal -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> <!-- уровень защиты: normal -->
+    <uses-permission android:name="android.permission.INTERNET" /> <!-- уровень защиты: normal -->
+    <uses-permission android:name="android.permission.ACCESS_MEDIA_LOCATION" /> <!-- уровень защиты: dangerous -->
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
