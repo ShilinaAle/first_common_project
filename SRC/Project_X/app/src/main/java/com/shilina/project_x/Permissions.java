@@ -6,12 +6,18 @@ import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.PowerManager;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.Toast;
 
@@ -19,57 +25,59 @@ import java.util.ArrayList;
 
 public class Permissions extends AppCompatActivity {
 
-    @Override
-    public void onBackPressed(){}
-
+    Switch permSwitcher;
+    public static boolean isFirstLaunch = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_permissions);
-    }
 
-    public void ClickPerm(View view) {
-        view.setClickable(false);
-    }
-
-    public void CheckPerm(View view){
-        //Count permissions
-        if (findViewById(R.id.switch1).isClickable() == true || findViewById(R.id.switch2).isClickable() == true ||
-            findViewById(R.id.switch3).isClickable() == true || findViewById(R.id.switch4).isClickable() == true ||
-            findViewById(R.id.switch5).isClickable() == true || findViewById(R.id.switch6).isClickable() == true ||
-            findViewById(R.id.switch7).isClickable() == true)
-        {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            //Set title
-            builder.setTitle("Не все разрешения выбраны");
-            //Set message
-            builder.setMessage("Необходимо предоставить все разрешения");
-            //Positive yes button
-            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    //Dismiss dialog
-                    dialog.dismiss();
+        permSwitcher = findViewById(R.id.switch1);
+        //Метод обработки смены значения кнопки
+        permSwitcher.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (permSwitcher.isChecked()) {
+                    if (!isPermissionsGranted(all_permissions_str)) {
+                        givePermissions();
+                    }
                 }
-            });
-            //Show dialog
-            builder.show();
-
-        } else {
-
-            if (!isPermissionsGranted(all_permissions_str)) {
-                givePermissions();
             }
+        });
+    }
 
-            //Open sign in
-            Intent intentToLogin = new Intent(this, Login.class);
-            startActivity(intentToLogin);
-            finish();
+    @Override
+    protected void onResume() {
+        super.onResume();
+        permSwitcher.setChecked(false);
+        if (!isPermissionsGranted(all_permissions_str)) {
+            permSwitcher.setChecked(false);
+            Toast.makeText(getApplicationContext(), "Еще не ВСЕ разрешения приняты", Toast.LENGTH_SHORT).show();
+        } else {
+            permSwitcher.setChecked(true);
+            isFirstLaunch = false;
         }
     }
 
-    //Работа с разрешениями
+    //Метод, блокирующий выключение кнопки
+    public void onPermClick(View view) {
+        if (!permSwitcher.isChecked()) {
+            Toast.makeText(getApplicationContext(), "Отозвать разрешения можно только в настройках устройства", Toast.LENGTH_SHORT).show();
+            permSwitcher.setChecked(true);
+        }
+    }
+
+    public void CheckPerm(View view) {
+        //TODO: Открывает регистрацию только если страница открывается не через настройки (статическая переменная "isRegistred") из MainActivity
+        //Open sign in
+        Intent intentToLogin = new Intent(this, Login.class);
+        startActivity(intentToLogin);
+        Toast.makeText(getApplicationContext(), "Разрешения находятся в разделе \"Найстроки\"", Toast.LENGTH_SHORT).show();
+        finish();
+    }
+
+    //Списки с разрешениями
     ArrayList<String> needed_permissions_list = new ArrayList<>();
     String[] all_permissions_str = {Manifest.permission.READ_CONTACTS, Manifest.permission.READ_PHONE_STATE,
             Manifest.permission.ANSWER_PHONE_CALLS, Manifest.permission.READ_CALL_LOG,
@@ -79,8 +87,8 @@ public class Permissions extends AppCompatActivity {
             Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE,
     };
 
+    //Метод, проверяющий базовые разрешения
     public boolean isPermissionsGranted(String[] all_permissions_str) {
-        //Проверка разрешений
         needed_permissions_list = new ArrayList<> ();
         for (String permission : all_permissions_str) {
             int permission_status = ContextCompat.checkSelfPermission(this, permission); //Проверяем текущее разрешение
@@ -98,18 +106,95 @@ public class Permissions extends AppCompatActivity {
         }
     }
 
+    //Метод, запрашивающий базовые разрешения
     public void givePermissions() {
-        if (!isPermissionsGranted(all_permissions_str)) {
-            String[] needed_permission_str = needed_permissions_list.toArray(new String[0]);
-            ActivityCompat.requestPermissions(this, needed_permission_str, 1);
-            for (String perm : needed_permission_str) {
-                Log.i("LOOK HERE: Permissions", perm + " is NOW");
+        String[] needed_permission_str = needed_permissions_list.toArray(new String[0]);
+        ActivityCompat.requestPermissions(this, needed_permission_str, 1);
+        for (String perm : needed_permission_str) {
+            Log.i("LOOK HERE: Permissions", perm + " is NOW");
+        }
+    }
+
+    //Метод, запрашивающий разрешение на показ поверх остальных приложений
+    public void onOverClick(View view) {
+        if (!android.provider.Settings.canDrawOverlays(this)) {
+            Intent intent = new Intent(android.provider.Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + getPackageName()));
+            startActivity(intent);
+            Log.i("LOOK HERE: Permissions", "Overlay is NOW");
+        } else {
+            Toast.makeText(this, "Разрешение уже предоставлено", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    //Метод, запрашивающий разрещение на работу в фоновым режиме
+    public void onBackClick(View view) {
+        PowerManager powerMan = (PowerManager) getSystemService(Context.POWER_SERVICE);
+        if (!powerMan.isIgnoringBatteryOptimizations(getPackageName())) {
+            Log.i("LOOK HERE: Permissions", "Battery Saver is " + powerMan.isIgnoringBatteryOptimizations(getPackageName()));
+            Intent intent = new Intent(android.provider.Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS, Uri.parse("package:" + getPackageName()));
+            if (getPackageManager().resolveActivity(intent, PackageManager.MATCH_DEFAULT_ONLY) != null) {
+                startActivity(intent);
+            } else {
+                Toast.makeText(this, "На вашем телефоне это не нужно", Toast.LENGTH_SHORT).show();
             }
         } else {
             Toast.makeText(this, "Разрешение уже предоставлено", Toast.LENGTH_SHORT).show();
         }
     }
-    
-    //TODO: Добавить 4 кнопки для запроса дополнительных разрешений
 
+    //Метод, запрашивающий отключение оптимизации энергопотребления
+    public void onBatClick(View view) {
+        Intent intent = new Intent();
+        intent.setComponent(new ComponentName("com.miui.powerkeeper", "com.miui.powerkeeper.ui.HiddenAppsConfigActivity"));
+        intent.putExtra("package_name", getPackageName());
+        intent.putExtra("package_label", getText(R.string.app_name));
+        if (getPackageManager().resolveActivity(intent, PackageManager.MATCH_DEFAULT_ONLY) != null) {
+            startActivity(intent);
+            Toast.makeText(this, "Пожалуйста, выберите \"Нет ограничений\"", Toast.LENGTH_LONG).show();
+        } else {
+            intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:" + getPackageName()));
+            if (getPackageManager().resolveActivity(intent, PackageManager.MATCH_DEFAULT_ONLY) != null) {
+                startActivity(intent);
+                Toast.makeText(this, "Пожалуйста,\nотключите оптимизацию энергопотребления\nдля приложения ACaller", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(this, "На вашем телефоне это не нужно", Toast.LENGTH_SHORT).show();
+            }
+        }
+        Log.i("LOOK HERE: Permissions", "Battery Saver is NOW");
+    }
+
+    //Метод, запрашивающий отключение оптимизации энергопотребления
+    public void onAutoClick(View view) {
+        Intent[] POWERMANAGER_INTENTS = {
+                new Intent().setComponent(new ComponentName("com.miui.securitycenter", "com.miui.permcenter.autostart.AutoStartManagementActivity")),
+                new Intent().setComponent(new ComponentName("com.letv.android.letvsafe", "com.letv.android.letvsafe.AutobootManageActivity")),
+                new Intent().setComponent(new ComponentName("com.huawei.systemmanager", "com.huawei.systemmanager.optimize.process.ProtectActivity")),
+                new Intent().setComponent(new ComponentName("com.huawei.systemmanager", "com.huawei.systemmanager.appcontrol.activity.StartupAppControlActivity")),
+                new Intent().setComponent(new ComponentName("com.huawei.systemmanager", "com.huawei.systemmanager.startupmgr.ui.StartupNormalAppListActivity")),
+                new Intent().setComponent(new ComponentName("com.coloros.safecenter", "com.coloros.safecenter.permission.startup.StartupAppListActivity")),
+                new Intent().setComponent(new ComponentName("com.coloros.safecenter", "com.coloros.safecenter.startupapp.StartupAppListActivity")),
+                new Intent().setComponent(new ComponentName("com.oppo.safe", "com.oppo.safe.permission.startup.StartupAppListActivity")),
+                new Intent().setComponent(new ComponentName("com.iqoo.secure", "com.iqoo.secure.ui.phoneoptimize.AddWhiteListActivity")),
+                new Intent().setComponent(new ComponentName("com.iqoo.secure", "com.iqoo.secure.ui.phoneoptimize.BgStartUpManager")),
+                new Intent().setComponent(new ComponentName("com.vivo.permissionmanager", "com.vivo.permissionmanager.activity.BgStartUpManagerActivity")),
+                new Intent().setComponent(new ComponentName("com.samsung.android.lool", "com.samsung.android.sm.ui.battery.BatteryActivity")),
+                new Intent().setComponent(new ComponentName("com.htc.pitroad", "com.htc.pitroad.landingpage.activity.LandingPageActivity")),
+                new Intent().setComponent(new ComponentName("com.asus.mobilemanager", "com.asus.mobilemanager.MainActivity"))};
+
+        boolean powers = true;
+        for (Intent intent : POWERMANAGER_INTENTS) {
+            if (getPackageManager().resolveActivity(intent, PackageManager.MATCH_DEFAULT_ONLY) != null) {
+                startActivity(intent);
+                Toast.makeText(this, "Пожалуйста, включите Автозапуск для приложения Project_X", Toast.LENGTH_LONG).show();
+                powers = false;
+                break;
+            }
+        }
+        if (powers) {
+            Toast.makeText(this, "На вашем телефоне это не нужно", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onBackPressed(){}
 }
