@@ -21,4 +21,16 @@ public class Settings extends AppCompatActivity {
         //Close window
         finish();
     }
+
+    public void ClickBut1(View view) {
+    }
+
+    public void ClickBut2(View view) {
+    }
+
+    public void ClickBut3(View view) {
+    }
+
+    public void ClickBut4(View view) {
+    }
 }
