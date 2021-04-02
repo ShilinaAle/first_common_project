@@ -24,9 +24,11 @@ public class MainActivity extends AppCompatActivity {
         //setContentView(R.layout.activity_main);
 
 
-        //Open permissions activity
-        Intent intentToPerm = new Intent(this, Permissions.class);
-        startActivity(intentToPerm);
+        if (Permissions.isFirstLaunch) {
+            //Open permissions activity
+            Intent intentToPerm = new Intent(this, Permissions.class);
+            startActivity(intentToPerm);
+        }
 
         //Assign variable
         drawerLayout = findViewById(R.id.drawer_layout);
