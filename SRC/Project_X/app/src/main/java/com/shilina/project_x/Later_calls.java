@@ -16,24 +16,33 @@ public class Later_calls extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_later_calls);
 
-        //Assign variable
-        drawerLayout = findViewById(R.id.drawer_layout);
 
-        TextView textById = findViewById(R.id.nameOfWindow);
-        textById.setText("Отложенные звонки");
+        if (XTools.isFirstLaunch) {
+            //Open permissions activity
+            XTools.redirectActivity(this, Permissions.class);
+        } else if (!XTools.isAuthorized) {
+            XTools.redirectActivity(this, Login.class);
+        } else {
+            setContentView(R.layout.activity_later_calls);
+            //Assign variable
+            drawerLayout = findViewById(R.id.drawer_layout);
+
+            TextView textById = findViewById(R.id.nameOfWindow);
+            textById.setText("Отложенные звонки");
+        }
+
 
     }
 
     public void ClickMenu(View view){
         //Open drawer
-        MainActivity.openDrawer(drawerLayout);
+        XTools.openDrawer(drawerLayout);
     }
 
     public void  ClickLogo(View view){
         //Close drawer
-        MainActivity.closeDrawer(drawerLayout);
+        XTools.closeDrawer(drawerLayout);
     }
 
     public void ClickLater(View view){
@@ -43,40 +52,40 @@ public class Later_calls extends AppCompatActivity {
 
     public void  ClickPlan(View view){
         //Redirect activity to about us
-        MainActivity.redirectActivity(this, Plan_calls.class);
+        XTools.redirectActivity(this, Plan_calls.class);
         finish();
     }
 
     public void  ClickStatus(View view){
         //Redirect activity to about us
-        MainActivity.redirectActivity(this, Status.class);
+        XTools.redirectActivity(this, Status.class);
         finish();
     }
 
     public void  ClickSettings(View view){
         //Redirect activity to about us
-        MainActivity.redirectActivity(this, Settings.class);
+        XTools.redirectActivity(this, Settings.class);
     }
 
     public void  ClickHelp(View view){
         //Redirect activity to about us
-        MainActivity.redirectActivity(this, Help.class);
+        XTools.redirectActivity(this, Help.class);
     }
 
     public void ClickAboutUs(View view) {
         //Redirect activity to about us
-        MainActivity.redirectActivity(this, AboutUs.class);
+        XTools.redirectActivity(this, AboutUs.class);
     }
 
     public void ClickLogout(View view) {
         //Close app
-        MainActivity.logout(this);
+        XTools.logout(this);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         //Close drawer
-        MainActivity.closeDrawer(drawerLayout);
+        XTools.closeDrawer(drawerLayout);
     }
 }

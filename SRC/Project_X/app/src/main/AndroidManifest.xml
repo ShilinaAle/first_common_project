@@ -33,19 +33,19 @@
         <activity android:name=".Help"></activity>
         <activity android:name=".Status" />
         <activity android:name=".Plan_calls" />
-        <activity android:name=".Later_calls" />
-        <activity android:name=".SignUp" />
-        <activity android:name=".Login" />
-        <activity android:name=".Settings" />
-        <activity android:name=".Permissions" />
-        <activity android:name=".AboutUs" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".Later_calls">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".SignUp" />
+        <activity android:name=".Login" />
+        <activity android:name=".Settings" />
+        <activity android:name=".Permissions" />
+        <activity android:name=".AboutUs" />
+
     </application>
 
 </manifest>
