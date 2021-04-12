@@ -25,17 +25,17 @@ public class Plan_calls extends AppCompatActivity {
 
     public void ClickMenu(View view){
         //Open drawer
-        MainActivity.openDrawer(drawerLayout);
+        XTools.openDrawer(drawerLayout);
     }
 
     public void  ClickLogo(View view){
         //Close drawer
-        MainActivity.closeDrawer(drawerLayout);
+        XTools.closeDrawer(drawerLayout);
     }
 
     public void ClickLater(View view){
         //Redirect activity
-        MainActivity.redirectActivity(this, Later_calls.class);
+        XTools.redirectActivity(this, Later_calls.class);
         finish();
     }
 
@@ -47,34 +47,34 @@ public class Plan_calls extends AppCompatActivity {
 
     public void  ClickStatus(View view){
         //Redirect activity
-        MainActivity.redirectActivity(this, Status.class);
+        XTools.redirectActivity(this, Status.class);
         finish();
     }
 
     public void  ClickSettings(View view){
         //Redirect activity
-        MainActivity.redirectActivity(this, Settings.class);
+        XTools.redirectActivity(this, Settings.class);
     }
 
     public void  ClickHelp(View view){
         //Redirect activity
-        MainActivity.redirectActivity(this, Help.class);
+        XTools.redirectActivity(this, Help.class);
     }
 
     public void ClickAboutUs(View view) {
         //Redirect activity
-        MainActivity.redirectActivity(this, AboutUs.class);
+        XTools.redirectActivity(this, AboutUs.class);
     }
 
     public void ClickLogout(View view) {
         //Close app
-        MainActivity.logout(this);
+        XTools.logout(this);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         //Close drawer
-        MainActivity.closeDrawer(drawerLayout);
+        XTools.closeDrawer(drawerLayout);
     }
 }

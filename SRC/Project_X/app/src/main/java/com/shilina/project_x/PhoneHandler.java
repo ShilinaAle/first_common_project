@@ -42,7 +42,7 @@ public class PhoneHandler extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        Log.i("LOOK HERE: PhoneHandler", index++ + " example of PSR has been created");
+        Log.i("LOOK HERE: PhoneHandler", index++ + " example of PH has been created");
 
         //Определение нового состояния телефона относительно звонка
         String state_str = intent.getExtras().getString(TelephonyManager.EXTRA_STATE);
