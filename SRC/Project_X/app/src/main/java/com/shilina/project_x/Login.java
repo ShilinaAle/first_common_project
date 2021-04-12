@@ -36,10 +36,11 @@ public class Login extends AppCompatActivity {
         password.clearFocus();
         if (username.getText().toString().equals(user) &&
                 password.getText().toString().equals(hash)) {
-            MainActivity.setLogin(user);
-            MainActivity.setPremium(status);
+            XTools.setLogin(user);
+            XTools.setPremium(status);
             Toast.makeText(getApplicationContext(), "Вход выполнен!", Toast.LENGTH_SHORT).show();
-            MainActivity.redirectActivity(this, Later_calls.class);
+            XTools.redirectActivity(this, Later_calls.class);
+            XTools.isAuthorized = true; //TODO: указать когда он становится false
             finish();
         }
     }
