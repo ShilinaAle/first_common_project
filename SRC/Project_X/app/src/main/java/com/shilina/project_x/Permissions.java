@@ -26,7 +26,6 @@ import java.util.ArrayList;
 public class Permissions extends AppCompatActivity {
 
     Switch permSwitcher;
-    public static boolean isFirstLaunch = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +55,7 @@ public class Permissions extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Еще не ВСЕ разрешения приняты", Toast.LENGTH_SHORT).show();
         } else {
             permSwitcher.setChecked(true);
-            isFirstLaunch = false;
+            XTools.isFirstLaunch = false;
         }
     }
 
