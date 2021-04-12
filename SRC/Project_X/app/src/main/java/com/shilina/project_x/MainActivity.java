@@ -148,11 +148,4 @@ public class MainActivity extends AppCompatActivity {
         //Start activity
         activity.startActivity(intent);
     }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        //Close drawer
-        closeDrawer(drawerLayout);
-    }
 }
