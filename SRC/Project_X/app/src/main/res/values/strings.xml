@@ -14,4 +14,8 @@
     <string name="sign_in">Войти</string>
     <string name="sign_up">Зарегистрироваться</string>
     <string name="nameOfWindow">%1$s</string>
+    <string name="aboutUs">Шилина Алена\nhttps://github.com/ShilinaAle\n\nГригорьев Константин\n
+        https://github.com/KeyRi-Kun\n\nДзюба Ирина\nhttps://github.com/dzyubaira\n\n
+        Корлякова Екатерина\nhttps://github.com/Prostotarakan\n\nЮрасова Елена\n
+        https://github.com/greenyellowl\n\nИонова Алена\nhttps://github.com/ionova0070</string>
 </resources>

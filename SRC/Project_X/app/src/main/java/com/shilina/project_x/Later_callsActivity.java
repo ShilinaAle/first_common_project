@@ -28,6 +28,19 @@ public class Later_callsActivity extends AppCompatActivity {
 
             TextView textById = findViewById(R.id.nameOfWindow);
             textById.setText("Отложенные звонки");
+
+            TextView mMessageWindow = (TextView) findViewById(R.id.messageWindow);
+            StringBuilder stringBuilder = new StringBuilder();
+
+            String [] someMessege = new String [] { "some", "2some","some", "2some","some", "2some",
+                    "some", "2some","some", "2some","some", "2some","some", "2some","some", "2some",
+                    "some", "2some","some", "2some","some", "2some","some", "2some"};
+
+            for (int i = 0; i<someMessege.length; i++){
+                stringBuilder.append(someMessege[i]);
+                stringBuilder.append("\n");
+            }
+            mMessageWindow.setText(stringBuilder.toString());
         }
 
 

@@ -16,6 +16,15 @@
         <include
             layout="@layout/other_toolbar" />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/autors"
+            android:text="@string/aboutUs"
+            android:textSize="20sp"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"/>
+
     </LinearLayout>
 
 </androidx.drawerlayout.widget.DrawerLayout>
