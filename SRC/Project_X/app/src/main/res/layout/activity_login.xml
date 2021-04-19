@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Login">
+    tools:context=".LoginActivity">
 
     <ImageView
         android:id="@+id/logo"
@@ -30,7 +30,7 @@
         app:layout_constraintTop_toBottomOf="@id/logo"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginTop="100dp"/>
+        android:layout_marginTop="20dp"/>
 
     <EditText
         android:id="@+id/password"
@@ -49,11 +49,11 @@
         android:id="@+id/sign_in"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
         android:text="@string/sign_in"
         app:layout_constraintEnd_toEndOf="@+id/sign_up"
         app:layout_constraintStart_toStartOf="@+id/sign_up"
-        app:layout_constraintTop_toBottomOf="@id/password"
+        app:layout_constraintTop_toBottomOf="@+id/password"
+        app:layout_constraintBottom_toBottomOf="@+id/sign_up"
         android:onClick="CheckLogin"/>
 
     <Button
@@ -61,10 +61,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/sign_up"
+        app:layout_constraintTop_toBottomOf="@id/sign_in"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/sign_in"
-        android:layout_marginTop="20dp"
+        android:layout_margin="50dp"
         android:onClick="GoSignUp"/>
 
 

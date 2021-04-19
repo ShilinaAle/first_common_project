@@ -9,7 +9,7 @@ import android.widget.EditText;
 
 import java.util.HashMap;
 
-public class SignUp extends AppCompatActivity {
+public class SignUpActivity extends AppCompatActivity {
 
     public static String server = "http://192.168.3.7/?action=singup";
 

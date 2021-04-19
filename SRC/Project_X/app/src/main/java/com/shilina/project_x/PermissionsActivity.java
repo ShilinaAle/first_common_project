@@ -5,10 +5,8 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
-import android.app.AlertDialog;
 import android.content.ComponentName;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -23,7 +21,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-public class Permissions extends AppCompatActivity {
+public class PermissionsActivity extends AppCompatActivity {
 
     Switch permSwitcher;
 
@@ -70,7 +68,7 @@ public class Permissions extends AppCompatActivity {
     public void CheckPerm(View view) {
         //TODO: Открывает регистрацию только если страница открывается не через настройки (статическая переменная "isRegistred") из MainActivity
         //Open sign in
-        Intent intentToLogin = new Intent(this, Login.class);
+        Intent intentToLogin = new Intent(this, LoginActivity.class);
         startActivity(intentToLogin);
         Toast.makeText(getApplicationContext(), "Разрешения находятся в разделе \"Найстроки\"", Toast.LENGTH_SHORT).show();
         finish();
@@ -92,10 +90,10 @@ public class Permissions extends AppCompatActivity {
         for (String permission : all_permissions_str) {
             int permission_status = ContextCompat.checkSelfPermission(this, permission); //Проверяем текущее разрешение
             if (permission_status != PackageManager.PERMISSION_GRANTED) { //Если разрешение не получено, =>
-                Log.i("LOOK HERE: Permissions", permission+" is NOT");
+                Log.i("LOOK HERE: PermissionsActivity", permission+" is NOT");
                 needed_permissions_list.add(permission); //то добавляем его в список неполученных
             } else {
-                Log.i("LOOK HERE: Permissions", permission+" is GRANTED");
+                Log.i("LOOK HERE: PermissionsActivity", permission+" is GRANTED");
             }
         }
         if (needed_permissions_list.size() == 0) {
@@ -110,7 +108,7 @@ public class Permissions extends AppCompatActivity {
         String[] needed_permission_str = needed_permissions_list.toArray(new String[0]);
         ActivityCompat.requestPermissions(this, needed_permission_str, 1);
         for (String perm : needed_permission_str) {
-            Log.i("LOOK HERE: Permissions", perm + " is NOW");
+            Log.i("LOOK HERE: PermissionsActivity", perm + " is NOW");
         }
     }
 
@@ -119,7 +117,7 @@ public class Permissions extends AppCompatActivity {
         if (!android.provider.Settings.canDrawOverlays(this)) {
             Intent intent = new Intent(android.provider.Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + getPackageName()));
             startActivity(intent);
-            Log.i("LOOK HERE: Permissions", "Overlay is NOW");
+            Log.i("LOOK HERE: PermissionsActivity", "Overlay is NOW");
         } else {
             Toast.makeText(this, "Разрешение уже предоставлено", Toast.LENGTH_SHORT).show();
         }
@@ -129,7 +127,7 @@ public class Permissions extends AppCompatActivity {
     public void onBackClick(View view) {
         PowerManager powerMan = (PowerManager) getSystemService(Context.POWER_SERVICE);
         if (!powerMan.isIgnoringBatteryOptimizations(getPackageName())) {
-            Log.i("LOOK HERE: Permissions", "Battery Saver is " + powerMan.isIgnoringBatteryOptimizations(getPackageName()));
+            Log.i("LOOK HERE: PermissionsActivity", "Battery Saver is " + powerMan.isIgnoringBatteryOptimizations(getPackageName()));
             Intent intent = new Intent(android.provider.Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS, Uri.parse("package:" + getPackageName()));
             if (getPackageManager().resolveActivity(intent, PackageManager.MATCH_DEFAULT_ONLY) != null) {
                 startActivity(intent);
@@ -159,7 +157,7 @@ public class Permissions extends AppCompatActivity {
                 Toast.makeText(this, "На вашем телефоне это не нужно", Toast.LENGTH_SHORT).show();
             }
         }
-        Log.i("LOOK HERE: Permissions", "Battery Saver is NOW");
+        Log.i("LOOK HERE: PermissionsActivity", "Battery Saver is NOW");
     }
 
     //Метод, запрашивающий отключение оптимизации энергопотребления
