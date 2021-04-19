@@ -9,26 +9,14 @@
 
 
     <EditText
-        android:id="@+id/phone"
+        android:id="@+id/email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="phone"
-        android:hint="89998887766"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="150dp" />
-
-    <EditText
-        android:id="@+id/username"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
         android:ems="10"
-        android:inputType="textPersonName"
-        android:hint="Логин"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="30dp" />
+        android:hint="Google почта"
+        android:inputType="textPersonName" />
 
     <EditText
         android:id="@+id/enterPassword"
@@ -59,5 +47,5 @@
         app:layout_constraintStart_toStartOf="parent"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="70dp"
-        android:onClick="NewUserButton"/>
+        android:onClick="onSingUpButtonClick"/>
 </LinearLayout>
