@@ -18,4 +18,9 @@
         https://github.com/KeyRi-Kun\n\nДзюба Ирина\nhttps://github.com/dzyubaira\n\n
         Корлякова Екатерина\nhttps://github.com/Prostotarakan\n\nЮрасова Елена\n
         https://github.com/greenyellowl\n\nИонова Алена\nhttps://github.com/ionova0070</string>
+    <string-array name="themes">
+        <item>Акула</item>
+        <item>Енот</item>
+        <item>Пантера</item>
+    </string-array>
 </resources>

@@ -14,33 +14,129 @@
         <include
             layout="@layout/other_toolbar" />
 
-        <Button
-            android:id="@+id/button5"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Button"
-            android:onClick = "ClickBut1"/>
+            android:layout_height="0dp"
+            android:layout_weight="2.5"
+            android:orientation="horizontal"
+            android:id="@+id/theme">
 
-        <Button
-            android:id="@+id/button6"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Button"
-            android:onClick = "ClickBut2"/>
+            <TextView
+                android:id="@+id/texTheme"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@layout/other_toolbar"
+                android:layout_marginLeft="50dp"
+                android:layout_marginTop="50dp"
+                android:text="Тема"
+                android:textSize="20dp" />
 
-        <Button
-            android:id="@+id/button7"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Button"
-            android:onClick = "ClickBut3"/>
+            <Spinner
+                android:id="@+id/spinnerTheme"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:layout_marginLeft="100dp"
+                android:layout_marginRight="100dp"/>
 
-        <Button
-            android:id="@+id/button8"
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/texTime"
+            app:layout_constraintTop_toBottomOf="@id/theme"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_marginLeft="50dp"
+            android:text="Перенос звонков:"
+            android:textSize="20dp" />
+
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="4"
+            app:layout_constraintTop_toBottomOf="@+id/texTime"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="10dp"
+            android:id="@+id/radioTime">
+            <RadioButton
+                android:id="@+id/timeAuto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Автоматический на свободное время"
+                android:onClick="checkButton"
+                android:checked="true"/>
+            <RadioButton
+                android:id="@+id/timeHand"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ручной ввод времени"
+                android:onClick="checkButton"/>
+            <RadioButton
+                android:id="@+id/timeСombo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Комбинированный"
+                android:onClick="checkButton"/>
+
+        </RadioGroup>
+
+        <CheckBox
+            android:id="@+id/taboo"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Button"
-            android:onClick = "ClickBut4"/>
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_marginLeft="50dp"
+            android:text="Запретить перенос звонков" />
+
+        <CheckBox
+            android:id="@+id/noSound"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_marginLeft="50dp"
+            android:text="Включать беззвучный режим" />
+
+        <CheckBox
+            android:id="@+id/onlyEvents"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_marginLeft="50dp"
+            android:text="Работать только во время мероприятий" />
+
+        <CheckBox
+            android:id="@+id/sync"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_marginLeft="50dp"
+            android:text="Синхронизировать" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="4"
+            android:orientation="vertical"
+            >
+
+            <Button
+                android:id="@+id/apply"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:text="Применить" />
+
+            <Button
+                android:id="@+id/button5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:onClick="goPermissions"
+                android:text="Перейти к разрешениям" />
+        </LinearLayout>
 
     </LinearLayout>
 
