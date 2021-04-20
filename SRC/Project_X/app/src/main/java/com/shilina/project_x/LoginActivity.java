@@ -26,6 +26,10 @@ public class LoginActivity extends AppCompatActivity {
     private String hash = "admin";
     private boolean status = true;
 
+    //private String user = "no";
+    //private String hash = "no";
+    //private boolean status = true;
+
 
     public void CheckLogin(View view) {
         // Если введенные логин и пароль будут словом "admin",
@@ -48,4 +52,8 @@ public class LoginActivity extends AppCompatActivity {
         Intent intentToSignUp = new Intent(this, SignUpActivity.class);
         startActivity(intentToSignUp);
     }
+
+
+
+
 }

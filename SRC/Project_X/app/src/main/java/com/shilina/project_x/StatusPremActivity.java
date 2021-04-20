@@ -7,20 +7,20 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-public class Plan_callsActivity extends AppCompatActivity {
+public class StatusPremActivity extends AppCompatActivity {
+
     //Initialize variable
     DrawerLayout drawerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_plan_calls);
-
+        setContentView(R.layout.activity_status);
         //Assign variable
         drawerLayout = findViewById(R.id.drawer_layout);
 
         TextView textById = findViewById(R.id.nameOfWindow);
-        textById.setText("Планирование звонков");
+        textById.setText("Мой статус");
     }
 
     public void ClickMenu(View view){
@@ -40,15 +40,14 @@ public class Plan_callsActivity extends AppCompatActivity {
     }
 
     public void  ClickPlan(View view){
-        //Recreate activity
-        recreate();
-
+        //Redirect activity
+        XTools.redirectActivity(this, Plan_callsActivity.class);
+        finish();
     }
 
     public void  ClickStatus(View view){
-        //Redirect activity
-        XTools.redirectActivity(this, StatusActivity.class);
-        finish();
+        //Recreate activity
+        recreate();
     }
 
     public void  ClickSettings(View view){

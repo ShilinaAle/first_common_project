@@ -23,4 +23,6 @@
         <item>Енот</item>
         <item>Пантера</item>
     </string-array>
+    <string name="statusNo">Ваш статус - обычный</string>
+    <string name="statusYes">Ваш статус - Премиум\n\nСпасибо, что Вы с нами!</string>
 </resources>

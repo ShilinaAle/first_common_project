@@ -62,14 +62,17 @@ public class Later_callsActivity extends AppCompatActivity {
     }
 
     public void  ClickPlan(View view){
-        //Redirect activity to about us
+        //if (XTools.getLogin() == "admin"){
+        //    XTools.redirectActivity(this, Plan_callsActivity.class);
+         //   finish();
+        //} else
         XTools.redirectActivity(this, Plan_callsActivity.class);
         finish();
     }
 
     public void  ClickStatus(View view){
-        //Redirect activity to about us
-        XTools.redirectActivity(this, Status.class);
+
+        XTools.redirectActivity(this, StatusActivity.class);
         finish();
     }
 
@@ -92,5 +95,8 @@ public class Later_callsActivity extends AppCompatActivity {
         //Close app
         XTools.logout(this);
     }
+
+    @Override
+    public void onBackPressed(){}
 
 }

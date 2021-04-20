@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-public class Status extends AppCompatActivity {
+public class StatusActivity extends AppCompatActivity {
     //Initialize variable
     DrawerLayout drawerLayout;
 
@@ -70,9 +70,8 @@ public class Status extends AppCompatActivity {
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
-        //Close drawer
-        XTools.closeDrawer(drawerLayout);
+    public void onBackPressed(){}
+
+    public void goToBuy(View view) {
     }
 }

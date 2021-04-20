@@ -21,7 +21,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- уровень защиты: normal -->
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> <!-- уровень защиты: normal -->
     <uses-permission android:name="android.permission.INTERNET" /> <!-- уровень защиты: normal -->
-    <uses-permission android:name="android.permission.ACCESS_MEDIA_LOCATION" /> <!-- уровень защиты: dangerous -->
+    <uses-permission android:name="android.permission.ACCESS_MEDIA_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -30,8 +30,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Project_X">
-        <activity android:name=".HelpActivity"></activity>
-        <activity android:name=".Status" />
+        <activity android:name=".StatusPremActivity"></activity>
+        <activity android:name=".HelpActivity" />
+        <activity android:name=".StatusActivity" />
         <activity android:name=".Plan_callsActivity" />
         <activity android:name=".Later_callsActivity">
             <intent-filter>
@@ -45,7 +46,6 @@
         <activity android:name=".SettingsActivity" />
         <activity android:name=".PermissionsActivity" />
         <activity android:name=".AboutUsActivity" />
-
     </application>
 
 </manifest>
