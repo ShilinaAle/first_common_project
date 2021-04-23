@@ -7,14 +7,15 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-public class Plan_callsActivity extends AppCompatActivity {
+public class Plan_callsPremActivity extends AppCompatActivity {
+
     //Initialize variable
     DrawerLayout drawerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_plan_calls);
+        setContentView(R.layout.activity_plan_calls_prem);
 
         //Assign variable
         drawerLayout = findViewById(R.id.drawer_layout);
@@ -41,11 +42,7 @@ public class Plan_callsActivity extends AppCompatActivity {
 
     public void  ClickPlan(View view){
         //Recreate activity
-        //recreate();
-
-        XTools.redirectActivity(this, Plan_callsPremActivity.class);
-        finish();
-
+        recreate();
     }
 
     public void  ClickStatus(View view){

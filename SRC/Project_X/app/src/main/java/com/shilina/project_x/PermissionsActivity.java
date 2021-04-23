@@ -67,6 +67,7 @@ public class PermissionsActivity extends AppCompatActivity {
 
     public void CheckPerm(View view) {
         //TODO: Открывает регистрацию только если страница открывается не через настройки (статическая переменная "isRegistred") из MainActivity
+
         //Open sign in
         Intent intentToLogin = new Intent(this, LoginActivity.class);
         startActivity(intentToLogin);

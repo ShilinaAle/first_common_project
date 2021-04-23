@@ -15,7 +15,7 @@
         <TextView
             android:id="@+id/name_perm"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="wrap_content"
             android:text="Пожалуйста, включите все разрешения. Это нужно для стабильной работы программмы"
             android:gravity="center"
             android:layout_marginStart="16dp"
@@ -35,32 +35,46 @@
             android:onClick="onPermClick"
             tools:ignore="UseSwitchCompatOrMaterialXml"/>
 
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginHorizontal="20dp"
+            android:layout_gravity="center"
+            android:text="@string/permText" />
+
         <Button
             android:id="@+id/button1"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Button"
+            android:layout_gravity="center"
+            android:layout_marginVertical="5dp"
+            android:text="@string/perm2"
             android:onClick="onOverClick"/>
 
         <Button
             android:id="@+id/button2"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Button"
+            android:layout_gravity="center"
+            android:text="@string/perm3"
             android:onClick="onBackClick"/>
 
         <Button
             android:id="@+id/button3"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Button"
+            android:layout_gravity="center"
+            android:layout_marginVertical="5dp"
+            android:text="@string/perm4"
             android:onClick="onBatClick"/>
 
         <Button
             android:id="@+id/button4"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Button"
+            android:layout_gravity="center"
+            android:text="@string/perm5"
             android:onClick="onAutoClick"/>
 
 
@@ -72,10 +86,10 @@
         android:id="@+id/buttonPerm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
+        android:textSize="15sp"
 
         android:padding="12dp"
-        android:gravity="center_vertical"
+        android:layout_gravity="center"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"

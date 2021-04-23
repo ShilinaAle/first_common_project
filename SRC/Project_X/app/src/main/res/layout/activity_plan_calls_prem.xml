@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/drawer_layout"
-    tools:context=".StatusPremActivity">
+    tools:context=".Plan_callsPremActivity">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -18,13 +19,13 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/statusYes"
-            android:textSize="50sp"
+            android:text="Премиум пользователь"
+            android:textSize="40sp"
             android:textStyle="bold"
-            android:gravity="center"
-            android:layout_marginHorizontal="20dp"/>
+            android:gravity="center"/>
 
     </LinearLayout>
+
 
     <RelativeLayout
         android:layout_width="300dp"

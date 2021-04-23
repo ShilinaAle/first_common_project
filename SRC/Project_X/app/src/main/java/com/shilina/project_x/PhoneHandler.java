@@ -150,6 +150,32 @@ public class PhoneHandler extends BroadcastReceiver {
     //Метод добавления кнопки
     public void addButton(final Context context, final Date startTime) {
         Log.i("LOOK HERE: PhoneHandler", "Button has been created");
+        //Присваиваем картинке обработчик нажатия
+        callLayout = (ViewGroup) layInflater.inflate(R.layout.button, null);
+
+        int width = windowMan.getDefaultDisplay().getWidth(); //Ширина дисплея
+        int height = windowMan.getDefaultDisplay().getHeight(); //Высота дисплея
+
+        layPar = new WindowManager.LayoutParams( //Задаем параметры отображения
+                (int) (width / 4), (int) (height / 4),
+                WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,// Говорим, что приложение будет поверх других. В поздних API > 26, данный флаг перенесен на TYPE_APPLICATION_OVERLAY
+                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
+                        | WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED,  // Необходимо для того чтобы TouchEvent'ы в пустой области передавались на другие приложения
+                PixelFormat.TRANSLUCENT); // Само окно прозрачное
+
+        windowMan.addView(callLayout, layPar);
+
+        ImageView button_img = callLayout.findViewById(R.id.button);
+        button_img.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O_MR1)
+            @Override
+            public void onClick(View v) {
+                Log.i("LOOK HERE: PhoneHandler", "Button has been touched!");
+
+                removeButton();
+                addBubble(context, startTime);
+            }
+        });
 
         //TODO: Добавить кнопку
 
@@ -157,12 +183,36 @@ public class PhoneHandler extends BroadcastReceiver {
 
     //Метод удаления кнопки
     public void removeButton() {
+        try {
+            windowMan.removeView(callLayout); //Удаляем раздутый макет из окна
+            Log.i("LOOK HERE: PhoneHandler", "Button has been removed");
+        } catch (IllegalArgumentException e) {
+            Log.i("LOOK HERE: PhoneHandler", "Button has not found");
+        }
         //TODO: Удалить кнопку
     }
 
     //Метод добавления текстового пузыря
     public void addBubble(final Context context, final Date startTime) {
         Log.i("LOOK HERE: PhoneHandler", "Bubble has been created");
+        callLayout = (ViewGroup) layInflater.inflate(R.layout.bubble, null);
+
+        int width = windowMan.getDefaultDisplay().getWidth(); //Ширина дисплея
+        int height = windowMan.getDefaultDisplay().getHeight(); //Высота дисплея
+
+        Log.i("LOOK HERE: PhoneHandler", "Ширина\nэкрана: " + width + "\nокна: " + width * 90 / 100);
+        Log.i("LOOK HERE: PhoneHandler", "Высота\nэкрана: " + height + "\nокна: " + height * 30 / 100);
+
+        layPar = new WindowManager.LayoutParams( //Задаем параметры отображения
+                width * 90 / 100, height * 30 / 100,
+                WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,// Говорим, что приложение будет поверх других. В поздних API > 26, данный флаг перенесен на TYPE_APPLICATION_OVERLAY
+                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
+                        | WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED,  // Необходимо для того чтобы TouchEvent'ы в пустой области передавались на другие приложения
+                PixelFormat.TRANSLUCENT); // Само окно прозрачное
+
+        windowMan.addView(callLayout, layPar);
+        final TextView text = callLayout.findViewById(R.id.bubble_text);
+
 
         //TODO: Добавить пузырь
 
@@ -172,6 +222,13 @@ public class PhoneHandler extends BroadcastReceiver {
 
     //Метод удаления текстового пузыря
     public void removeBubble() {
+
+        try {
+            windowMan.removeView(callLayout); //Удаляем раздутый макет из окна
+            Log.i("LOOK HERE: PhoneHandler", "Bubble has been removed");
+        } catch (IllegalArgumentException e) {
+            Log.i("LOOK HERE: PhoneHandler", "Bubble has not found");
+        }
         //TODO: Удалить пузырь
     }
 

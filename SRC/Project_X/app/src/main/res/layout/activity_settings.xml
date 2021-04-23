@@ -28,6 +28,7 @@
                 app:layout_constraintTop_toBottomOf="@layout/other_toolbar"
                 android:layout_marginLeft="50dp"
                 android:layout_marginTop="50dp"
+                android:layout_marginVertical="20dp"
                 android:text="Тема"
                 android:textSize="20dp" />
 
@@ -37,18 +38,21 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="50dp"
                 android:layout_marginLeft="100dp"
-                android:layout_marginRight="100dp"/>
+                android:layout_marginRight="100dp"
+                android:layout_marginVertical="20dp"/>
 
         </LinearLayout>
 
+
         <TextView
-            android:id="@+id/texTime"
+            android:id="@+id/time1"
             app:layout_constraintTop_toBottomOf="@id/theme"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:layout_marginLeft="50dp"
-            android:text="Перенос звонков:"
+            android:layout_marginVertical="10dp"
+            android:text="Режим во время мероприятий:"
             android:textSize="20dp" />
 
         <RadioGroup
@@ -62,32 +66,65 @@
             <RadioButton
                 android:id="@+id/timeAuto"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="25dp"
                 android:text="Автоматический на свободное время"
                 android:onClick="checkButton"
                 android:checked="true"/>
             <RadioButton
-                android:id="@+id/timeHand"
+                android:id="@+id/timeHand1"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Ручной ввод времени"
+                android:layout_height="25dp"
+                android:text="Откладывать в соответствии с календарем"
                 android:onClick="checkButton"/>
             <RadioButton
-                android:id="@+id/timeСombo"
+                android:id="@+id/timeHand2"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Комбинированный"
+                android:layout_height="25dp"
+                android:text="Откладывать на некоторое время"
+                android:onClick="checkButton"/>
+            <RadioButton
+                android:id="@+id/timeHand3"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:text="Откладывать на конкретное время"
                 android:onClick="checkButton"/>
 
         </RadioGroup>
 
-        <CheckBox
-            android:id="@+id/taboo"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/time2"
+            app:layout_constraintTop_toBottomOf="@id/theme"
+            android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:layout_marginLeft="50dp"
-            android:text="Запретить перенос звонков" />
+            android:text="Режим вне мероприятий:"
+            android:textSize="20dp" />
+
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="2"
+            app:layout_constraintTop_toBottomOf="@+id/texTime"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="10dp"
+            android:id="@+id/radioTime2">
+            <RadioButton
+                android:id="@+id/timeHand4"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:text="Ручной"
+                android:onClick="checkButton"/>
+            <RadioButton
+                android:id="@+id/timeHand5"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:text="Выключить"
+                android:checked="true"
+                android:onClick="checkButton"/>
+
+        </RadioGroup>
+
 
         <CheckBox
             android:id="@+id/noSound"
@@ -95,15 +132,8 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:layout_marginLeft="50dp"
+            android:layout_marginTop="10dp"
             android:text="Включать беззвучный режим" />
-
-        <CheckBox
-            android:id="@+id/onlyEvents"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:layout_marginLeft="50dp"
-            android:text="Работать только во время мероприятий" />
 
         <CheckBox
             android:id="@+id/sync"
@@ -111,13 +141,14 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:layout_marginLeft="50dp"
+            android:layout_marginTop="10dp"
             android:text="Синхронизировать" />
 
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="4"
+            android:layout_weight="6"
             android:orientation="vertical"
             >
 
@@ -126,7 +157,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="20dp"
                 android:text="Применить" />
 
             <Button
@@ -134,6 +165,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_marginTop="10dp"
                 android:onClick="goPermissions"
                 android:text="Перейти к разрешениям" />
         </LinearLayout>
