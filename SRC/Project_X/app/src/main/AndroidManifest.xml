@@ -30,22 +30,26 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Project_X">
+        <service
+            android:name=".BroadcastService"
+            android:enabled="true"
+            android:exported="false"></service>
         <activity android:name=".Plan_callsPremActivity"></activity>
         <activity android:name=".StatusPremActivity" />
         <activity android:name=".HelpActivity" />
         <activity android:name=".StatusActivity" />
         <activity android:name=".Plan_callsActivity" />
-        <activity android:name=".Later_callsActivity">
+        <activity android:name=".Later_callsActivity"/>
+        <activity android:name=".SignUpActivity" />
+        <activity android:name=".LoginActivity" />
+        <activity android:name=".SettingsActivity" />
+        <activity android:name=".PermissionsActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SignUpActivity" />
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".SettingsActivity" />
-        <activity android:name=".PermissionsActivity" />
         <activity android:name=".AboutUsActivity" />
     </application>
 
