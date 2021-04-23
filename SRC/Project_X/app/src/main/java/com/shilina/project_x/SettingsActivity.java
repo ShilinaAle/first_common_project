@@ -2,6 +2,7 @@ package com.shilina.project_x;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Adapter;
@@ -15,6 +16,9 @@ import android.widget.Toast;
 
 public class SettingsActivity extends AppCompatActivity {
 //implements AdapterView.OnItemSelectedListener
+
+    public static final String className = Thread.currentThread().getStackTrace()[2].getClassName();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +47,9 @@ public class SettingsActivity extends AppCompatActivity {
 
 
     public void goPermissions(View view) {
-        XTools.redirectActivity(this, PermissionsActivity.class);
+        Intent intent = new Intent(getApplicationContext(), PermissionsActivity.class);
+        intent.putExtra("calling-activity", className);
+        startActivity(intent);
         finish();
     }
 }

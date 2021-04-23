@@ -10,10 +10,9 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 public class XTools {
 
-    private static String login;
-    private static boolean isPremium;
+    public static String login;
+    public static boolean isPremium;
     public static boolean isAuthorized = false;
-    public static boolean isFirstLaunch = true;
 
     public static void redirectActivity(Activity activity, Class aclass){
         //Initialize intent

@@ -3,6 +3,7 @@ package com.shilina.project_x;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -10,40 +11,31 @@ import android.widget.TextView;
 public class Later_callsActivity extends AppCompatActivity {
     //Initialize variable
     DrawerLayout drawerLayout;
+    public static final String className = Thread.currentThread().getStackTrace()[2].getClassName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        setContentView(R.layout.activity_later_calls);
+        //Assign variable
+        drawerLayout = findViewById(R.id.drawer_layout);
 
-        if (XTools.isFirstLaunch) {
-            //Open permissions activity
-            XTools.redirectActivity(this, PermissionsActivity.class);
-        } else if (!XTools.isAuthorized) {
-            XTools.redirectActivity(this, LoginActivity.class);
-        } else {
-            setContentView(R.layout.activity_later_calls);
-            //Assign variable
-            drawerLayout = findViewById(R.id.drawer_layout);
+        TextView textById = findViewById(R.id.nameOfWindow);
+        textById.setText("Отложенные звонки");
 
-            TextView textById = findViewById(R.id.nameOfWindow);
-            textById.setText("Отложенные звонки");
+        TextView mMessageWindow = (TextView) findViewById(R.id.messageWindow);
+        StringBuilder stringBuilder = new StringBuilder();
 
-            TextView mMessageWindow = (TextView) findViewById(R.id.messageWindow);
-            StringBuilder stringBuilder = new StringBuilder();
+        String[] someMessege = new String[]{"some", "2some", "some", "2some", "some", "2some",
+                "some", "2some", "some", "2some", "some", "2some", "some", "2some", "some", "2some",
+                "some", "2some", "some", "2some", "some", "2some", "some", "2some"};
 
-            String [] someMessege = new String [] { "some", "2some","some", "2some","some", "2some",
-                    "some", "2some","some", "2some","some", "2some","some", "2some","some", "2some",
-                    "some", "2some","some", "2some","some", "2some","some", "2some"};
-
-            for (int i = 0; i<someMessege.length; i++){
-                stringBuilder.append(someMessege[i]);
-                stringBuilder.append("\n");
-            }
-            mMessageWindow.setText(stringBuilder.toString());
+        for (int i = 0; i < someMessege.length; i++) {
+            stringBuilder.append(someMessege[i]);
+            stringBuilder.append("\n");
         }
-
-
+        mMessageWindow.setText(stringBuilder.toString());
     }
 
     public void ClickMenu(View view){

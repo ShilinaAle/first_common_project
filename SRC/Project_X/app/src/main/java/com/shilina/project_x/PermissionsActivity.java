@@ -24,36 +24,49 @@ import java.util.ArrayList;
 public class PermissionsActivity extends AppCompatActivity {
 
     Switch permSwitcher;
+    public String callingActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_permissions);
 
-        permSwitcher = findViewById(R.id.switch1);
-        //Метод обработки смены значения кнопки
-        permSwitcher.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (permSwitcher.isChecked()) {
-                    if (!isPermissionsGranted(all_permissions_str)) {
-                        givePermissions();
+        callingActivity = getIntent().getStringExtra("calling-activity");
+        Log.i("LOOK HERE: PermissionsActivity", "CALLING ACT IS: " + callingActivity);
+
+        if (callingActivity == null && isPermissionsGranted(all_permissions_str) && android.provider.Settings.canDrawOverlays(this)) {
+            onContinueClick(new View(getApplicationContext()));
+        } else if (callingActivity.equals(SettingsActivity.className)){
+            Log.i("LOOK HERE: PermissionsActivity", "Settings className IS: " + SettingsActivity.className);
+            Log.i("LOOK HERE: PermissionsActivity", "Already Authorized: " + XTools.isAuthorized);
+            setContentView(R.layout.activity_permissions);
+            permSwitcher = findViewById(R.id.switch1);
+            //Метод обработки смены значения кнопки
+            permSwitcher.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (permSwitcher.isChecked()) {
+                        if (!isPermissionsGranted(all_permissions_str)) {
+                            givePermissions();
+                        }
                     }
                 }
-            }
-        });
+            });
+        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        permSwitcher.setChecked(false);
-        if (!isPermissionsGranted(all_permissions_str)) {
-            permSwitcher.setChecked(false);
-            Toast.makeText(getApplicationContext(), "Еще не ВСЕ разрешения приняты", Toast.LENGTH_SHORT).show();
-        } else {
-            permSwitcher.setChecked(true);
-            XTools.isFirstLaunch = false;
+        if (callingActivity != null) {
+            if (callingActivity.equals(SettingsActivity.className)) {
+                permSwitcher.setChecked(false);
+                if (!isPermissionsGranted(all_permissions_str)) {
+                    permSwitcher.setChecked(false);
+                    Toast.makeText(getApplicationContext(), "Еще не ВСЕ разрешения приняты", Toast.LENGTH_SHORT).show();
+                } else {
+                    permSwitcher.setChecked(true);
+                }
+            }
         }
     }
 
@@ -65,14 +78,19 @@ public class PermissionsActivity extends AppCompatActivity {
         }
     }
 
-    public void CheckPerm(View view) {
-        //TODO: Открывает регистрацию только если страница открывается не через настройки (статическая переменная "isRegistred") из MainActivity
-
-        //Open sign in
-        Intent intentToLogin = new Intent(this, LoginActivity.class);
-        startActivity(intentToLogin);
-        Toast.makeText(getApplicationContext(), "Разрешения находятся в разделе \"Найстроки\"", Toast.LENGTH_SHORT).show();
-        finish();
+    public void onContinueClick(View view) {
+        if (isPermissionsGranted(all_permissions_str) && android.provider.Settings.canDrawOverlays(this)) {
+            Intent service = new Intent(this, BroadcastService.class);
+            this.startService(service);
+            //Open sign in
+            if (XTools.isAuthorized) {
+                XTools.redirectActivity(this, Later_callsActivity.class);
+            } else {
+                XTools.redirectActivity(this, LoginActivity.class);
+            }
+            Log.i("LOOK HERE: PermissionsActivity", "Already Authorized: " + XTools.isAuthorized);
+            Toast.makeText(getApplicationContext(), "Разрешения находятся в разделе \"Найстроки\"", Toast.LENGTH_SHORT).show();
+        }
     }
 
     //Списки с разрешениями
@@ -153,7 +171,7 @@ public class PermissionsActivity extends AppCompatActivity {
             intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:" + getPackageName()));
             if (getPackageManager().resolveActivity(intent, PackageManager.MATCH_DEFAULT_ONLY) != null) {
                 startActivity(intent);
-                Toast.makeText(this, "Пожалуйста,\nотключите оптимизацию энергопотребления\nдля приложения ACaller", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Пожалуйста,\nотключите оптимизацию энергопотребления\nдля приложения Project_X", Toast.LENGTH_LONG).show();
             } else {
                 Toast.makeText(this, "На вашем телефоне это не нужно", Toast.LENGTH_SHORT).show();
             }
@@ -192,7 +210,4 @@ public class PermissionsActivity extends AppCompatActivity {
             Toast.makeText(this, "На вашем телефоне это не нужно", Toast.LENGTH_SHORT).show();
         }
     }
-
-    @Override
-    public void onBackPressed(){}
 }
