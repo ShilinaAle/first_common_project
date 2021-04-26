@@ -35,7 +35,7 @@ public class PermissionsActivity extends AppCompatActivity {
 
         if (callingActivity == null && isPermissionsGranted(all_permissions_str) && android.provider.Settings.canDrawOverlays(this)) {
             onContinueClick(new View(getApplicationContext()));
-        } else if (callingActivity.equals(SettingsActivity.className)){
+        } else {
             Log.i("LOOK HERE: PermissionsActivity", "Settings className IS: " + SettingsActivity.className);
             Log.i("LOOK HERE: PermissionsActivity", "Already Authorized: " + XTools.isAuthorized);
             setContentView(R.layout.activity_permissions);
