@@ -8,16 +8,23 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 public class Later_callsActivity extends AppCompatActivity {
     //Initialize variable
     DrawerLayout drawerLayout;
     public static final String className = Thread.currentThread().getStackTrace()[2].getClassName();
+    public static ArrayList<OneCall> callsList= new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_later_calls);
+
+        //TODO: Получение списка запланированных звонков от текущей даты
+        //TODO: Кнопка Запланировать звонок
+        //TODO: layout для одного звонка: Номер и Дата звонка, кнопка Удалить, кнопка Позвонить сейчас
+
         //Assign variable
         drawerLayout = findViewById(R.id.drawer_layout);
 
