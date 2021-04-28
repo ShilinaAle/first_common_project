@@ -5,14 +5,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.PixelFormat;
 import android.os.Build;
+import android.telecom.TelecomManager;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 
@@ -176,9 +179,6 @@ public class PhoneHandler extends BroadcastReceiver {
                 addBubble(context, startTime);
             }
         });
-
-        //TODO: Добавить кнопку
-
     }
 
     //Метод удаления кнопки
@@ -189,7 +189,6 @@ public class PhoneHandler extends BroadcastReceiver {
         } catch (IllegalArgumentException e) {
             Log.i("LOOK HERE: PhoneHandler", "Button has not found");
         }
-        //TODO: Удалить кнопку
     }
 
     //Метод добавления текстового пузыря
@@ -213,23 +212,38 @@ public class PhoneHandler extends BroadcastReceiver {
         windowMan.addView(callLayout, layPar);
         final TextView text = callLayout.findViewById(R.id.bubble_text);
 
-
-        //TODO: Добавить пузырь
-
+ /*       int[] timeToSet_str;
+        Button buttonSend = callLayout.findViewById(R.id.bubble_button_send);
+        buttonSend.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.P)
+            @Override
+            public void onClick(View v) {
+                if (timeToSet_str[0] == null) {
+                    Toast.makeText(context, "Пожалуйста, выберите время", Toast.LENGTH_SHORT).show();
+                    return;
+                } else {
+                    addEvent(context, timeToSet_str[0], freeTimeTZ, finalStartTimeStr);
+                    String recipient = phoneNumber;
+                    sendSMS(context, recipient, text.getText().toString());
+                    //sendTelegram(context, recipient, text.getText().toString());
+                    TelecomManager teleMan = (TelecomManager) context.getSystemService(Context.TELECOM_SERVICE);
+                    teleMan.endCall();
+                }
+            }
+        });
+*/
         //TODO: Календарь. Строки 296-521 оригинального кода. Вынести в отдельный класс
 
     }
 
     //Метод удаления текстового пузыря
     public void removeBubble() {
-
         try {
             windowMan.removeView(callLayout); //Удаляем раздутый макет из окна
             Log.i("LOOK HERE: PhoneHandler", "Bubble has been removed");
         } catch (IllegalArgumentException e) {
             Log.i("LOOK HERE: PhoneHandler", "Bubble has not found");
         }
-        //TODO: Удалить пузырь
     }
 
     //Очистка экземпляра
