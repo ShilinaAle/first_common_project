@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/one_call_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="5sp">
+
+        <TextView
+            android:id="@+id/one_call_view_text"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/one_call_view_text_back"
+            android:gravity="center_horizontal"
+            android:padding="5sp"
+            android:textColor="#ffffff"
+            android:textSize="12sp"
+            app:layout_constraintHeight_percent="0.5"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/one_call_view_button"
+            app:layout_constraintWidth_percent="0.75" />
+
+        <Button
+            android:id="@+id/one_call_view_button"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/one_call_view_button_back"
+            android:gravity="center"
+            android:text="Отменить"
+            android:textColor="#ffffff"
+            android:textSize="12sp"
+            app:layout_constraintHeight_percent="1"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintLeft_toRightOf="@id/one_call_view_text"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/one_call_view_text"
+            app:layout_constraintBottom_toBottomOf="@id/one_call_view_text"
+            app:layout_constraintWidth_percent="0.25" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

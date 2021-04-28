@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/one_call_view_button_back">
+
+    <item android:state_pressed="false">
+        <shape
+            android:shape="rectangle" >
+
+            <corners
+                android:topRightRadius="5pt"
+                android:bottomRightRadius="5pt" />
+
+            <gradient
+                android:startColor="#1455af"
+                android:endColor="#46a5e6"
+                android:angle="180" />
+
+        </shape>
+    </item>
+
+    <item android:state_pressed="true">
+        <shape
+            android:shape="rectangle" >
+
+            <corners
+                android:topRightRadius="5pt"
+                android:bottomRightRadius="5pt" />
+
+            <gradient
+                android:startColor="#557d9b"
+                android:endColor="#c3d7e6"
+                android:angle="0" />
+
+        </shape>
+    </item>
+</selector>
