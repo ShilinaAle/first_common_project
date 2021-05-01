@@ -7,4 +7,9 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="enot1">#785A46</color>
+    <color name="enotDark">#4B311E</color>
+    <color name="enotoOnSecDark">#9C4B00</color>
+    <color name="enot2">#D37830</color>
 </resources>
