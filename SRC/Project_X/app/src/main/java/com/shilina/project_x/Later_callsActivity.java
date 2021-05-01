@@ -85,10 +85,10 @@ public class Later_callsActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        for (int i = 1; i < plannedCallsList.size(); i++) {
+        for (int i = 0; i < plannedCallsList.size(); i++) {
             OneCall poc = plannedCallsList.get(i);
             View nextOneCall = getLayoutInflater().inflate(R.layout.one_call_view, oneCallLayout, false);
-            nextOneCall.setId(i);
+            nextOneCall.setId(i+1);
             TextView oneCallViewText = (TextView) nextOneCall.findViewById(R.id.one_call_view_text);
             oneCallViewText.setText("Звонок с абонентом: " + poc.caller + "\nБыл: " + poc.callStartTime + "\nБудет: " + poc.callPlannedTime);
             Button oneCallViewButton = (Button) nextOneCall.findViewById(R.id.one_call_view_button);
