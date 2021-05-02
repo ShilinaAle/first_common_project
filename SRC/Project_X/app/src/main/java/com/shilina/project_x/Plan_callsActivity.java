@@ -14,6 +14,7 @@ public class Plan_callsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SettingsActivity.chooseTheme(this);
         setContentView(R.layout.activity_plan_calls);
 
         //Assign variable

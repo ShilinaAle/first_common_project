@@ -28,6 +28,7 @@ public class SignUpActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SettingsActivity.chooseTheme(this);
         setContentView(R.layout.activity_sign_up);
 
         //сначала обратимся к нашим полям и кнопке

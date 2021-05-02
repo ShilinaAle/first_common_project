@@ -13,6 +13,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SettingsActivity.chooseTheme(this);
         setContentView(R.layout.activity_login);
         Log.i("LOOK HERE: LoginActivity", "Already Authorized: " + XTools.isAuthorized);
     }

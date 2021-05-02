@@ -29,6 +29,7 @@ public class Later_callsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SettingsActivity.chooseTheme(this);
         setContentView(R.layout.activity_later_calls);
         drawerLayout = findViewById(R.id.drawer_layout);
         //Assign variable

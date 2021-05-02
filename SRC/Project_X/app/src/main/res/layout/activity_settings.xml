@@ -15,14 +15,14 @@
             layout="@layout/other_toolbar" />
 
         <LinearLayout
+            android:id="@+id/theme"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="2.5"
-            android:orientation="horizontal"
-            android:id="@+id/theme">
+            android:layout_weight="2"
+            android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/texTheme"
+                android:id="@+id/textTheme"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@layout/other_toolbar"
@@ -30,7 +30,7 @@
                 android:layout_marginTop="50dp"
                 android:layout_marginVertical="20dp"
                 android:text="Тема"
-                android:textSize="20dp" />
+                android:textSize="14dp" />
 
             <Spinner
                 android:id="@+id/spinnerTheme"
@@ -39,93 +39,79 @@
                 android:layout_marginTop="50dp"
                 android:layout_marginLeft="100dp"
                 android:layout_marginRight="100dp"
-                android:layout_marginVertical="20dp"/>
+                android:layout_marginVertical="20dp" />
 
         </LinearLayout>
 
 
         <TextView
-            android:id="@+id/time1"
+            android:id="@+id/textModeIn"
             app:layout_constraintTop_toBottomOf="@id/theme"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:layout_marginLeft="50dp"
             android:layout_marginVertical="10dp"
-            android:text="Режим во время мероприятий:"
-            android:textSize="20dp" />
+            android:text="Переносить во время мероприятий:"
+            android:textSize="14dp" />
 
         <RadioGroup
+            android:id="@+id/modeIn"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:layout_weight="4"
-            app:layout_constraintTop_toBottomOf="@+id/texTime"
             android:layout_marginLeft="50dp"
             android:layout_marginTop="10dp"
-            android:id="@+id/radioTime">
+            android:layout_weight="2"
+            app:layout_constraintTop_toBottomOf="@id/textModeIn">
             <RadioButton
-                android:id="@+id/timeAuto"
+                android:id="@+id/modeInAuto"
                 android:layout_width="wrap_content"
                 android:layout_height="25dp"
-                android:text="Автоматический на свободное время"
+                android:text="Авто (на свободное время)"
                 android:onClick="checkButton"
                 android:checked="true"/>
             <RadioButton
-                android:id="@+id/timeHand1"
+                android:id="@+id/modeInHand"
                 android:layout_width="wrap_content"
                 android:layout_height="25dp"
-                android:text="Откладывать в соответствии с календарем"
+                android:text="Вручную"
                 android:onClick="checkButton"/>
-            <RadioButton
-                android:id="@+id/timeHand2"
-                android:layout_width="wrap_content"
-                android:layout_height="25dp"
-                android:text="Откладывать на некоторое время"
-                android:onClick="checkButton"/>
-            <RadioButton
-                android:id="@+id/timeHand3"
-                android:layout_width="wrap_content"
-                android:layout_height="25dp"
-                android:text="Откладывать на конкретное время"
-                android:onClick="checkButton"/>
-
         </RadioGroup>
 
         <TextView
-            android:id="@+id/time2"
+            android:id="@+id/textModeOut"
             app:layout_constraintTop_toBottomOf="@id/theme"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:layout_marginLeft="50dp"
-            android:text="Режим вне мероприятий:"
-            android:textSize="20dp" />
+            android:text="Переносить вне мероприятий:"
+            android:textSize="14dp" />
 
         <RadioGroup
+            android:id="@+id/modeOut"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:layout_weight="2"
-            app:layout_constraintTop_toBottomOf="@+id/texTime"
             android:layout_marginLeft="50dp"
             android:layout_marginTop="10dp"
-            android:id="@+id/radioTime2">
+            android:layout_weight="2"
+            app:layout_constraintTop_toBottomOf="@id/textModeOut">
             <RadioButton
-                android:id="@+id/timeHand4"
-                android:layout_width="wrap_content"
-                android:layout_height="25dp"
-                android:text="Ручной"
-                android:onClick="checkButton"/>
-            <RadioButton
-                android:id="@+id/timeHand5"
+                android:id="@+id/modeOutOff"
                 android:layout_width="wrap_content"
                 android:layout_height="25dp"
                 android:text="Выключить"
                 android:checked="true"
                 android:onClick="checkButton"/>
-
+            <RadioButton
+                android:id="@+id/modeOutHand"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:text="Вручную"
+                android:onClick="checkButton"/>
         </RadioGroup>
 
-
+<!--
         <CheckBox
             android:id="@+id/noSound"
             android:layout_width="match_parent"
@@ -143,14 +129,13 @@
             android:layout_marginLeft="50dp"
             android:layout_marginTop="10dp"
             android:text="Синхронизировать" />
-
+-->
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="6"
-            android:orientation="vertical"
-            >
+            android:orientation="vertical">
 
             <Button
                 android:id="@+id/apply"

@@ -12,6 +12,7 @@ public class AboutUsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SettingsActivity.chooseTheme(this);
         setContentView(R.layout.activity_about_us);
 
         TextView textById = findViewById(R.id.nameOfWindow);

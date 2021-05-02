@@ -29,6 +29,7 @@ public class PermissionsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SettingsActivity.chooseTheme(this);
 
         callingActivity = getIntent().getStringExtra("calling-activity");
         Log.i("LOOK HERE: PermissionsActivity", "CALLING ACT IS: " + callingActivity);
