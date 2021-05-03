@@ -30,7 +30,9 @@ public class SettingsActivity extends AppCompatActivity {
     public static final String SP_THEME = "Theme";
     public static final String[] SP_THEMES = new String[] {"Shark", "Raccoon", "Panther"};
     public static final String SP_MODE_IN = "ModeIn";
+    public static final int[] SP_MODES_IN = new int[2];
     public static final String SP_MODE_OUT = "ModeOut";
+    public static final int[] SP_MODES_OUT = new int[2];
     SharedPreferences sp_settings;
     SharedPreferences.Editor prefEditor;
 
@@ -42,11 +44,12 @@ public class SettingsActivity extends AppCompatActivity {
 
         TextView textById = findViewById(R.id.nameOfWindow);
         textById.setText("Настройки");
-        SharedPreferences settings = getSharedPreferences(SP_FILE, MODE_PRIVATE);
-        String sp_theme = settings.getString(SP_THEME, SP_THEMES[0]);
-        String curTheme = sp_theme;
+        sp_settings = getSharedPreferences(SP_FILE, MODE_PRIVATE);
+        prefEditor = sp_settings.edit();
 
-        prefEditor = settings.edit();
+        //Обработка смены темы
+        String sp_theme = sp_settings.getString(SP_THEME, SP_THEMES[0]);
+        String curTheme = sp_theme;
         Spinner spinnerThemes = findViewById(R.id.spinnerTheme);
         ArrayAdapter<?> adapter = ArrayAdapter.createFromResource(this, R.array.themes, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
@@ -67,10 +70,40 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
+        //Обработка смены режима вовремя мероприятий
+        RadioGroup rgModeIn = findViewById(R.id.modeIn);
+        for (int i=0; i<rgModeIn.getChildCount(); i++) {
+            RadioButton rbModeIn = (RadioButton) rgModeIn.getChildAt(i);
+            SP_MODES_IN[i] = rbModeIn.getId();
+        }
+        int sp_mode_in = sp_settings.getInt(SP_MODE_IN, SP_MODES_IN[0]);
+        int curModeIn= sp_mode_in;
+        rgModeIn.check(sp_mode_in);
+        rgModeIn.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            public void onCheckedChanged(RadioGroup rg, int newModeIn) {
+                Log.i("LOOK HERE: SettingsActivity", "Cur ModeIn is: " + curModeIn + "\nNew ModeIn is: " + newModeIn);
+                prefEditor.putInt(SP_MODE_IN, newModeIn);
+                prefEditor.apply();
+            }
+        });
 
+        //Обработка смены режима вне мероприятий
+        RadioGroup rgModeOut = findViewById(R.id.modeOut);
+        for (int i=0; i<rgModeOut.getChildCount(); i++) {
+            RadioButton rbModeOut = (RadioButton) rgModeOut.getChildAt(i);
+            SP_MODES_OUT[i] = rbModeOut.getId();
+        }
+        int sp_mode_out = sp_settings.getInt(SP_MODE_OUT, SP_MODES_OUT[0]);
+        int curModeOut= sp_mode_out;
+        rgModeOut.check(sp_mode_out);
+        rgModeOut.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            public void onCheckedChanged(RadioGroup rg, int newModeOut) {
+                Log.i("LOOK HERE: SettingsActivity", "Cur ModeOut is: " + curModeOut + "\nNew ModeOut is: " + newModeOut);
+                prefEditor.putInt(SP_MODE_OUT, newModeOut);
+                prefEditor.apply();
+            }
+        });
 
-        RadioGroup modeIn = findViewById(R.id.modeIn);
-        //RadioButton
     }
 
     public void checkButton(View view){
@@ -92,8 +125,8 @@ public class SettingsActivity extends AppCompatActivity {
 
 
     public static void chooseTheme(Context context){
-        SharedPreferences settings = context.getSharedPreferences(SP_FILE, MODE_PRIVATE);
-        String sp_theme = settings.getString(SP_THEME, SP_THEMES[0]);
+        SharedPreferences sp_settings = context.getSharedPreferences(SP_FILE, MODE_PRIVATE);
+        String sp_theme = sp_settings.getString(SP_THEME, SP_THEMES[0]);
         switch (sp_theme) {
             case "Shark":
                 context.setTheme(R.style.Theme_Project_X);
