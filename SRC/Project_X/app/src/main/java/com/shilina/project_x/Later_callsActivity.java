@@ -121,8 +121,7 @@ public class Later_callsActivity extends AppCompatActivity {
     }
 
     public void ClickLater(View view){
-        //Recreate activity
-        recreate();
+        XTools.closeDrawer(drawerLayout);
     }
 
     public void  ClickPlan(View view){
