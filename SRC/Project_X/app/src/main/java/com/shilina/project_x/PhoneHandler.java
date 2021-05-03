@@ -3,6 +3,7 @@ package com.shilina.project_x;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.PixelFormat;
 import android.os.Build;
 import android.telecom.TelecomManager;
@@ -110,8 +111,27 @@ public class PhoneHandler extends BroadcastReceiver {
     //Обработка начала входящего звонка
     public void onIncomingCallReceived(Context context, String phoneNumber, Date start) {
         Log.i("LOOK HERE: PhoneHandler", "Incoming call has been received");
-        createLayout(context);
-        addButton(context, start);
+        //TODO: Проверка мероприятия в календаре
+        boolean isBusyNow = false;
+        SharedPreferences sp_settings = context.getSharedPreferences(SettingsActivity.SP_FILE, Context.MODE_PRIVATE);
+        String curModeIn = sp_settings.getString(SettingsActivity.SP_MODE_IN, SettingsActivity.SP_MODES_IN[0]);
+        String curModeOut = sp_settings.getString(SettingsActivity.SP_MODE_OUT, SettingsActivity.SP_MODES_OUT[0]);
+        if (!isBusyNow && (curModeOut.equals(SettingsActivity.SP_MODES_OUT[1]))) {
+            Log.i("LOOK HERE: PhoneHandler", "Mode for Out = OFF");
+        }
+        else if (isBusyNow && (curModeIn.equals(SettingsActivity.SP_MODES_IN[1]))) {
+            Log.i("LOOK HERE: PhoneHandler", "Mode for In = Auto");
+            //TODO: Окно со звонка с возможностью выбрать номер телефона
+            //TODO: Добавление на сервер
+            //TODO: Добавление в календарь
+            String recepient = phoneNumber;
+            String message = "С вами запланирован звонок - new";
+            //SMSHandler.sendSMS(getApplicationContext(), recipient, message);
+        } else {
+            Log.i("LOOK HERE: PhoneHandler", "Mode = Hand");
+            createLayout(context);
+            addButton(context, start);
+        }
     }
 
     //Обработка начала входящего разговора
@@ -188,6 +208,8 @@ public class PhoneHandler extends BroadcastReceiver {
             Log.i("LOOK HERE: PhoneHandler", "Button has been removed");
         } catch (IllegalArgumentException e) {
             Log.i("LOOK HERE: PhoneHandler", "Button has not found");
+        } catch (NullPointerException e) {
+            Log.i("LOOK HERE: PhoneHandler", "windowMan has not found");
         }
     }
 
@@ -243,6 +265,8 @@ public class PhoneHandler extends BroadcastReceiver {
             Log.i("LOOK HERE: PhoneHandler", "Bubble has been removed");
         } catch (IllegalArgumentException e) {
             Log.i("LOOK HERE: PhoneHandler", "Bubble has not found");
+        } catch (NullPointerException e) {
+            Log.i("LOOK HERE: PhoneHandler", "windowMan has not found");
         }
     }
 

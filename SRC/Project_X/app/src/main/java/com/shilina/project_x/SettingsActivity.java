@@ -30,9 +30,9 @@ public class SettingsActivity extends AppCompatActivity {
     public static final String SP_THEME = "Theme";
     public static final String[] SP_THEMES = new String[] {"Shark", "Raccoon", "Panther"};
     public static final String SP_MODE_IN = "ModeIn";
-    public static final int[] SP_MODES_IN = new int[2];
+    public static final String[] SP_MODES_IN = new String[] {"Hand", "Auto"};
     public static final String SP_MODE_OUT = "ModeOut";
-    public static final int[] SP_MODES_OUT = new int[2];
+    public static final String[] SP_MODES_OUT = new String[] {"Hand", "Off"};
     SharedPreferences sp_settings;
     SharedPreferences.Editor prefEditor;
 
@@ -72,34 +72,38 @@ public class SettingsActivity extends AppCompatActivity {
 
         //Обработка смены режима вовремя мероприятий
         RadioGroup rgModeIn = findViewById(R.id.modeIn);
+        Integer[] intModesIn = new Integer[2];
         for (int i=0; i<rgModeIn.getChildCount(); i++) {
             RadioButton rbModeIn = (RadioButton) rgModeIn.getChildAt(i);
-            SP_MODES_IN[i] = rbModeIn.getId();
+            intModesIn[i] = rbModeIn.getId();
         }
-        int sp_mode_in = sp_settings.getInt(SP_MODE_IN, SP_MODES_IN[0]);
-        int curModeIn= sp_mode_in;
-        rgModeIn.check(sp_mode_in);
+        String sp_mode_in = sp_settings.getString(SP_MODE_IN, SP_MODES_IN[0]);
+        String curModeIn= sp_mode_in;
+        rgModeIn.check(intModesIn[Arrays.asList(SP_MODES_IN).indexOf(curModeIn)]);
         rgModeIn.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            public void onCheckedChanged(RadioGroup rg, int newModeIn) {
+            public void onCheckedChanged(RadioGroup rg, int newModeInID) {
+                String newModeIn = SP_MODES_IN[Arrays.asList(intModesIn).indexOf(newModeInID)];
                 Log.i("LOOK HERE: SettingsActivity", "Cur ModeIn is: " + curModeIn + "\nNew ModeIn is: " + newModeIn);
-                prefEditor.putInt(SP_MODE_IN, newModeIn);
+                prefEditor.putString(SP_MODE_IN, newModeIn);
                 prefEditor.apply();
             }
         });
 
         //Обработка смены режима вне мероприятий
         RadioGroup rgModeOut = findViewById(R.id.modeOut);
+        Integer[] intModesOut = new Integer[2];
         for (int i=0; i<rgModeOut.getChildCount(); i++) {
             RadioButton rbModeOut = (RadioButton) rgModeOut.getChildAt(i);
-            SP_MODES_OUT[i] = rbModeOut.getId();
+            intModesOut[i] = rbModeOut.getId();
         }
-        int sp_mode_out = sp_settings.getInt(SP_MODE_OUT, SP_MODES_OUT[0]);
-        int curModeOut= sp_mode_out;
-        rgModeOut.check(sp_mode_out);
+        String sp_mode_out = sp_settings.getString(SP_MODE_OUT, SP_MODES_OUT[0]);
+        String curModeOut= sp_mode_out;
+        rgModeOut.check(intModesOut[Arrays.asList(SP_MODES_OUT).indexOf(curModeOut)]);
         rgModeOut.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            public void onCheckedChanged(RadioGroup rg, int newModeOut) {
+            public void onCheckedChanged(RadioGroup rg, int newModeOutID) {
+                String newModeOut = SP_MODES_OUT[Arrays.asList(intModesOut).indexOf(newModeOutID)];
                 Log.i("LOOK HERE: SettingsActivity", "Cur ModeOut is: " + curModeOut + "\nNew ModeOut is: " + newModeOut);
-                prefEditor.putInt(SP_MODE_OUT, newModeOut);
+                prefEditor.putString(SP_MODE_OUT, newModeOut);
                 prefEditor.apply();
             }
         });
