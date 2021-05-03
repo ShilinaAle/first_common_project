@@ -67,9 +67,9 @@ public class Later_callsActivity extends AppCompatActivity {
                 //TODO: Окно со звонка с возможностью выбрать номер телефона
                 //TODO: Добавление на сервер
                 //TODO: Добавление в календарь
-                String recepient = "89998194728-new";
+                String recipient = "89998194728-new";
                 String message = "С вами запланирован звонок - new";
-                //SMSHandler.sendSMS(getApplicationContext(), recepient, message);
+                //SMSHandler.sendSMS(getApplicationContext(), recipient, message);
             }
         });
         oneCallLayout.addView(planOneCall);
