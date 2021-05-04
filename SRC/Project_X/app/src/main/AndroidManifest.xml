@@ -37,7 +37,7 @@
         <activity android:name=".StatusPremActivity" />
         <activity android:name=".HelpActivity" />
         <activity android:name=".StatusActivity" />
-        <activity android:name=".Later_callsActivity"/>
+        <activity android:name=".LaterCallsActivity"/>
         <activity android:name=".SignUpActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".SettingsActivity" />

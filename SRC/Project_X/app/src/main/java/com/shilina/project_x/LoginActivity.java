@@ -45,7 +45,9 @@ public class LoginActivity extends AppCompatActivity {
             XTools.setLogin(user);
             XTools.setPremium(status);
             Toast.makeText(getApplicationContext(), "Вход выполнен!", Toast.LENGTH_SHORT).show();
-            XTools.redirectActivity(this, Later_callsActivity.class);
+            Intent intent = new Intent(this, LaterCallsActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
             XTools.isAuthorized = true; //TODO: указать когда он становится false
             finish();
         }
