@@ -29,4 +29,31 @@
         <item name="backgroundTint">@color/enotDark</item>
         <item name="logoSrc">@drawable/logo_enot</item>
     </style>
+
+    <style name="Theme.Project_X_pantera"  parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <!-- Primary brand color.
+        <item name="colorOnBackground">#63636a</item> -->
+        <!--<item name="android:text">@color/white</item>-->
+        <item name="colorAccent">@color/white</item>
+        <!--фон-->
+        <item name="android:colorBackground">@color/pantera_back</item>
+        <!--> поля в звонках-->
+        <item name="backgroundTint">@color/black</item>
+        <!--> -->
+        <item name="colorOnBackground">@color/white</item>
+        <item name="colorPrimary">#39393f</item>
+        <!--верхняя шапка-->
+        <item name="colorPrimaryVariant">#464650</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">#3c3a43</item>
+        <item name="colorSecondaryVariant">#464650</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <item name="android:toolbarStyle">@color/pantera_back</item>
+        <item name="tooltipFrameBackground">@color/pantera_back</item>
+
+        <!-- StatusActivity bar color.-->
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <!-- Customize your theme here. -->
+    </style>
 </resources>

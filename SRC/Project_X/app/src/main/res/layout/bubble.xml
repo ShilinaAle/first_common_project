@@ -59,28 +59,62 @@
         android:textColor="#ffffff"
         android:textSize="12sp"
         android:background="@drawable/one_call_view_button_back"
-        app:layout_constraintBottom_toTopOf="@id/bubble_button_wait"
+
         app:layout_constraintHorizontal_bias="0"
         app:layout_constraintLeft_toRightOf="@id/bubble_text"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@id/bubble_text"
         app:layout_constraintWidth_percent="0.25"
-        app:layout_constraintHeight_percent="0.5" />
+        app:layout_constraintHeight_percent="0.25" />
 
     <Button
-        android:id="@+id/bubble_button_wait"
+        android:id="@+id/bubble_button_wait15"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:gravity="center"
-        android:text="Подождать ГП"
+        android:text="+ 15 минут"
         android:textColor="#ffffff"
         android:textSize="12sp"
+        android:background="@drawable/one_call_view_button_back"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintLeft_toRightOf="@id/bubble_text"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/bubble_button_send"
+        app:layout_constraintWidth_percent="0.25"
+        app:layout_constraintHeight_percent="0.25" />
+
+    <Button
+        android:id="@+id/bubble_button_wait30"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:text="+ 30 минут"
+        android:textColor="#ffffff"
+        android:textSize="12sp"
+        android:background="@drawable/one_call_view_button_back"
         app:layout_constraintBottom_toBottomOf="@id/bubble_text"
         app:layout_constraintHorizontal_bias="0"
         app:layout_constraintLeft_toRightOf="@id/bubble_text"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/bubble_button_send"
         app:layout_constraintWidth_percent="0.25"
-        app:layout_constraintHeight_percent="0.5" />
+        app:layout_constraintHeight_percent="0.25" />
+
+    <Button
+        android:id="@+id/bubble_button_wait1"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:text="+ 1 час"
+        android:textColor="#ffffff"
+        android:textSize="12sp"
+        android:background="@drawable/one_call_view_button_back"
+        app:layout_constraintBottom_toBottomOf="@id/bubble_text"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintLeft_toRightOf="@id/bubble_text"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/bubble_button_wait30"
+        app:layout_constraintWidth_percent="0.25"
+        app:layout_constraintHeight_percent="0.25" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
