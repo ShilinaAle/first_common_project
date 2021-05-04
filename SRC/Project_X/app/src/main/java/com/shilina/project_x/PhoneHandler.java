@@ -6,17 +6,13 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.PixelFormat;
 import android.os.Build;
-import android.telecom.TelecomManager;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 
@@ -47,6 +43,8 @@ public class PhoneHandler extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         Log.i("LOOK HERE: PhoneHandler", index++ + " example of PH has been created");
+
+        SettingsActivity.chooseTheme(context);
 
         //Определение нового состояния телефона относительно звонка
         String state_str = intent.getExtras().getString(TelephonyManager.EXTRA_STATE);
@@ -174,7 +172,7 @@ public class PhoneHandler extends BroadcastReceiver {
     public void addButton(final Context context, final Date startTime) {
         Log.i("LOOK HERE: PhoneHandler", "Button has been created");
         //Присваиваем картинке обработчик нажатия
-        callLayout = (ViewGroup) layInflater.inflate(R.layout.button, null);
+        callLayout = (ViewGroup) layInflater.inflate(R.layout.call_layout, null);
 
         int width = windowMan.getDefaultDisplay().getWidth(); //Ширина дисплея
         int height = windowMan.getDefaultDisplay().getHeight(); //Высота дисплея
@@ -187,8 +185,7 @@ public class PhoneHandler extends BroadcastReceiver {
                 PixelFormat.TRANSLUCENT); // Само окно прозрачное
 
         windowMan.addView(callLayout, layPar);
-
-        ImageView button_img = callLayout.findViewById(R.id.button);
+        LogoView button_img = callLayout.findViewById(R.id.call_button);
         button_img.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.O_MR1)
             @Override

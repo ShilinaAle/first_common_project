@@ -25,12 +25,11 @@
         android:textSize="20sp"
         android:textStyle="bold" />
 
-    <ImageView
+    <com.shilina.project_x.LogoView
         android:id="@+id/imageView"
         android:layout_width="32dp"
         android:layout_height="32dp"
-        android:layout_weight="1"
-        app:srcCompat="@drawable/logo_shark" />
+        android:layout_weight="1" />
 
 
 </LinearLayout>

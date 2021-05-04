@@ -12,6 +12,7 @@
         <!-- StatusActivity bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+        <item name="logoSrc">@drawable/logo_shark</item>
     </style>
 
     <style name="Theme.Project_X_enot"  parent="Theme.MaterialComponents.DayNight.DarkActionBar">
@@ -26,5 +27,6 @@
         <!-- StatusActivity bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+        <item name="logoSrc">@drawable/logo_enot</item>
     </style>
 </resources>
