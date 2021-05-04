@@ -124,15 +124,6 @@ public class Later_callsActivity extends AppCompatActivity {
         XTools.closeDrawer(drawerLayout);
     }
 
-    public void  ClickPlan(View view){
-        //if (XTools.getLogin() == "admin"){
-        //    XTools.redirectActivity(this, Plan_callsActivity.class);
-         //   finish();
-        //} else
-        XTools.redirectActivity(this, Plan_callsActivity.class);
-        finish();
-    }
-
     public void  ClickStatus(View view){
 
         XTools.redirectActivity(this, StatusActivity.class);

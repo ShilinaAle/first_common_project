@@ -40,12 +40,6 @@ public class StatusPremActivity extends AppCompatActivity {
         finish();
     }
 
-    public void  ClickPlan(View view){
-        //Redirect activity
-        XTools.redirectActivity(this, Plan_callsActivity.class);
-        finish();
-    }
-
     public void  ClickStatus(View view){
         //Recreate activity
         recreate();

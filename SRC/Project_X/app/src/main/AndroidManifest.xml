@@ -34,11 +34,9 @@
             android:name=".BroadcastService"
             android:enabled="true"
             android:exported="false"></service>
-        <activity android:name=".Plan_callsPremActivity"></activity>
         <activity android:name=".StatusPremActivity" />
         <activity android:name=".HelpActivity" />
         <activity android:name=".StatusActivity" />
-        <activity android:name=".Plan_callsActivity" />
         <activity android:name=".Later_callsActivity"/>
         <activity android:name=".SignUpActivity" />
         <activity android:name=".LoginActivity" />
