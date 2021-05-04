@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/drawer_layout"
-    tools:context=".AboutUsActivity">
+    tools:context=".StatusActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,15 +16,31 @@
         <include
             layout="@layout/main_toolbar"/>
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/autors"
-            android:text="@string/aboutUs"
-            android:textSize="20sp"
-            android:layout_marginStart="30dp"
-            android:layout_marginEnd="30dp"/>
+            android:orientation="vertical">
 
+            <TextView
+                android:id="@+id/textStatus"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="4"
+                android:gravity="center"
+                android:text="@string/statusNo"
+                android:textSize="50sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/button"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:layout_margin="50dp"
+                android:onClick="goToBuy"
+                android:text="Купить премиум"
+                app:layout_constraintTop_toBottomOf="@id/textStatus" />
+        </LinearLayout>
     </LinearLayout>
 
     <RelativeLayout

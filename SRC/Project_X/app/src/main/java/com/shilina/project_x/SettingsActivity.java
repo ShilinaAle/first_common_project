@@ -1,6 +1,8 @@
 package com.shilina.project_x;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Context;
 import android.content.Intent;
@@ -24,6 +26,8 @@ import java.util.Arrays;
 public class SettingsActivity extends AppCompatActivity {
 //implements AdapterView.OnItemSelectedListener
 
+    DrawerLayout drawerLayout;
+
     public static final String className = Thread.currentThread().getStackTrace()[2].getClassName();
     public static final String SP_FILE = "Accaunt";
     public static final String SP_NAME = "Name";
@@ -41,6 +45,8 @@ public class SettingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         SettingsActivity.chooseTheme(this);
         setContentView(R.layout.activity_settings);
+
+        drawerLayout = findViewById(R.id.drawer_layout);
 
         TextView textById = findViewById(R.id.nameOfWindow);
         textById.setText("Настройки");
@@ -114,9 +120,50 @@ public class SettingsActivity extends AppCompatActivity {
 
     }
 
-    public void ClickBack(View view){
-        //Close window
+    public void ClickMenu(View view){
+        //Open drawer
+        XTools.openDrawer(drawerLayout);
+    }
+
+    public void  ClickLogo(View view){
+        //Close drawer
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
+        }
+    }
+
+    public void ClickLater(View view){
+        //Redirect activity
+        XTools.redirectActivity(this, Later_callsActivity.class);
         finish();
+    }
+
+    public void  ClickStatus(View view){
+        XTools.redirectActivity(this, StatusActivity.class);
+        finish();
+    }
+
+    public void  ClickSettings(View view){
+        //Redirect activity
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
+        }
+    }
+
+    public void  ClickHelp(View view){
+        XTools.redirectActivity(this, HelpActivity.class);
+        finish();
+    }
+
+    public void ClickAboutUs(View view) {
+        //Redirect activity
+        XTools.redirectActivity(this, AboutUsActivity.class);
+        finish();
+    }
+
+    public void ClickLogout(View view) {
+        //Close app
+        XTools.logout(this);
     }
 
 

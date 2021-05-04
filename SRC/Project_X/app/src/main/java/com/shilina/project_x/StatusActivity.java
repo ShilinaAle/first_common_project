@@ -1,6 +1,7 @@
 package com.shilina.project_x;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.os.Bundle;
@@ -30,7 +31,9 @@ public class StatusActivity extends AppCompatActivity {
 
     public void  ClickLogo(View view){
         //Close drawer
-        XTools.closeDrawer(drawerLayout);
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
+        }
     }
 
     public void ClickLater(View view){
@@ -42,22 +45,27 @@ public class StatusActivity extends AppCompatActivity {
 
     public void  ClickStatus(View view){
         //Recreate activity
-        recreate();
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
+        }
     }
 
     public void  ClickSettings(View view){
         //Redirect activity
         XTools.redirectActivity(this, SettingsActivity.class);
+        finish();
     }
 
     public void  ClickHelp(View view){
         //Redirect activity
         XTools.redirectActivity(this, HelpActivity.class);
+        finish();
     }
 
     public void ClickAboutUs(View view) {
         //Redirect activity
         XTools.redirectActivity(this, AboutUsActivity.class);
+        finish();
     }
 
     public void ClickLogout(View view) {
