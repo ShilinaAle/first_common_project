@@ -139,6 +139,7 @@ public class SettingsActivity extends AppCompatActivity {
                 context.setTheme(R.style.Theme_Project_X_enot);
                 break;
             case "Panther":
+                context.setTheme(R.style.Theme_Project_X_pantera);
                 break;
         }
         Log.i("LOOK HERE: SettingsActivity", "Cur Theme is: " + sp_theme);
