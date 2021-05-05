@@ -4,10 +4,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import java.util.HashMap;
 
 public class LoginActivity extends AppCompatActivity {
     @Override
@@ -25,7 +28,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void CheckLogin(View view) {
-        //TODO: Get from database
+        //TODO: Сравнить с записями с базой данных
         String user = "admin";
         String hash = "admin";
         String username = ((EditText) findViewById(R.id.login)).getText().toString();
@@ -36,6 +39,10 @@ public class LoginActivity extends AppCompatActivity {
         if (username.equals(user) && et_password.getText().toString().equals(hash)) {
             SettingsActivity.setUser(this, username);
             SettingsActivity.setPremium(this, status);
+            String androidId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+            //TODO: Если этот пользователь заходил с этого утсройства, то загрузить настройки с сервера иначе:
+            //SettingsActivity.setAllDefault(this, androidId);
+
             Toast.makeText(getApplicationContext(), "Вход выполнен!", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(this, LaterCallsActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

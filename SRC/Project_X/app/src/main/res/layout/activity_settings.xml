@@ -65,14 +65,12 @@
                 android:id="@+id/modeInHand"
                 android:layout_width="wrap_content"
                 android:layout_height="25dp"
-                android:text="Вручную"
-                android:onClick="checkButton"/>
+                android:text="Вручную" />
             <RadioButton
                 android:id="@+id/modeInAuto"
                 android:layout_width="wrap_content"
                 android:layout_height="25dp"
                 android:text="Авто (на свободное время)"
-                android:onClick="checkButton"
                 android:checked="true"/>
         </RadioGroup>
 
@@ -97,15 +95,13 @@
                 android:id="@+id/modeOutHand"
                 android:layout_width="wrap_content"
                 android:layout_height="25dp"
-                android:text="Вручную"
-                android:onClick="checkButton"/>
+                android:text="Вручную" />
             <RadioButton
                 android:id="@+id/modeOutOff"
                 android:layout_width="wrap_content"
                 android:layout_height="25dp"
                 android:text="Выключить"
-                android:checked="true"
-                android:onClick="checkButton"/>
+                android:checked="true" />
         </RadioGroup>
 
 <!--
@@ -134,20 +130,21 @@
             android:layout_weight="6"
             android:orientation="vertical">
             <Button
-                android:id="@+id/apply"
+                android:id="@+id/reset_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="20dp"
-                android:text="Применить" />
+                android:text="Сбросить настройки"
+                android:onClick="onResetClick"/>
             <Button
                 android:id="@+id/button5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
-                android:onClick="goPermissions"
-                android:text="Перейти к разрешениям" />
+                android:onClick="onPermissionsClick"
+                android:text="Посмотреть разрешения" />
         </LinearLayout>
     </LinearLayout>
 
