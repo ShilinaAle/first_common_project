@@ -19,9 +19,8 @@ import java.util.Date;
 
 import static android.util.TypedValue.COMPLEX_UNIT_SP;
 
-public class Later_callsActivity extends AppCompatActivity {
-    //Initialize variable
-    DrawerLayout drawerLayout;
+public class LaterCallsActivity extends DrawerActivity {
+
     public static final String className = Thread.currentThread().getStackTrace()[2].getClassName();
     public static ArrayList<OneCall> plannedCallsList = new ArrayList<>();
     LinearLayout oneCallLayout;
@@ -31,7 +30,11 @@ public class Later_callsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         SettingsActivity.chooseTheme(this);
         setContentView(R.layout.activity_later_calls);
-        drawerLayout = findViewById(R.id.drawer_layout);
+        super.drawerLayout = findViewById(R.id.drawer_layout);
+        super.className = className;
+        setNickname();
+        Log.i("LOOK HERE: LCA", "Opened activity is: " + className);
+
         //Assign variable
         TextView textById = findViewById(R.id.nameOfWindow);
         textById.setText("Отложенные звонки");
@@ -109,48 +112,4 @@ public class Later_callsActivity extends AppCompatActivity {
             Log.i("LOOK HERE: LCA", "poc number is: " + nextOneCall.getId());
         }
     }
-
-    public void ClickMenu(View view){
-        //Open drawer
-        XTools.openDrawer(drawerLayout);
-    }
-
-    public void  ClickLogo(View view){
-        //Close drawer
-        XTools.closeDrawer(drawerLayout);
-    }
-
-    public void ClickLater(View view){
-        XTools.closeDrawer(drawerLayout);
-    }
-
-    public void  ClickStatus(View view){
-
-        XTools.redirectActivity(this, StatusActivity.class);
-        finish();
-    }
-
-    public void  ClickSettings(View view){
-        //Redirect activity to about us
-        XTools.redirectActivity(this, SettingsActivity.class);
-    }
-
-    public void  ClickHelp(View view){
-        //Redirect activity to about us
-        XTools.redirectActivity(this, HelpActivity.class);
-    }
-
-    public void ClickAboutUs(View view) {
-        //Redirect activity to about us
-        XTools.redirectActivity(this, AboutUsActivity.class);
-    }
-
-    public void ClickLogout(View view) {
-        //Close app
-        XTools.logout(this);
-    }
-
-    @Override
-    public void onBackPressed(){}
-
 }

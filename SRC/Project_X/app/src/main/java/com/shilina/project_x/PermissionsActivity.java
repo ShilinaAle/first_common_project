@@ -38,7 +38,7 @@ public class PermissionsActivity extends AppCompatActivity {
             onContinueClick(new View(getApplicationContext()));
         } else {
             Log.i("LOOK HERE: PermissionsActivity", "Settings className IS: " + SettingsActivity.className);
-            Log.i("LOOK HERE: PermissionsActivity", "Already Authorized: " + XTools.isAuthorized);
+            Log.i("LOOK HERE: PermissionsActivity", "" + SettingsActivity.isAuthorised(this));
             setContentView(R.layout.activity_permissions);
             permSwitcher = findViewById(R.id.switch1);
             //Метод обработки смены значения кнопки
@@ -84,12 +84,16 @@ public class PermissionsActivity extends AppCompatActivity {
             Intent service = new Intent(this, BroadcastService.class);
             this.startService(service);
             //Open sign in
-            if (XTools.isAuthorized) {
-                XTools.redirectActivity(this, Later_callsActivity.class);
+            if (SettingsActivity.isAuthorised(this)) {
+                Intent intent = new Intent(this, LaterCallsActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
             } else {
-                XTools.redirectActivity(this, LoginActivity.class);
+                Intent intent = new Intent(this, LoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
             }
-            Log.i("LOOK HERE: PermissionsActivity", "Already Authorized: " + XTools.isAuthorized);
+            Log.i("LOOK HERE: PermissionsActivity", "" + SettingsActivity.isAuthorised(this));
             Toast.makeText(getApplicationContext(), "Разрешения находятся в разделе \"Найстроки\"", Toast.LENGTH_SHORT).show();
         }
     }

@@ -13,40 +13,33 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        SettingsActivity.chooseTheme(this);
-        setContentView(R.layout.activity_login);
-        Log.i("LOOK HERE: LoginActivity", "Already Authorized: " + XTools.isAuthorized);
+        if (SettingsActivity.isAuthorised(this)) {
+            Intent intent = new Intent(this, LaterCallsActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            finish();
+        } else {
+            SettingsActivity.chooseTheme(this);
+            setContentView(R.layout.activity_login);
+        }
     }
 
-    EditText username;
-    EditText password;
-
-    @Override
-    public void onBackPressed(){}
-
-    //Get from database
-    private String user = "admin";
-    private String hash = "admin";
-    private boolean status = true;
-
-    //private String user = "no";
-    //private String hash = "no";
-    //private boolean status = true;
-
-
     public void CheckLogin(View view) {
-        // Если введенные логин и пароль будут словом "admin",
-        // показываем Toast сообщение об успешном входе:
-        username = (EditText) findViewById(R.id.login);
-        password = (EditText) findViewById(R.id.password);
-        password.clearFocus();
-        if (username.getText().toString().equals(user) &&
-                password.getText().toString().equals(hash)) {
-            XTools.setLogin(user);
-            XTools.setPremium(status);
+        //TODO: Get from database
+        String user = "admin";
+        String hash = "admin";
+        String username = ((EditText) findViewById(R.id.login)).getText().toString();
+        EditText et_password = (EditText) findViewById(R.id.password);
+        et_password.clearFocus();
+        boolean status = false;
+
+        if (username.equals(user) && et_password.getText().toString().equals(hash)) {
+            SettingsActivity.setUser(this, username);
+            SettingsActivity.setPremium(this, status);
             Toast.makeText(getApplicationContext(), "Вход выполнен!", Toast.LENGTH_SHORT).show();
-            XTools.redirectActivity(this, Later_callsActivity.class);
-            XTools.isAuthorized = true; //TODO: указать когда он становится false
+            Intent intent = new Intent(this, LaterCallsActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
             finish();
         }
     }
@@ -56,7 +49,6 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(intentToSignUp);
     }
 
-
-
-
+    @Override
+    public void onBackPressed(){}
 }
