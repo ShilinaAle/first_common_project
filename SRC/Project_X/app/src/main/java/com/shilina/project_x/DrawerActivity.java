@@ -1,10 +1,13 @@
 package com.shilina.project_x;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
@@ -14,6 +17,7 @@ public class DrawerActivity extends AppCompatActivity {
 
     String className;
     DrawerLayout drawerLayout;
+    TextView nicknameView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +53,13 @@ public class DrawerActivity extends AppCompatActivity {
 
     public void onLogoClick(View view){
         closeDrawer(drawerLayout);
+    }
+
+    public void setNickname() {
+        if (nicknameView == null) {
+            nicknameView = findViewById(R.id.nickname);
+            nicknameView.setText(SettingsActivity.getUser(this));
+        }
     }
 
     public void onLaterActClick(View view){
@@ -101,9 +112,41 @@ public class DrawerActivity extends AppCompatActivity {
         }
     }
 
-    //TODO:Выйти из приложения
     public void ClickLogout(View view) {
-        //Close app
-        XTools.logout(this);
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+            builder.setTitle("Logout");
+            builder.setMessage("Are u sure?");
+
+            builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    SettingsActivity.setUser(getApplicationContext(), null);
+                    finishAffinity();
+                    System.exit(0);
+                }
+            });
+            builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    //Dismiss dialog
+                    dialog.dismiss();
+                }
+            });
+
+            builder.show();
     }
+
+    @Override
+    public void onBackPressed(){
+        if(drawerLayout.isDrawerOpen(GravityCompat.START)){
+            drawerLayout.closeDrawer(GravityCompat.START);
+            Log.i("LOOK HERE: DA", "Side menu was CLOSED");
+        } else {
+            Log.i("LOOK HERE: DA", "App was closed");
+            finishAffinity();
+            System.exit(0);
+        }
+    }
+
 }

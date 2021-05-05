@@ -32,6 +32,7 @@ public class LaterCallsActivity extends DrawerActivity {
         setContentView(R.layout.activity_later_calls);
         super.drawerLayout = findViewById(R.id.drawer_layout);
         super.className = className;
+        setNickname();
         Log.i("LOOK HERE: LCA", "Opened activity is: " + className);
 
         //Assign variable
@@ -111,8 +112,4 @@ public class LaterCallsActivity extends DrawerActivity {
             Log.i("LOOK HERE: LCA", "poc number is: " + nextOneCall.getId());
         }
     }
-
-    @Override
-    public void onBackPressed(){}
-
 }

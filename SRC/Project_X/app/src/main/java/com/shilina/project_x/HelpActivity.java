@@ -20,12 +20,10 @@ public class HelpActivity extends DrawerActivity {
         setContentView(R.layout.activity_help);
         super.drawerLayout = findViewById(R.id.drawer_layout);
         super.className = className;
+        setNickname();
         Log.i("LOOK HERE: HA", "Opened activity is: " + className);
 
         TextView textById = findViewById(R.id.nameOfWindow);
         textById.setText("Помощь");
     }
-
-    @Override
-    public void onBackPressed(){}
 }

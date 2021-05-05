@@ -19,12 +19,10 @@ public class StatusPremActivity extends DrawerActivity {
         setContentView(R.layout.activity_status);
         super.drawerLayout = findViewById(R.id.drawer_layout);
         super.className = className;
+        setNickname();
         Log.i("LOOK HERE: SPA", "Opened activity is: " + className);
 
         TextView textById = findViewById(R.id.nameOfWindow);
         textById.setText("Мой статус");
     }
-
-    @Override
-    public void onBackPressed(){}
 }

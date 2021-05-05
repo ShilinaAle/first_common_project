@@ -13,9 +13,9 @@
         android:onClick="onLogoClick" />
 
     <TextView
+        android:id="@+id/nickname"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="nickname"
         android:textSize="20sp"
         android:textStyle="bold"
         android:textAlignment="center"

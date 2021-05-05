@@ -20,13 +20,10 @@ public class AboutUsActivity extends DrawerActivity {
         setContentView(R.layout.activity_about_us);
         super.drawerLayout = findViewById(R.id.drawer_layout);
         super.className = className;
+        setNickname();
         Log.i("LOOK HERE: AUA", "Opened activity is: " + className);
 
         TextView textById = findViewById(R.id.nameOfWindow);
         textById.setText("О разработчиках");
     }
-
-    @Override
-    public void onBackPressed(){}
-
 }
