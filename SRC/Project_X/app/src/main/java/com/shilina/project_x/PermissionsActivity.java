@@ -16,6 +16,7 @@ import android.os.PowerManager;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.Toast;
@@ -31,44 +32,43 @@ public class PermissionsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         SettingsActivity.chooseTheme(this);
+        setContentView(R.layout.activity_permissions);
+        permSwitcher = findViewById(R.id.switch1);
+        //Метод обработки смены значения кнопки
+        permSwitcher.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (permSwitcher.isChecked()) {
+                    if (!isPermissionsGranted(all_permissions_str)) {
+                        givePermissions();
+                    }
+                }
+            }
+        });
 
         callingActivity = getIntent().getStringExtra("calling-activity");
         Log.i("LOOK HERE: PermissionsActivity", "CALLING ACT IS: " + callingActivity);
+        Log.i("LOOK HERE: PermissionsActivity", "Settings className IS: " + SettingsActivity.className);
 
-        if (callingActivity == null && isPermissionsGranted(all_permissions_str) && android.provider.Settings.canDrawOverlays(this)) {
-            onContinueClick(new View(getApplicationContext()));
-        } else {
-            Log.i("LOOK HERE: PermissionsActivity", "Settings className IS: " + SettingsActivity.className);
-            Log.i("LOOK HERE: PermissionsActivity", "" + SettingsActivity.isAuthorised(this));
-            setContentView(R.layout.activity_permissions);
-            permSwitcher = findViewById(R.id.switch1);
-            //Метод обработки смены значения кнопки
-            permSwitcher.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if (permSwitcher.isChecked()) {
-                        if (!isPermissionsGranted(all_permissions_str)) {
-                            givePermissions();
-                        }
-                    }
+        if (isPermissionsGranted(all_permissions_str)) {
+            if (android.provider.Settings.canDrawOverlays(this)) {
+                if (callingActivity == null) {
+                    onContinueClick(new View(getApplicationContext()));
                 }
-            });
+            }
+        }else {
+            permSwitcher.setChecked(false);
         }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if (callingActivity != null) {
-            if (callingActivity.equals(SettingsActivity.className)) {
-                permSwitcher.setChecked(false);
-                if (!isPermissionsGranted(all_permissions_str)) {
-                    permSwitcher.setChecked(false);
-                    Toast.makeText(getApplicationContext(), "Еще не ВСЕ разрешения приняты", Toast.LENGTH_SHORT).show();
-                } else {
-                    permSwitcher.setChecked(true);
-                }
-            }
+        if (isPermissionsGranted(all_permissions_str)) {
+                permSwitcher.setChecked(true);
+        } else {
+            permSwitcher.setChecked(false);
+            Toast.makeText(getApplicationContext(), "Еще не ВСЕ разрешения предоставлены", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -84,18 +84,12 @@ public class PermissionsActivity extends AppCompatActivity {
         if (isPermissionsGranted(all_permissions_str) && android.provider.Settings.canDrawOverlays(this)) {
             Intent service = new Intent(this, BroadcastService.class);
             this.startService(service);
-            //Open sign in
-            if (SettingsActivity.isAuthorised(this)) {
-                Intent intent = new Intent(this, LaterCallsActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-            } else {
-                Intent intent = new Intent(this, LoginActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-            }
-            Log.i("LOOK HERE: PermissionsActivity", "" + SettingsActivity.isAuthorised(this));
+            Intent intent = new Intent(this, LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
             Toast.makeText(getApplicationContext(), "Разрешения находятся в разделе \"Найстроки\"", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(getApplicationContext(), "Еще не ВСЕ разрешения предоставлены", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -218,6 +212,9 @@ public class PermissionsActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onBackPressed(){}
+    public void onBackPressed(){
+        Log.i("LOOK HERE: DA", "App was closed");
+        finishAffinity();
+    }
 
 }

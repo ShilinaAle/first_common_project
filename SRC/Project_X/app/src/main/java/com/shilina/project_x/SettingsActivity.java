@@ -138,7 +138,6 @@ public class SettingsActivity extends DrawerActivity {
         setAllDefault(getApplicationContext());
         startActivity(getIntent());
         finish();
-        Toast.makeText(getApplicationContext(), "Настройки сброшены", Toast.LENGTH_SHORT).show();
     }
 
     public void onPermissionsClick(View view) {

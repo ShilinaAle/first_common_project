@@ -123,13 +123,11 @@ public class DrawerActivity extends AppCompatActivity {
                 public void onClick(DialogInterface dialog, int which) {
                     SettingsActivity.setUser(getApplicationContext(), null);
                     finishAffinity();
-                    System.exit(0);
                 }
             });
             builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    //Dismiss dialog
                     dialog.dismiss();
                 }
             });
@@ -145,7 +143,6 @@ public class DrawerActivity extends AppCompatActivity {
         } else {
             Log.i("LOOK HERE: DA", "App was closed");
             finishAffinity();
-            System.exit(0);
         }
     }
 

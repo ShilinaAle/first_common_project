@@ -43,11 +43,12 @@ public class LoginActivity extends AppCompatActivity {
             //TODO: Если этот пользователь заходил с этого утсройства, то загрузить настройки с сервера иначе:
             //SettingsActivity.setAllDefault(this, androidId);
 
-            Toast.makeText(getApplicationContext(), "Вход выполнен!", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(this, LaterCallsActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
             finish();
+        } else {
+            Toast.makeText(getApplicationContext(), "Неверные данные", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -57,5 +58,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onBackPressed(){}
+    public void onBackPressed(){
+        Log.i("LOOK HERE: DA", "App was closed");
+        finishAffinity();
+    }
 }
