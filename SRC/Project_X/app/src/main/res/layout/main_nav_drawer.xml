@@ -142,7 +142,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center_vertical"
-        android:onClick="ClickLogout">
+        android:onClick="onLogoutClick">
 
         <TextView
             android:layout_width="0dp"

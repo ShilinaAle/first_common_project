@@ -3,6 +3,7 @@ package com.shilina.project_x;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.view.GravityCompat;
 
 import android.Manifest;
 import android.content.ComponentName;
@@ -215,4 +216,8 @@ public class PermissionsActivity extends AppCompatActivity {
             Toast.makeText(this, "На вашем телефоне это не нужно", Toast.LENGTH_SHORT).show();
         }
     }
+
+    @Override
+    public void onBackPressed(){}
+
 }
