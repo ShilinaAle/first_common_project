@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
@@ -119,10 +120,25 @@ public class SettingsActivity extends DrawerActivity {
 
     }
 
+    public void onPasswordChangeClick(View view) {
+        String pass1 = ((EditText) findViewById(R.id.settings_password)).getText().toString();
+        String pass2 = ((EditText) findViewById(R.id.settings_password_check)).getText().toString();
+        if (pass1.equals(pass2)) {
+            //TODO:сменить пароль на сервере
+            Toast.makeText(getApplicationContext(), "Пароль был изменен", Toast.LENGTH_SHORT).show();
+            Log.i("LOOK HERE: SettingsActivity", "Password was changed");
+        } else {
+            Toast.makeText(getApplicationContext(), "Пароли не совпадают", Toast.LENGTH_SHORT).show();
+            Log.i("LOOK HERE: SettingsActivity", "Password was NOT changed");
+        }
+
+    }
+
     public void onResetClick(View view){
         setAllDefault(getApplicationContext());
         startActivity(getIntent());
         finish();
+        Toast.makeText(getApplicationContext(), "Настройки сброшены", Toast.LENGTH_SHORT).show();
     }
 
     public void onPermissionsClick(View view) {
@@ -199,4 +215,5 @@ public class SettingsActivity extends DrawerActivity {
         String androidId = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
         Log.i("LOOK HERE: SettingsActivity", "Settings are set to default");
     }
+
 }

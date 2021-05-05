@@ -20,7 +20,7 @@
             android:id="@+id/theme"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="2"
+            android:layout_weight="1"
             android:orientation="horizontal">
             <TextView
                 android:id="@+id/textTheme"
@@ -28,18 +28,14 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@layout/main_toolbar"
                 android:layout_marginLeft="50dp"
-                android:layout_marginTop="50dp"
-                android:layout_marginVertical="20dp"
                 android:text="Тема"
                 android:textSize="14dp" />
             <Spinner
                 android:id="@+id/spinnerTheme"
                 android:layout_width="80pt"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="50dp"
                 android:layout_marginLeft="100dp"
-                android:layout_marginRight="100dp"
-                android:layout_marginVertical="20dp" />
+                android:layout_marginRight="100dp" />
         </LinearLayout>
 
 
@@ -50,7 +46,7 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:layout_marginLeft="50dp"
-            android:layout_marginVertical="10dp"
+            android:layout_marginVertical="5dp"
             android:text="Переносить во время мероприятий:"
             android:textSize="14dp" />
         <RadioGroup
@@ -58,7 +54,6 @@
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_marginLeft="50dp"
-            android:layout_marginTop="10dp"
             android:layout_weight="2"
             app:layout_constraintTop_toBottomOf="@id/textModeIn">
             <RadioButton
@@ -82,13 +77,13 @@
             android:layout_weight="1"
             android:layout_marginLeft="50dp"
             android:text="Переносить вне мероприятий:"
-            android:textSize="14dp" />
+            android:textSize="14dp"
+            android:layout_marginVertical="5dp"/>
         <RadioGroup
             android:id="@+id/modeOut"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_marginLeft="50dp"
-            android:layout_marginTop="10dp"
             android:layout_weight="2"
             app:layout_constraintTop_toBottomOf="@id/textModeOut">
             <RadioButton
@@ -104,25 +99,29 @@
                 android:checked="true" />
         </RadioGroup>
 
-<!--
-        <CheckBox
-            android:id="@+id/noSound"
-            android:layout_width="match_parent"
+        <EditText
+            android:id="@+id/settings_password"
+            android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:layout_weight="1"
-            android:layout_marginLeft="50dp"
-            android:layout_marginTop="10dp"
-            android:text="Включать беззвучный режим" />
+            android:layout_weight="1.5"
+            android:ems="10"
+            android:hint="Пароль"
+            android:inputType="textPassword"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginVertical="5dp"
+            android:textSize="14dp" />
 
-        <CheckBox
-            android:id="@+id/sync"
-            android:layout_width="match_parent"
+        <EditText
+            android:id="@+id/settings_password_check"
+            android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:layout_weight="1"
-            android:layout_marginLeft="50dp"
-            android:layout_marginTop="10dp"
-            android:text="Синхронизировать" />
--->
+            android:layout_weight="1.5"
+            android:ems="10"
+            android:hint="Повторите пароль"
+            android:inputType="textPassword"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginVertical="5dp"
+            android:textSize="14dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -130,19 +129,27 @@
             android:layout_weight="6"
             android:orientation="vertical">
             <Button
+                android:id="@+id/password_change_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginVertical="5dp"
+                android:onClick="onPasswordChangeClick"
+                android:text="Сменить пароль" />
+            <Button
                 android:id="@+id/reset_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="20dp"
-                android:text="Сбросить настройки"
-                android:onClick="onResetClick"/>
+                android:layout_marginVertical="5dp"
+                android:onClick="onResetClick"
+                android:text="Сбросить настройки" />
             <Button
                 android:id="@+id/button5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="10dp"
+                android:layout_marginVertical="5dp"
                 android:onClick="onPermissionsClick"
                 android:text="Посмотреть разрешения" />
         </LinearLayout>
