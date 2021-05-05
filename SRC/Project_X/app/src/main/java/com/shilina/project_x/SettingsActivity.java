@@ -1,25 +1,17 @@
 package com.shilina.project_x;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.Arrays;
 
@@ -27,13 +19,14 @@ public class SettingsActivity extends DrawerActivity {
 
     public static final String className = Thread.currentThread().getStackTrace()[2].getClassName();
     public static final String SP_FILE = "Accaunt";
-    public static final String SP_NAME = "Name";
     public static final String SP_THEME = "Theme";
     public static final String[] SP_THEMES = new String[] {"Shark", "Raccoon", "Panther"};
     public static final String SP_MODE_IN = "ModeIn";
     public static final String[] SP_MODES_IN = new String[] {"Hand", "Auto"};
     public static final String SP_MODE_OUT = "ModeOut";
     public static final String[] SP_MODES_OUT = new String[] {"Hand", "Off"};
+    public static final String SP_USER = "User";
+    public static final String SP_PREMIUM = "Premium"; //bool
     SharedPreferences sp_settings;
     SharedPreferences.Editor prefEditor;
 
@@ -44,6 +37,7 @@ public class SettingsActivity extends DrawerActivity {
         setContentView(R.layout.activity_settings);
         super.drawerLayout = findViewById(R.id.drawer_layout);
         super.className = className;
+        setNickname();
         Log.i("LOOK HERE: SettingsActivity", "Opened activity is: " + className);
 
         TextView textById = findViewById(R.id.nameOfWindow);
@@ -125,7 +119,6 @@ public class SettingsActivity extends DrawerActivity {
         finish();
     }
 
-
     public static void chooseTheme(Context context){
         SharedPreferences sp_settings = context.getSharedPreferences(SP_FILE, MODE_PRIVATE);
         String sp_theme = sp_settings.getString(SP_THEME, SP_THEMES[0]);
@@ -141,6 +134,46 @@ public class SettingsActivity extends DrawerActivity {
                 break;
         }
         Log.i("LOOK HERE: SettingsActivity", "Cur Theme is: " + sp_theme);
+    }
+
+    public static void setUser(Context context, String user) {
+        SharedPreferences sp_settings = context.getSharedPreferences(SP_FILE, MODE_PRIVATE);
+        SharedPreferences.Editor prefEditor = sp_settings.edit();;
+        prefEditor.putString(SP_USER, user);
+        prefEditor.apply();
+        Log.i("LOOK HERE: SettingsActivity", "Authorise as: " + user);
+    }
+
+    public static String getUser(Context context) {
+        SharedPreferences sp_settings = context.getSharedPreferences(SP_FILE, MODE_PRIVATE);
+        String sp_user = sp_settings.getString(SP_USER, null);
+        Log.i("LOOK HERE: SettingsActivity", "Authorised as: " + sp_user);
+        return sp_user;
+    }
+
+    public static boolean isAuthorised(Context context){
+        if (getUser(context) == null){
+            Log.i("LOOK HERE: SettingsActivity", "NOT Authorised");
+            return false;
+        } else {
+            Log.i("LOOK HERE: SettingsActivity", "Authorised");
+            return true;
+        }
+    }
+
+    public static void setPremium(Context context, boolean value) {
+        SharedPreferences sp_settings = context.getSharedPreferences(SP_FILE, MODE_PRIVATE);
+        SharedPreferences.Editor prefEditor = sp_settings.edit();;
+        prefEditor.putBoolean(SP_PREMIUM, value);
+        prefEditor.apply();
+        Log.i("LOOK HERE: SettingsActivity", "Premium now: " + value);
+    }
+
+    public static boolean isPremium(Context context) {
+        SharedPreferences sp_settings = context.getSharedPreferences(SP_FILE, MODE_PRIVATE);
+        boolean sp_premium = sp_settings.getBoolean(SP_USER, false);
+        Log.i("LOOK HERE: SettingsActivity", "Premium is: " + sp_premium);
+        return sp_premium;
     }
 
 }
