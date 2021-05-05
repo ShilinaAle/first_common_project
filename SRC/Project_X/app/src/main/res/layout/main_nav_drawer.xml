@@ -41,7 +41,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Отложенные звонки"
+            android:text="Планирование звонков"
             android:padding="12dp"
             android:layout_marginStart="16dp"/>
         <ImageView

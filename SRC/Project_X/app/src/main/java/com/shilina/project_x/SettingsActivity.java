@@ -12,6 +12,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Arrays;
 
@@ -45,6 +46,8 @@ public class SettingsActivity extends DrawerActivity {
         sp_settings = getSharedPreferences(SP_FILE, MODE_PRIVATE);
         prefEditor = sp_settings.edit();
 
+        //TODO: Получение данных с сервера
+
         //Обработка смены темы
         String sp_theme = sp_settings.getString(SP_THEME, SP_THEMES[0]);
         String curTheme = sp_theme;
@@ -58,10 +61,15 @@ public class SettingsActivity extends DrawerActivity {
                 String newTheme = SP_THEMES[selectedItemPosition];
                 Log.i("LOOK HERE: SettingsActivity", "Cur Theme is: " + curTheme + "\nNew Theme is: " + newTheme);
                 if (!curTheme.equals(newTheme)) {
-                    prefEditor.putString(SP_THEME, newTheme);
-                    prefEditor.apply();
-                    finish();
-                    startActivity(getIntent());
+                    if (isPremium(getApplicationContext())) {
+                        prefEditor.putString(SP_THEME, newTheme);
+                        prefEditor.apply();
+                        finish();
+                        startActivity(getIntent());
+                    } else {
+                        spinnerThemes.setSelection(0);
+                        Toast.makeText(getApplicationContext(), "Чтобы сменить тему, купите премиум", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
             public void onNothingSelected(AdapterView<?> parent) {
@@ -171,7 +179,7 @@ public class SettingsActivity extends DrawerActivity {
 
     public static boolean isPremium(Context context) {
         SharedPreferences sp_settings = context.getSharedPreferences(SP_FILE, MODE_PRIVATE);
-        boolean sp_premium = sp_settings.getBoolean(SP_USER, false);
+        boolean sp_premium = sp_settings.getBoolean(SP_PREMIUM, false);
         Log.i("LOOK HERE: SettingsActivity", "Premium is: " + sp_premium);
         return sp_premium;
     }
