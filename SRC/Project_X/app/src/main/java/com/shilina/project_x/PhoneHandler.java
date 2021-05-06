@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 
@@ -110,25 +111,29 @@ public class PhoneHandler extends BroadcastReceiver {
     public void onIncomingCallReceived(Context context, String phoneNumber, Date start) {
         Log.i("LOOK HERE: PhoneHandler", "Incoming call has been received");
         //TODO: Проверка мероприятия в календаре
-        boolean isBusyNow = false;
-        SharedPreferences sp_settings = context.getSharedPreferences(SettingsActivity.SP_FILE, Context.MODE_PRIVATE);
-        String curModeIn = sp_settings.getString(SettingsActivity.SP_MODE_IN, SettingsActivity.SP_MODES_IN[0]);
-        String curModeOut = sp_settings.getString(SettingsActivity.SP_MODE_OUT, SettingsActivity.SP_MODES_OUT[0]);
-        if (!isBusyNow && (curModeOut.equals(SettingsActivity.SP_MODES_OUT[1]))) {
-            Log.i("LOOK HERE: PhoneHandler", "Mode for Out = OFF");
-        }
-        else if (isBusyNow && (curModeIn.equals(SettingsActivity.SP_MODES_IN[1]))) {
-            Log.i("LOOK HERE: PhoneHandler", "Mode for In = Auto");
-            //TODO: Окно со звонка с возможностью выбрать номер телефона
-            //TODO: Добавление на сервер
-            //TODO: Добавление в календарь
-            String recepient = phoneNumber;
-            String message = "С вами запланирован звонок - new";
-            //SMSHandler.sendSMS(getApplicationContext(), recipient, message);
+        if (SettingsActivity.isAuthorised(context)) {
+            SharedPreferences sp_settings = context.getSharedPreferences(SettingsActivity.SP_FILE, Context.MODE_PRIVATE);
+            String curModeIn = sp_settings.getString(SettingsActivity.SP_MODE_IN, SettingsActivity.SP_MODES_IN[0]);
+            String curModeOut = sp_settings.getString(SettingsActivity.SP_MODE_OUT, SettingsActivity.SP_MODES_OUT[0]);
+            boolean isBusyNow = false;
+
+            if (!isBusyNow && (curModeOut.equals(SettingsActivity.SP_MODES_OUT[1]))) {
+                Log.i("LOOK HERE: PhoneHandler", "Mode for Out = OFF");
+            } else if (isBusyNow && (curModeIn.equals(SettingsActivity.SP_MODES_IN[1]))) {
+                Log.i("LOOK HERE: PhoneHandler", "Mode for In = Auto");
+                //TODO: Окно со звонка с возможностью выбрать номер телефона
+                //TODO: Добавление на сервер
+                //TODO: Добавление в календарь
+                String recepient = phoneNumber;
+                String message = "С вами запланирован звонок - new";
+                //SMSHandler.sendSMS(getApplicationContext(), recipient, message);
+            } else {
+                Log.i("LOOK HERE: PhoneHandler", "Mode = Hand");
+                createLayout(context);
+                addButton(context, start);
+            }
         } else {
-            Log.i("LOOK HERE: PhoneHandler", "Mode = Hand");
-            createLayout(context);
-            addButton(context, start);
+            Toast.makeText(context, "Пожалуйста, авторизуйтесь в Project_X", Toast.LENGTH_SHORT).show();
         }
     }
 

@@ -68,6 +68,8 @@ public class PermissionsActivity extends AppCompatActivity {
                 permSwitcher.setChecked(true);
         } else {
             permSwitcher.setChecked(false);
+            Intent service = new Intent(getApplicationContext(), BroadcastService.class);
+            stopService(service);
             Toast.makeText(getApplicationContext(), "Еще не ВСЕ разрешения предоставлены", Toast.LENGTH_SHORT).show();
         }
     }
@@ -89,6 +91,8 @@ public class PermissionsActivity extends AppCompatActivity {
             startActivity(intent);
             Toast.makeText(getApplicationContext(), "Разрешения находятся в разделе \"Найстроки\"", Toast.LENGTH_SHORT).show();
         } else {
+            Intent service = new Intent(getApplicationContext(), BroadcastService.class);
+            stopService(service);
             Toast.makeText(getApplicationContext(), "Еще не ВСЕ разрешения предоставлены", Toast.LENGTH_SHORT).show();
         }
     }
