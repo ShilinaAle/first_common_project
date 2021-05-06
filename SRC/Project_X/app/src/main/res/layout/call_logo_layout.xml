@@ -4,10 +4,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:id="@+id/call_layout">
+    android:id="@+id/call_logo_layout">
 
     <com.shilina.project_x.LogoView
-        android:id="@+id/call_button"
+        android:id="@+id/call_logo_button"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintLeft_toLeftOf="parent"

@@ -24,6 +24,7 @@ public class LaterCallsActivity extends DrawerActivity {
     public static final String className = Thread.currentThread().getStackTrace()[2].getClassName();
     public static ArrayList<OneCall> plannedCallsList = new ArrayList<>();
     LinearLayout oneCallLayout;
+    public static PlanCallLayout planLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +68,9 @@ public class LaterCallsActivity extends DrawerActivity {
         plannedCallViewButton.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View view) {
+                planLayout = new PlanCallLayout(getApplicationContext());
+                planLayout.addBubble();
+
                 //TODO: Окно со звонка с возможностью выбрать номер телефона
                 //TODO: Добавление на сервер
                 //TODO: Добавление в календарь

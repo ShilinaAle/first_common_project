@@ -34,12 +34,7 @@ public class PhoneHandler extends BroadcastReceiver {
     public static String phoneNumber;
     public static Date callStartTime;
     public static boolean isIncoming = false;
-
-    //Переменные для управления всплывающими окнами
-    public static WindowManager windowMan;
-    public static LayoutInflater layInflater;
-    public static WindowManager.LayoutParams layPar;
-    public static ViewGroup callLayout;
+    public static PlanCallLayout callLayout;
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -129,8 +124,8 @@ public class PhoneHandler extends BroadcastReceiver {
                 //SMSHandler.sendSMS(getApplicationContext(), recipient, message);
             } else {
                 Log.i("LOOK HERE: PhoneHandler", "Mode = Hand");
-                createLayout(context);
-                addButton(context, start);
+                callLayout = new PlanCallLayout(context);
+                callLayout.addButton();
             }
         } else {
             Toast.makeText(context, "Пожалуйста, авторизуйтесь в Project_X", Toast.LENGTH_SHORT).show();
@@ -140,7 +135,7 @@ public class PhoneHandler extends BroadcastReceiver {
     //Обработка начала входящего разговора
     public void onIncomingCallAnswered(Context context, String phoneNumber, Date startTime) {
         Log.i("LOOK HERE: PhoneHandler", "Incoming call has been answered");
-        removeButton(); //Удаляем всплывающее окно
+        callLayout.removePCL(); //Удаляем всплывающее окно
     }
 
     //Обработка окончания входящего разговора
@@ -165,128 +160,13 @@ public class PhoneHandler extends BroadcastReceiver {
         clearAll();
     }
 
-    //Создание управления окном
-    public void createLayout(Context context) {
-        windowMan = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE); //Получаем сервис управления окном
-        layInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE); //Получаем сервис управления макетом
-
-        Log.i("LOOK HERE: PhoneHandler", "Inflater has been created");
-    }
-
-    //Метод добавления кнопки
-    public void addButton(final Context context, final Date startTime) {
-        Log.i("LOOK HERE: PhoneHandler", "Button has been created");
-        //Присваиваем картинке обработчик нажатия
-        callLayout = (ViewGroup) layInflater.inflate(R.layout.call_layout, null);
-
-        int width = windowMan.getDefaultDisplay().getWidth(); //Ширина дисплея
-        int height = windowMan.getDefaultDisplay().getHeight(); //Высота дисплея
-
-        layPar = new WindowManager.LayoutParams( //Задаем параметры отображения
-                (int) (width / 4), (int) (height / 4),
-                WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,// Говорим, что приложение будет поверх других. В поздних API > 26, данный флаг перенесен на TYPE_APPLICATION_OVERLAY
-                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
-                        | WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED,  // Необходимо для того чтобы TouchEvent'ы в пустой области передавались на другие приложения
-                PixelFormat.TRANSLUCENT); // Само окно прозрачное
-
-        windowMan.addView(callLayout, layPar);
-        LogoView button_img = callLayout.findViewById(R.id.call_button);
-        button_img.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.O_MR1)
-            @Override
-            public void onClick(View v) {
-                Log.i("LOOK HERE: PhoneHandler", "Button has been touched!");
-
-                removeButton();
-                addBubble(context, startTime);
-            }
-        });
-    }
-
-    //Метод удаления кнопки
-    public void removeButton() {
-        try {
-            windowMan.removeView(callLayout); //Удаляем раздутый макет из окна
-            Log.i("LOOK HERE: PhoneHandler", "Button has been removed");
-        } catch (IllegalArgumentException e) {
-            Log.i("LOOK HERE: PhoneHandler", "Button has not found");
-        } catch (NullPointerException e) {
-            Log.i("LOOK HERE: PhoneHandler", "windowMan has not found");
-        }
-    }
-
-    //Метод добавления текстового пузыря
-    public void addBubble(final Context context, final Date startTime) {
-        Log.i("LOOK HERE: PhoneHandler", "Bubble has been created");
-        callLayout = (ViewGroup) layInflater.inflate(R.layout.bubble, null);
-
-        int width = windowMan.getDefaultDisplay().getWidth(); //Ширина дисплея
-        int height = windowMan.getDefaultDisplay().getHeight(); //Высота дисплея
-
-        Log.i("LOOK HERE: PhoneHandler", "Ширина\nэкрана: " + width + "\nокна: " + width * 90 / 100);
-        Log.i("LOOK HERE: PhoneHandler", "Высота\nэкрана: " + height + "\nокна: " + height * 30 / 100);
-
-        layPar = new WindowManager.LayoutParams( //Задаем параметры отображения
-                width * 90 / 100, height * 30 / 100,
-                WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,// Говорим, что приложение будет поверх других. В поздних API > 26, данный флаг перенесен на TYPE_APPLICATION_OVERLAY
-                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
-                        | WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED,  // Необходимо для того чтобы TouchEvent'ы в пустой области передавались на другие приложения
-                PixelFormat.TRANSLUCENT); // Само окно прозрачное
-
-        windowMan.addView(callLayout, layPar);
-        final TextView text = callLayout.findViewById(R.id.bubble_text);
-
- /*       int[] timeToSet_str;
-        Button buttonSend = callLayout.findViewById(R.id.bubble_button_send);
-        buttonSend.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.P)
-            @Override
-            public void onClick(View v) {
-                if (timeToSet_str[0] == null) {
-                    Toast.makeText(context, "Пожалуйста, выберите время", Toast.LENGTH_SHORT).show();
-                    return;
-                } else {
-                    addEvent(context, timeToSet_str[0], freeTimeTZ, finalStartTimeStr);
-                    String recipient = phoneNumber;
-                    sendSMS(context, recipient, text.getText().toString());
-                    //sendTelegram(context, recipient, text.getText().toString());
-                    TelecomManager teleMan = (TelecomManager) context.getSystemService(Context.TELECOM_SERVICE);
-                    teleMan.endCall();
-                }
-            }
-        });
-*/
-        //TODO: Календарь. Строки 296-521 оригинального кода. Вынести в отдельный класс
-
-    }
-
-    //Метод удаления текстового пузыря
-    public void removeBubble() {
-        try {
-            windowMan.removeView(callLayout); //Удаляем раздутый макет из окна
-            Log.i("LOOK HERE: PhoneHandler", "Bubble has been removed");
-        } catch (IllegalArgumentException e) {
-            Log.i("LOOK HERE: PhoneHandler", "Bubble has not found");
-        } catch (NullPointerException e) {
-            Log.i("LOOK HERE: PhoneHandler", "windowMan has not found");
-        }
-    }
-
-    //Очистка экземпляра
+    //Очистка сессии
     public void clearAll() {
-
-        //Очищаем экран
-        removeButton();
-        removeBubble();
-
         //Восстанавливаем переменные
         index = 0;
         phoneNumber = null;
-
-        windowMan = null;
-        layInflater = null;
-        layPar = null;
+        callStartTime = null;
+        callLayout.removePCL();
         callLayout = null;
-
     }
 }
