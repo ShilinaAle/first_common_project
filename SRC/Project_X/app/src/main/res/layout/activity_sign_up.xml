@@ -19,6 +19,16 @@
         android:inputType="textPersonName" />
 
     <EditText
+        android:id="@+id/phone_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="30dp"
+        android:ems="10"
+        android:hint="Номер телефона"
+        android:inputType="textPersonName" />
+
+    <EditText
         android:id="@+id/enterPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
