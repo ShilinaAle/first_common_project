@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.Project_X" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    <style name="Theme.Project_X" parent="Theme.AppCompat.DayNight.DarkActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/purple_500</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
@@ -11,11 +11,16 @@
         <item name="colorOnSecondary">@color/black</item>
         <!-- StatusActivity bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
-        <!-- Customize your theme here. -->
+        <!-- Logo and gradients. -->
         <item name="logoSrc">@drawable/logo_shark</item>
+        <item name="onGradientStart">#1455af</item>
+        <item name="onGradientEnd">#46a5e6</item>
+        <item name="offGradientStart">#557d9b</item>
+        <item name="offGradientEnd">#c3d7e6</item>
+        <item name="drawerBackground">#c3d7e6</item>
     </style>
 
-    <style name="Theme.Project_X_enot"  parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    <style name="Theme.Project_X_enot"  parent="Theme.AppCompat.DayNight.DarkActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/enot1</item>
         <item name="colorPrimaryVariant">@color/enotDark</item>
@@ -26,19 +31,22 @@
         <item name="colorOnSecondary">@color/black</item>
         <!-- StatusActivity bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
-        <item name="backgroundTint">@color/enotDark</item>
+        <!-- Logo and gradients. -->
         <item name="logoSrc">@drawable/logo_enot</item>
+        <item name="onGradientStart">@color/enotDark</item>
+        <item name="onGradientEnd">@color/enot1</item>
+        <item name="offGradientStart">@color/enotoOnSecDark</item>
+        <item name="offGradientEnd">@color/enot2</item>
+        <item name="drawerBackground">@color/material_on_primary_emphasis_medium</item>
     </style>
 
-    <style name="Theme.Project_X_pantera"  parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    <style name="Theme.Project_X_pantera"  parent="Theme.AppCompat.DayNight.DarkActionBar">
         <!-- Primary brand color.
         <item name="colorOnBackground">#63636a</item> -->
         <!--<item name="android:text">@color/white</item>-->
         <item name="colorAccent">@color/white</item>
         <!--фон-->
         <item name="android:colorBackground">@color/pantera_back</item>
-        <!--> поля в звонках-->
-        <item name="backgroundTint">@color/black</item>
         <!--> -->
         <item name="colorOnBackground">@color/white</item>
         <item name="colorPrimary">#39393f</item>
@@ -51,10 +59,14 @@
         <item name="colorOnSecondary">@color/black</item>
         <item name="android:toolbarStyle">@color/pantera_back</item>
         <item name="tooltipFrameBackground">@color/pantera_back</item>
-
         <!-- StatusActivity bar color.-->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
-        <!-- Customize your theme here. -->
+        <!-- Logo and gradients. -->
         <item name="logoSrc">@drawable/logo_pantera</item>
+        <item name="onGradientStart">#39393f</item>
+        <item name="onGradientEnd">#464650</item>
+        <item name="offGradientStart">#464650</item>
+        <item name="offGradientEnd">@color/pantera_back</item>
+        <item name="drawerBackground">@color/pantera_back</item>
     </style>
 </resources>

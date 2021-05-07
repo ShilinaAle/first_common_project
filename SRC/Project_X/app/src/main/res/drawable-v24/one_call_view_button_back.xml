@@ -12,8 +12,8 @@
                 android:bottomRightRadius="5pt" />
 
             <gradient
-                android:startColor="#1455af"
-                android:endColor="#46a5e6"
+                android:startColor="?attr/onGradientStart"
+                android:endColor="?attr/onGradientEnd"
                 android:angle="180" />
 
         </shape>
@@ -28,8 +28,8 @@
                 android:bottomRightRadius="5pt" />
 
             <gradient
-                android:startColor="#557d9b"
-                android:endColor="#c3d7e6"
+                android:startColor="?attr/offGradientStart"
+                android:endColor="?attr/offGradientEnd"
                 android:angle="0" />
 
         </shape>

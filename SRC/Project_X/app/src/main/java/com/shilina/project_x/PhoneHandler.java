@@ -40,8 +40,6 @@ public class PhoneHandler extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         Log.i("LOOK HERE: PhoneHandler", index++ + " example of PH has been created");
 
-        SettingsActivity.chooseTheme(context);
-
         //Определение нового состояния телефона относительно звонка
         String state_str = intent.getExtras().getString(TelephonyManager.EXTRA_STATE);
         int stateNew = TelephonyManager.CALL_STATE_IDLE;
