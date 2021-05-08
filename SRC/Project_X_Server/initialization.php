@@ -1,7 +1,7 @@
 <?php
 // Здесь процессы, которые необходимо выполнять при каждом обращении к серверу
 require "libs/rb-mysql.php";
-R::setup( 'mysql:host=localhost;dbname=project_x', 'root', '' );
+R::setup( 'mysql:host=192.168.3.7;dbname=caller', 'root', '' );
 
 session_start();
 
