@@ -22,21 +22,21 @@
         android:id="@+id/enterPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="30dp"
         android:ems="10"
         android:hint="Пароль"
-        android:inputType="textPassword"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="30dp"/>
+        android:inputType="textPassword" />
 
     <EditText
         android:id="@+id/checkPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="30dp"
         android:ems="10"
         android:hint="Повторите пароль"
-        android:inputType="textPassword"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="30dp"/>
+        android:inputType="textPassword" />
 
     <Button
         android:id="@+id/signUpNow"
