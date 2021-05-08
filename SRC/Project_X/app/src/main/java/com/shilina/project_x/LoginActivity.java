@@ -61,15 +61,17 @@ public class LoginActivity extends AppCompatActivity {
 
         }
 
-//        if (username.equals(user) && et_password.getText().toString().equals(hash)) {
-//            SettingsActivity.setUser(this, username);
-//            SettingsActivity.setPremium(this, status);
-//            Toast.makeText(getApplicationContext(), "Вход выполнен!", Toast.LENGTH_SHORT).show();
-//            Intent intent = new Intent(this, LaterCallsActivity.class);
-//            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//            startActivity(intent);
-//            finish();
-//        }
+        // НУЖНО БУДЕТ УБРАТЬ ЭТОТ IF, ПОТОМУ ЧТО ОН ТЕПЕРЬ НАХОДИТСЯ В SendData И ЕСЛИ ОБРАБОТКА ЛОГИНА ИДЁТ ЧЕРЕЗ СЕРВЕР, ТО ЕГО ЗДЕС БЫТЬ НЕ ДОЛЖНО
+        // НО Т.К. СЕЙЧАС СЕРВЕР ТОЛЬКО У МЕНЯ, ТО ПОКА НЕ УБИРАЮ ОКОНЧАТЕЛЬНО.
+        if (username.equals(user) && et_password.getText().toString().equals(hash)) {
+            SettingsActivity.setUser(this, username);
+            SettingsActivity.setPremium(this, status);
+            Toast.makeText(getApplicationContext(), "Вход выполнен!", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, LaterCallsActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            finish();
+        }
     }
 
     public void GoSignUp(View view) {
