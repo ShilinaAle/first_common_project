@@ -17,7 +17,12 @@ public class StatusActivity extends DrawerActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         SettingsActivity.chooseTheme(this);
-        setContentView(R.layout.activity_status);
+        if (!SettingsActivity.isPremium(getApplicationContext())) {
+            setContentView(R.layout.activity_status);
+        } else {
+            setContentView(R.layout.activity_status_prem);
+        }
+
         super.drawerLayout = findViewById(R.id.drawer_layout);
         super.className = className;
         setNickname();
@@ -26,6 +31,11 @@ public class StatusActivity extends DrawerActivity {
         TextView textById = findViewById(R.id.nameOfWindow);
         textById.setText("Мой статус");
     }
-    public void goToBuy(View view) {
+
+    public void onPurchaseClick(View view) {
+        Log.i("LOOK HERE: SA", "Purchased premium ");
+        SettingsActivity.setPremium(this, true);
+        finish();
+        startActivity(getIntent());
     }
 }

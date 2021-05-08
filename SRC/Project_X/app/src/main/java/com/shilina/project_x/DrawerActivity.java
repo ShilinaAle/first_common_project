@@ -28,8 +28,8 @@ public class DrawerActivity extends AppCompatActivity {
     public void redirectActivity(Activity activity, Class aclass){
         Intent intent = new Intent(activity, aclass);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        activity.startActivity(intent);
         finish();
+        activity.startActivity(intent);
     }
 
     //Открыть боковое меню
@@ -112,7 +112,7 @@ public class DrawerActivity extends AppCompatActivity {
         }
     }
 
-    public void ClickLogout(View view) {
+    public void onLogoutClick(View view) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
             builder.setTitle("Logout");
@@ -122,14 +122,14 @@ public class DrawerActivity extends AppCompatActivity {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     SettingsActivity.setUser(getApplicationContext(), null);
+                    Intent service = new Intent(getApplicationContext(), BroadcastService.class);
+                    stopService(service);
                     finishAffinity();
-                    System.exit(0);
                 }
             });
             builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    //Dismiss dialog
                     dialog.dismiss();
                 }
             });
@@ -145,7 +145,6 @@ public class DrawerActivity extends AppCompatActivity {
         } else {
             Log.i("LOOK HERE: DA", "App was closed");
             finishAffinity();
-            System.exit(0);
         }
     }
 

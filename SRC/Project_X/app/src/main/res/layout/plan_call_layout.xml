@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/plan_call_layout">
+
+    <LinearLayout
+        android:id="@+id/bubble_left"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:background="@drawable/one_call_view_text_back"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/bubble_right"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.75">
+    <TextView
+        android:id="@+id/bubble_text"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:hint="Тут текст"
+        android:gravity="center"
+        android:paddingTop="5sp"
+        android:textColor="#ffffff"
+        android:textSize="12sp" />
+    <TimePicker
+        android:id="@+id/bubble_time_picker"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="6"
+        android:amPmTextColor="#FFFFFF"
+        android:background="#00FFFFFF"
+        android:timePickerMode="spinner"/>
+    <TextView
+        android:id="@+id/bubble_sign"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="Инфо из календаря"
+        android:textColor="#c3d7e6"
+        android:textSize="8sp" />
+    <EditText
+        android:id="@+id/bubble_phone"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:gravity="center"
+        android:textColor="#c3d7e6"
+        android:textSize="12sp"
+        android:hint="Номер телефона собеседника" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/bubble_right"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="@id/bubble_left"
+        app:layout_constraintLeft_toRightOf="@id/bubble_left"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/bubble_left"
+        app:layout_constraintWidth_percent="0.25">
+    <Button
+        android:id="@+id/bubble_button_send"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@drawable/one_call_view_button_back"
+        android:gravity="center"
+        android:text="Перенести"
+        android:textColor="#ffffff"
+        android:textSize="12sp"
+        app:layout_constraintWidth_percent="0.25" />
+    <Button
+        android:id="@+id/bubble_button_wait15"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@drawable/one_call_view_button_back"
+        android:gravity="center"
+        android:text="+ 15 минут"
+        android:textColor="#ffffff"
+        android:textSize="12sp"
+        app:layout_constraintWidth_percent="0.25" />
+    <Button
+        android:id="@+id/bubble_button_wait30"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@drawable/one_call_view_button_back"
+        android:gravity="center"
+        android:text="+ 30 минут"
+        android:textColor="#ffffff"
+        android:textSize="12sp"
+        app:layout_constraintWidth_percent="0.25" />
+    <Button
+        android:id="@+id/bubble_button_wait1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@drawable/one_call_view_button_back"
+        android:gravity="center"
+        android:text="+ 1 час"
+        android:textColor="#ffffff"
+        android:textSize="12sp" />
+    <Button
+        android:id="@+id/bubble_button_return"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@drawable/one_call_view_button_back"
+        android:gravity="center"
+        android:text="Отменить"
+        android:textColor="#ffffff"
+        android:textSize="12sp" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

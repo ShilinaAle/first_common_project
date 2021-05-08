@@ -3,6 +3,7 @@ package com.shilina.project_x;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,7 +22,7 @@ public class SignUpActivity extends AppCompatActivity {
     public EditText email;
     public EditText pass1;
     public EditText pass2;
-    public static String phone = "";
+    public EditText phone;
 
 //    public String[] params = {};
 
@@ -39,7 +40,7 @@ public class SignUpActivity extends AppCompatActivity {
         pass1 = (EditText) findViewById(R.id.enterPassword);
         pass2 = (EditText) findViewById(R.id.checkPassword);
         // TODO: получить номер телефона без участия пользователя
-        phone = "8" + valueOf((int) (900 + Math.random() * 99)) + valueOf((int) (Math.random() * 999)) + valueOf((int) (Math.random() * 99)) + valueOf((int) (Math.random() * 99));
+        phone = (EditText) findViewById(R.id.phone_number);
 
         btn.setOnClickListener(new View.OnClickListener()
         {
@@ -49,9 +50,8 @@ public class SignUpActivity extends AppCompatActivity {
                 email_in = email.getText().toString();
                 pass1_in = pass1.getText().toString();
                 pass2_in = pass2.getText().toString();
-                tel_in = phone;
-                // TODO: получить андроид ид
-                android_id = valueOf((int) (Math.random() * 1000));
+                tel_in = phone.getText().toString();
+                android_id = android_id = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
 
                 List<String> errors = new ArrayList<String>();
 

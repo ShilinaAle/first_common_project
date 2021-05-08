@@ -4,16 +4,21 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Arrays;
+import java.util.HashMap;
 
 public class SettingsActivity extends DrawerActivity {
 
@@ -45,6 +50,8 @@ public class SettingsActivity extends DrawerActivity {
         sp_settings = getSharedPreferences(SP_FILE, MODE_PRIVATE);
         prefEditor = sp_settings.edit();
 
+        //TODO: Отправка данных на сервер при ищменении настроек
+
         //Обработка смены темы
         String sp_theme = sp_settings.getString(SP_THEME, SP_THEMES[0]);
         String curTheme = sp_theme;
@@ -58,10 +65,15 @@ public class SettingsActivity extends DrawerActivity {
                 String newTheme = SP_THEMES[selectedItemPosition];
                 Log.i("LOOK HERE: SettingsActivity", "Cur Theme is: " + curTheme + "\nNew Theme is: " + newTheme);
                 if (!curTheme.equals(newTheme)) {
-                    prefEditor.putString(SP_THEME, newTheme);
-                    prefEditor.apply();
-                    finish();
-                    startActivity(getIntent());
+                    if (isPremium(getApplicationContext())) {
+                        prefEditor.putString(SP_THEME, newTheme);
+                        prefEditor.apply();
+                        startActivity(getIntent());
+                        finish();
+                    } else {
+                        spinnerThemes.setSelection(0);
+                        Toast.makeText(getApplicationContext(), "Чтобы сменить тему, купите премиум", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
             public void onNothingSelected(AdapterView<?> parent) {
@@ -108,11 +120,27 @@ public class SettingsActivity extends DrawerActivity {
 
     }
 
-    public void checkButton(View view){
+    public void onPasswordChangeClick(View view) {
+        String pass1 = ((EditText) findViewById(R.id.settings_password)).getText().toString();
+        String pass2 = ((EditText) findViewById(R.id.settings_password_check)).getText().toString();
+        if (pass1.equals(pass2)) {
+            //TODO:сменить пароль на сервере
+            Toast.makeText(getApplicationContext(), "Пароль был изменен", Toast.LENGTH_SHORT).show();
+            Log.i("LOOK HERE: SettingsActivity", "Password was changed");
+        } else {
+            Toast.makeText(getApplicationContext(), "Пароли не совпадают", Toast.LENGTH_SHORT).show();
+            Log.i("LOOK HERE: SettingsActivity", "Password was NOT changed");
+        }
 
     }
 
-    public void goPermissions(View view) {
+    public void onResetClick(View view){
+        setAllDefault(getApplicationContext());
+        startActivity(getIntent());
+        finish();
+    }
+
+    public void onPermissionsClick(View view) {
         Intent intent = new Intent(getApplicationContext(), PermissionsActivity.class);
         intent.putExtra("calling-activity", className);
         startActivity(intent);
@@ -171,9 +199,20 @@ public class SettingsActivity extends DrawerActivity {
 
     public static boolean isPremium(Context context) {
         SharedPreferences sp_settings = context.getSharedPreferences(SP_FILE, MODE_PRIVATE);
-        boolean sp_premium = sp_settings.getBoolean(SP_USER, false);
+        boolean sp_premium = sp_settings.getBoolean(SP_PREMIUM, false);
         Log.i("LOOK HERE: SettingsActivity", "Premium is: " + sp_premium);
         return sp_premium;
+    }
+
+    public static void setAllDefault(Context context) {
+        SharedPreferences sp_settings = context.getSharedPreferences(SP_FILE, MODE_PRIVATE);
+        SharedPreferences.Editor prefEditor = sp_settings.edit();
+        prefEditor.putString(SP_THEME, SP_THEMES[0]);
+        prefEditor.putString(SP_MODE_IN, SP_MODES_IN[0]);
+        prefEditor.putString(SP_MODE_OUT, SP_MODES_OUT[0]);
+        prefEditor.apply();
+        String androidId = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
+        Log.i("LOOK HERE: SettingsActivity", "Settings are set to default");
     }
 
 }

@@ -28,16 +28,16 @@
                 android:layout_weight="4"
                 android:gravity="center"
                 android:text="@string/statusNo"
-                android:textSize="50sp"
+                android:textSize="30sp"
                 android:textStyle="bold" />
 
             <Button
                 android:id="@+id/button"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1"
                 android:layout_margin="50dp"
-                android:onClick="goToBuy"
+                android:layout_weight="1"
+                android:onClick="onPurchaseClick"
                 android:text="Купить премиум"
                 app:layout_constraintTop_toBottomOf="@id/textStatus" />
         </LinearLayout>

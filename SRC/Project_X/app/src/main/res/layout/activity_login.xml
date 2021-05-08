@@ -7,12 +7,13 @@
     tools:context=".LoginActivity"
     tools:ignore="ExtraText">
 
-    <com.shilina.project_x.LogoView
+    <ImageView
         android:id="@+id/logo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
+        android:src="?attr/logoSrc"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"

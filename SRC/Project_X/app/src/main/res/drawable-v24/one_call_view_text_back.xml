@@ -9,8 +9,8 @@
         android:bottomLeftRadius="5pt" />
 
     <gradient
-        android:startColor="#1455af"
-        android:endColor="#46a5e6"
+        android:startColor="?attr/onGradientStart"
+        android:endColor="?attr/onGradientEnd"
         android:angle="0" />
 
 </shape>

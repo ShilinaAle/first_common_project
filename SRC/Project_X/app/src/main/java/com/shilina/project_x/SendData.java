@@ -16,6 +16,8 @@ import java.util.HashMap;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import static java.lang.Boolean.valueOf;
+
 class SendData extends AsyncTask<Void, Void, String>
 {
     String resultString = null;
@@ -152,10 +154,10 @@ class SendData extends AsyncTask<Void, Void, String>
                         // тут действия после успешной авторизации
                         // Ире: то, что здесь написано было в com\shilina\project_x\LoginActivity.java и остались закомменчены.
                         String username = this.parames.get("email");
-                        boolean status = true;
+                        boolean premium = Boolean.parseBoolean(result_obj.getString("user_premium"));
 
                         SettingsActivity.setUser(contextt, username);
-                        SettingsActivity.setPremium(contextt, status);
+                        SettingsActivity.setPremium(contextt, premium);
                         Toast.makeText(contextt, "Вход выполнен!", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(contextt, LaterCallsActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

@@ -1,14 +1,20 @@
 package com.shilina.project_x;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Intent;
+import android.graphics.Insets;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowInsets;
+import android.view.WindowMetrics;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -24,6 +30,7 @@ public class LaterCallsActivity extends DrawerActivity {
     public static final String className = Thread.currentThread().getStackTrace()[2].getClassName();
     public static ArrayList<OneCall> plannedCallsList = new ArrayList<>();
     LinearLayout oneCallLayout;
+    public static PlanCallLayout planLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +74,14 @@ public class LaterCallsActivity extends DrawerActivity {
         plannedCallViewButton.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO: Окно со звонка с возможностью выбрать номер телефона
+                if (planLayout == null) {
+                    planLayout = new PlanCallLayout(getApplicationContext());
+                }
+                if (!planLayout.isShown) {
+                    planLayout.addBubble();
+                    //TODO: Назначить закрытие окна кнопкой назад
+                }
+
                 //TODO: Добавление на сервер
                 //TODO: Добавление в календарь
                 String recipient = "89998194728-new";
@@ -110,6 +124,25 @@ public class LaterCallsActivity extends DrawerActivity {
             });
             oneCallLayout.addView(nextOneCall);
             Log.i("LOOK HERE: LCA", "poc number is: " + nextOneCall.getId());
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        closePCL();
+    }
+    
+    @Override
+    public void openDrawer(DrawerLayout drawerLayout) {
+        super.openDrawer(drawerLayout);
+        closePCL();
+    }
+
+    static void closePCL(){
+        if (planLayout != null) {
+            planLayout.removePCL();
+            planLayout = null;
         }
     }
 }

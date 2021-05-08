@@ -35,7 +35,6 @@
             android:name=".BroadcastService"
             android:enabled="true"
             android:exported="false"></service>
-        <activity android:name=".StatusPremActivity" />
         <activity android:name=".HelpActivity" />
         <activity android:name=".StatusActivity" />
         <activity android:name=".LaterCallsActivity"/>

@@ -23,11 +23,10 @@
         android:textSize="20sp"
         android:textStyle="bold" />
 
-    <com.shilina.project_x.LogoView
+    <ImageView
         android:id="@+id/imageView"
         android:layout_width="32dp"
         android:layout_height="32dp"
-        android:layout_weight="1" />
-
-
+        android:layout_weight="1"
+        android:src="?attr/logoSrc" />
 </LinearLayout>
