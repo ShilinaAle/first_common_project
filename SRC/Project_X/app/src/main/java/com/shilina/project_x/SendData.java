@@ -1,6 +1,7 @@
 package com.shilina.project_x;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
@@ -12,9 +13,10 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
-import java.util.Set;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-class SendData extends AsyncTask<Void, Void, Void>
+class SendData extends AsyncTask<Void, Void, String>
 {
     String resultString = null;
 
@@ -22,7 +24,7 @@ class SendData extends AsyncTask<Void, Void, Void>
     public HashMap<String, String> parames = new HashMap<>();
 //    public String pass1_in;
 //    public String pass2_in;
-    public String server;
+    public String server, action;
 
     public Context contextt;
 
@@ -33,7 +35,7 @@ class SendData extends AsyncTask<Void, Void, Void>
     }
 
     @Override
-    protected Void doInBackground(Void... params)
+    protected String doInBackground(Void... params)
     {
         try
         {
@@ -93,10 +95,10 @@ class SendData extends AsyncTask<Void, Void, Void>
 
                     data = baos.toByteArray();
                     resultString = new String(data, "UTF-8");  // сохраняем в переменную ответ сервера, у нас "OK"
-
+                    int t = 0;
                 }
                 else {
-                    String t = "";
+                    String resultString = "Всё плохо";
                 }
 
                 conn.disconnect();
@@ -120,14 +122,55 @@ class SendData extends AsyncTask<Void, Void, Void>
         {
             e.printStackTrace();
         }
-        return null;
+        return resultString;
     }
 
     @Override
-    protected void onPostExecute(Void result)
+    protected void onPostExecute(String result)
     {
         super.onPostExecute(result);
-        Toast toast = Toast.makeText(contextt, "Данные переданы!", Toast.LENGTH_SHORT);
-        toast.show();
+
+        try
+        {
+            JSONObject result_obj = new JSONObject(result);
+            String is_error = result_obj.getString("error");
+            if (is_error.equals("1"))
+            {
+                String error_text = result_obj.getString("error_text");
+                Toast toast = Toast.makeText(contextt, error_text, Toast.LENGTH_SHORT);
+                toast.show();
+            }
+            else
+            {
+                // значит ошибок нет, запись в БД прошла успешно
+                switch (this.action)
+                {
+                    case "signup":
+                        // тут действия после успешной регистрации
+                        break;
+                    case "login":
+                        // тут действия после успешной авторизации
+                        // Ире: то, что здесь написано было в com\shilina\project_x\LoginActivity.java и остались закомменчены.
+                        String username = this.parames.get("email");
+                        boolean status = true;
+
+                        SettingsActivity.setUser(contextt, username);
+                        SettingsActivity.setPremium(contextt, status);
+                        Toast.makeText(contextt, "Вход выполнен!", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(contextt, LaterCallsActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        contextt.startActivity(intent);
+//                        finish();
+                        break;
+                        // и так далее
+                    default:
+                        break;
+                }
+            }
+        }
+        catch (JSONException e)
+        {
+            e.printStackTrace();
+        }
     }
 }
