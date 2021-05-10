@@ -24,4 +24,6 @@
     </string-array>
     <string name="statusNo">Ваш статус - обычный\n\nА можно получить красивые темы:3</string>
     <string name="statusYes">Ваш статус - Премиум\n\nСпасибо, что Вы с нами!</string>
+    <string name="textSMS">Я хочу запланировать с вами звонок: %1$s</string>
+    <string name="textCalendar">Этот звонок был создан %2$s.\nНомер собеседника: %1$s</string>
 </resources>
