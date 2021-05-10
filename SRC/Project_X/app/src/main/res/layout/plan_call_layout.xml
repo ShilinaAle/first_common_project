@@ -24,6 +24,7 @@
         android:layout_height="0dp"
         android:layout_weight="2"
         android:hint="Тут текст"
+        android:text="@string/textSMS"
         android:gravity="center"
         android:paddingTop="5sp"
         android:textColor="#ffffff"
@@ -36,13 +37,22 @@
         android:amPmTextColor="#FFFFFF"
         android:background="#00FFFFFF"
         android:timePickerMode="spinner"/>
+    <DatePicker
+        android:id="@+id/bubble_date_picker"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="6"
+        android:amPmTextColor="#FFFFFF"
+        android:background="#00FFFFFF"
+        android:datePickerMode="spinner"
+        android:calendarViewShown="false"/>
     <TextView
         android:id="@+id/bubble_sign"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:gravity="center"
-        android:text="Инфо из календаря"
+        android:text="Информация из вашего календаря"
         android:textColor="#c3d7e6"
         android:textSize="8sp" />
     <EditText
@@ -53,7 +63,10 @@
         android:gravity="center"
         android:textColor="#c3d7e6"
         android:textSize="12sp"
-        android:hint="Номер телефона собеседника" />
+        android:hint="Номер телефона собеседника"
+        android:maxLines="1"
+        android:lines="1"
+        android:singleLine="true" />
     </LinearLayout>
 
     <LinearLayout
@@ -73,7 +86,7 @@
         android:layout_weight="1"
         android:background="@drawable/one_call_view_button_back"
         android:gravity="center"
-        android:text="Перенести"
+        android:text="Далее"
         android:textColor="#ffffff"
         android:textSize="12sp"
         app:layout_constraintWidth_percent="0.25" />

@@ -131,7 +131,9 @@ public class PhoneHandler extends BroadcastReceiver {
     //Обработка начала входящего разговора
     public void onIncomingCallAnswered(Context context, String phoneNumber, Date startTime) {
         Log.i("LOOK HERE: PhoneHandler", "Incoming call has been answered");
-        callLayout.removePCL(); //Удаляем всплывающее окно
+        if (callLayout != null) {
+            callLayout.removePCL(); //Удаляем всплывающее окно
+        }
     }
 
     //Обработка окончания входящего разговора
@@ -162,7 +164,9 @@ public class PhoneHandler extends BroadcastReceiver {
         index = 0;
         phoneNumber = null;
         callStartTime = null;
-        callLayout.removePCL();
-        callLayout = null;
+        if (callLayout != null) {
+            callLayout.removePCL();
+            callLayout = null;
+        }
     }
 }
