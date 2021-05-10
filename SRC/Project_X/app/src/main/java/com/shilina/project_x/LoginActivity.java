@@ -38,8 +38,7 @@ public class LoginActivity extends AppCompatActivity {
         EditText et_password = (EditText) findViewById(R.id.password);
         et_password.clearFocus();
         boolean status = false;
-        // TODO: получить Android ID (обязательно должен быть string)
-        String android_id = "402";//valueOf((int) (Math.random() * 1000));
+        String android_id = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
 
 
         // Get from database:
