@@ -1,11 +1,14 @@
 package com.shilina.project_x;
 
+import android.Manifest;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.PixelFormat;
 import android.os.Build;
+import android.telecom.TelecomManager;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
+import androidx.core.app.ActivityCompat;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -167,6 +171,16 @@ public class PhoneHandler extends BroadcastReceiver {
         if (callLayout != null) {
             callLayout.removePCL();
             callLayout = null;
+        }
+    }
+
+    public static void endRingingCall(Context context, String phone){
+        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ANSWER_PHONE_CALLS) == PackageManager.PERMISSION_GRANTED) {
+            if (phone.equals(phoneNumber) && stateCur == TelephonyManager.CALL_STATE_RINGING) {
+                TelecomManager teleMan = (TelecomManager) context.getSystemService(Context.TELECOM_SERVICE);
+                teleMan.endCall();
+                Log.i("LOOK HERE: PCL", "Звонок завершен");
+            }
         }
     }
 }

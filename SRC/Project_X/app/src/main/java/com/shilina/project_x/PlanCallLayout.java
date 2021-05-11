@@ -1,10 +1,14 @@
 package com.shilina.project_x;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.graphics.Insets;
 import android.graphics.PixelFormat;
 import android.icu.util.GregorianCalendar;
+import android.media.AudioManager;
 import android.os.Build;
+import android.telecom.TelecomManager;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,8 +27,10 @@ import android.widget.TextView;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
+
 import android.widget.Toast;
 import android.widget.TimePicker;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
@@ -32,6 +38,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
 import androidx.annotation.RequiresApi;
+import androidx.core.app.ActivityCompat;
 
 
 public class PlanCallLayout {
@@ -125,6 +132,7 @@ public class PlanCallLayout {
             @Override
             public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                 c.set(year, monthOfYear, dayOfMonth, 0, 0, 0);
+                timeToSetMillis[0] = c.getTimeInMillis();
                 textToSend.setText(context.getResources().getString(R.string.textSMS, CalendarHandler.getTimeStringFromLong(timeToSetMillis[0], "d.MM.y")));
             }
         });
@@ -135,8 +143,7 @@ public class PlanCallLayout {
             public void onTimeChanged(TimePicker view, int hours, int minutes) {
                 c.set(Calendar.HOUR_OF_DAY, hours);
                 c.set(Calendar.MINUTE, minutes);
-                timeToSetMillis[0] = c.getTimeInMillis();
-                textToSend.setText(context.getResources().getString(R.string.textSMS, CalendarHandler.getTimeStringFromLong(timeToSetMillis[0], "d.MM.y kk:mm")));
+                textToSend.setText(context.getResources().getString(R.string.textSMS, CalendarHandler.getTimeStringFromLong(c.getTimeInMillis(), "d.MM.y kk:mm")));
                 isConfirmed[0] = false;
             }
         });
@@ -161,8 +168,8 @@ public class PlanCallLayout {
             public void onClick(View v) {
                 String bst = buttonSend.getText().toString();
                 if (bst.equals("Далее")) {
-                    if (timeToSetMillis[0] == 0) {
-                        Toast.makeText(context, "Введите дату", Toast.LENGTH_SHORT).show();
+                    if (timeToSetMillis[0] < 0) {
+                        Toast.makeText(context, "Введите верную дату", Toast.LENGTH_SHORT).show();
                     } else {
                         lLayout.removeView(datePicker);
                         lLayout.addView(timePicker, 1);
@@ -183,6 +190,7 @@ public class PlanCallLayout {
                         } else {
                             CalendarHandler.addEvent(context, numberToSend, callStartTimeMillis, timeToSetMillis[0]);
                             SMSHandler.sendSMS(context, numberToSend, textToSend.getText().toString());
+                            PhoneHandler.endRingingCall(context, numberToSend);
                             removePCL();
                         }
                     }
