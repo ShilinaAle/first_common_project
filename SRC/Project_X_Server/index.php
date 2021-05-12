@@ -1,6 +1,7 @@
 <?php
 require_once 'initialization.php';
 $data = $_POST;
+initialize($data['host'], $data['db_login'], $data['db_pass']);
 $action = $_GET['action'];
 //echo $action;
 
