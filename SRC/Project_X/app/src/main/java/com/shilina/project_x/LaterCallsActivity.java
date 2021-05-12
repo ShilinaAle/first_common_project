@@ -21,6 +21,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 import static android.util.TypedValue.COMPLEX_UNIT_SP;
@@ -75,18 +76,13 @@ public class LaterCallsActivity extends DrawerActivity {
             @Override
             public void onClick(View view) {
                 if (planLayout == null) {
-                    planLayout = new PlanCallLayout(getApplicationContext());
+                    planLayout = new PlanCallLayout(getApplicationContext(),"", Calendar.getInstance().getTime());
                 }
                 if (!planLayout.isShown) {
                     planLayout.addBubble();
                     //TODO: Назначить закрытие окна кнопкой назад
                 }
 
-                //TODO: Добавление на сервер
-                //TODO: Добавление в календарь
-                String recipient = "89998194728-new";
-                String message = "С вами запланирован звонок - new";
-                //SMSHandler.sendSMS(getApplicationContext(), recipient, message);
             }
         });
         oneCallLayout.addView(planOneCall);

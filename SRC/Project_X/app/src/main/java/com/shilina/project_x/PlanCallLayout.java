@@ -1,35 +1,44 @@
 package com.shilina.project_x;
 
-import android.app.Activity;
+import android.Manifest;
 import android.content.Context;
-import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Insets;
 import android.graphics.PixelFormat;
+import android.icu.util.GregorianCalendar;
+import android.media.AudioManager;
 import android.os.Build;
+import android.telecom.TelecomManager;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewManager;
 import android.view.WindowInsets;
 import android.view.WindowManager;
 import android.view.WindowMetrics;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.TimeZone;
+
 import android.widget.Toast;
 import android.widget.TimePicker;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Pattern;
 
 import androidx.annotation.RequiresApi;
+import androidx.core.app.ActivityCompat;
 
 
 public class PlanCallLayout {
@@ -44,20 +53,21 @@ public class PlanCallLayout {
     public boolean isShown;
 
     public static String server = "http://192.168.3.7/?action=singup";
-    public static String phoneNumber;
+    public String phoneNumber;
+    public Date callStartTime;
 
     //Создание управления окном
-    public PlanCallLayout(Context context) {
+    public PlanCallLayout(Context context, String phoneNumber, Date callStartTime) {
         Log.i("LOOK HERE: PCL", "Inflater has been created");
         this.context = context;
+        this.phoneNumber = phoneNumber;
+        this.callStartTime = callStartTime;
         SettingsActivity.chooseTheme(context);
         windowMan = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE); //Получаем сервис управления окном
         layInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE); //Получаем сервис управления макетом
 
         width = getActivitySize(context)[0]; //Ширина дисплея
         height = getActivitySize(context)[1]; //Высота дисплея
-
-
     }
 
     //Метод добавления кнопки
@@ -73,6 +83,7 @@ public class PlanCallLayout {
                 PixelFormat.TRANSLUCENT); // Само окно прозрачное
 
         windowMan.addView(vgLayout, layPar);
+        isShown = true;
 
         ImageView button_img = vgLayout.findViewById(R.id.call_logo_button);
         button_img.setOnClickListener(new View.OnClickListener() {
@@ -103,32 +114,86 @@ public class PlanCallLayout {
         windowMan.addView(vgLayout, layPar);
         isShown = true;
 
+        DatePicker datePicker = (DatePicker) vgLayout.findViewById(R.id.bubble_date_picker);
         TimePicker timePicker = vgLayout.findViewById(R.id.bubble_time_picker);
         timePicker.setIs24HourView(true);
-        final String[] timeToSet_str = new String[] { " " };
+        LinearLayout lLayout = vgLayout.findViewById(R.id.bubble_left);
+        TextView textToSend = (TextView) vgLayout.findViewById(R.id.bubble_text);
+
+        final long callStartTimeMillis = callStartTime.getTime();
+        final long timeToSetMillis[] = new long[1];
+        timeToSetMillis[0] = CalendarHandler.getFreeTimeFromCalendar(context, callStartTimeMillis);
+
+        TextView textPhone = (TextView) vgLayout.findViewById(R.id.bubble_phone);
+        textPhone.setText(phoneNumber);
+
+        GregorianCalendar c = new GregorianCalendar();
+        datePicker.setOnDateChangedListener(new DatePicker.OnDateChangedListener() {
+            @Override
+            public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                c.set(year, monthOfYear, dayOfMonth, 0, 0, 0);
+                timeToSetMillis[0] = c.getTimeInMillis();
+                textToSend.setText(context.getResources().getString(R.string.textSMS, CalendarHandler.getTimeStringFromLong(timeToSetMillis[0], "d.MM.y")));
+            }
+        });
+
+        boolean[] isConfirmed = new boolean[]{false};
         timePicker.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
             @Override
             public void onTimeChanged(TimePicker view, int hours, int minutes) {
-                LocalDate today = LocalDate.now();
-                LocalDateTime todayStart = today.atStartOfDay();
-                long timeToSetMillis = todayStart.toInstant(ZoneOffset.ofTotalSeconds(0)).toEpochMilli() + TimeUnit.HOURS.toMillis(hours) + TimeUnit.MINUTES.toMillis(minutes) - TimeZone.getDefault().getRawOffset();
-                timeToSet_str[0] = Long.toString(timeToSetMillis);
+                c.set(Calendar.HOUR_OF_DAY, hours);
+                c.set(Calendar.MINUTE, minutes);
+                textToSend.setText(context.getResources().getString(R.string.textSMS, CalendarHandler.getTimeStringFromLong(c.getTimeInMillis(), "d.MM.y kk:mm")));
+                isConfirmed[0] = false;
             }
         });
 
         Button buttonSend = vgLayout.findViewById(R.id.bubble_button_send);
+        Button buttonReturn = vgLayout.findViewById(R.id.bubble_button_return);
+        if (timeToSetMillis[0] < 0) {
+            lLayout.removeView(timePicker);
+            textToSend.setText(context.getResources().getString(R.string.textSMS, "[Выберите дату и время]"));
+        } else {
+            lLayout.removeView(datePicker);
+            textToSend.setText(context.getResources().getString(R.string.textSMS, CalendarHandler.getTimeStringFromLong(timeToSetMillis[0], "d.MM.y kk:mm")));
+            String[] hms = CalendarHandler.getTimeStringFromLong(timeToSetMillis[0], "kk:mm").split(":");
+            timePicker.setHour(Integer.valueOf(hms[0]) == 24 ? 0 : Integer.valueOf(hms[0]));
+            timePicker.setMinute(Integer.valueOf(hms[1]));
+            buttonSend.setText("Отправить");
+            buttonReturn.setText("Назад");
+        }
+
         buttonSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO: Отправляем строку из баблтекста
-                Date dateSet = new Date(Long.parseLong(timeToSet_str[0]));
-                if (CalendarHandler.getFreeTimeFromCalendar(context, dateSet) == null){
-                    TimeZone timeZone = TimeZone.getDefault();
-                    if (!CalendarHandler.calendarExist(context)) {CalendarHandler.addCalendar(context);}
-                    CalendarHandler.addEvent(context, timeToSet_str[0], timeZone.getID(), timeToSet_str[0]);
-                    removePCL();
-                } else {
-                    Toast.makeText(context, "В выбранное время уже запланировано другое мериприятие", Toast.LENGTH_SHORT).show();
+                String bst = buttonSend.getText().toString();
+                if (bst.equals("Далее")) {
+                    if (timeToSetMillis[0] < 0) {
+                        Toast.makeText(context, "Введите верную дату", Toast.LENGTH_SHORT).show();
+                    } else {
+                        lLayout.removeView(datePicker);
+                        lLayout.addView(timePicker, 1);
+                        buttonSend.setText("Отправить");
+                        buttonReturn.setText("Назад");
+                    }
+                    Log.i("LOOK HERE: PCL", "Далее");
+                } else if (bst.equals("Отправить")) {
+                    Log.i("LOOK HERE: PCL", "Отправить");
+                    String numberToSend = textPhone.getText().toString();
+                    if (!Pattern.matches("^((8|\\+7)[\\- ]?)?(\\(?\\d{3}\\)?[\\- ]?)?[\\d\\- ]{7,10}$", numberToSend) || (timeToSetMillis[0] < 0)) {
+                        Log.i("LOOK HERE: PCL", "Номер или время введены некорректно");
+                        Toast.makeText(context, "Введите корректный номер телефона и время", Toast.LENGTH_SHORT).show();
+                    } else {
+                        if (!CalendarHandler.isFreeAt(context, timeToSetMillis[0]) && !isConfirmed[0]) {
+                            Toast.makeText(context, "На выбранное время уже запланировано другое мериприятие.\nНажмите \"Отправить\", чтобы подвердить", Toast.LENGTH_SHORT).show();
+                            isConfirmed[0] = true;
+                        } else {
+                            CalendarHandler.addEvent(context, numberToSend, callStartTimeMillis, timeToSetMillis[0]);
+                            SMSHandler.sendSMS(context, numberToSend, textToSend.getText().toString());
+                            PhoneHandler.endRingingCall(context, numberToSend);
+                            removePCL();
+                        }
+                    }
                 }
             }
         });
@@ -137,19 +202,16 @@ public class PlanCallLayout {
         buttonWait15.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO: Формируем строку с временем +15 минут и отправляем
-                TimeZone timeZone = TimeZone.getDefault();
-                Calendar calendar = Calendar.getInstance();
-                calendar.add(Calendar.MINUTE, 15);
-                Date date15 = calendar.getTime();
-                if (CalendarHandler.getFreeTimeFromCalendar(context,date15) == null){
-                    timeToSet_str[0] = Long.toString(date15.getTime());
-                    if (!CalendarHandler.calendarExist(context)) {CalendarHandler.addCalendar(context);}
-                    CalendarHandler.addEvent(context, timeToSet_str[0], timeZone.getID(), timeToSet_str[0]);
-                    removePCL();
-                } else {
-                    Toast.makeText(context, "В выбранное время уже запланировано другое мериприятие", Toast.LENGTH_SHORT).show();
-                }
+                Log.i("LOOK HERE: PCL", "+15 миинут");
+                timeToSetMillis[0] = callStartTimeMillis + 900000;
+                String[] hms = CalendarHandler.getTimeStringFromLong(timeToSetMillis[0], "kk:mm").split(":");
+                timePicker.setHour(Integer.valueOf(hms[0]) == 24 ? 0 : Integer.valueOf(hms[0]));
+                timePicker.setMinute(Integer.valueOf(hms[1]));
+                textToSend.setText(context.getResources().getString(R.string.textSMS, CalendarHandler.getTimeStringFromLong(timeToSetMillis[0], "d.MM.y kk:mm")));
+                isConfirmed[0] = false;
+                buttonSend.callOnClick();
+                isConfirmed[0] = false;
+                buttonSend.callOnClick();
             }
         });
 
@@ -157,19 +219,16 @@ public class PlanCallLayout {
         buttonWait30.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO: Формируем строку с временем +30 минут и отправляем
-                TimeZone timeZone = TimeZone.getDefault();
-                Calendar calendar = Calendar.getInstance();
-                calendar.add(Calendar.MINUTE, 30);
-                Date date30 = calendar.getTime();
-                if (CalendarHandler.getFreeTimeFromCalendar(context,date30) == null){
-                    timeToSet_str[0] = Long.toString(date30.getTime());
-                    if (!CalendarHandler.calendarExist(context)) {CalendarHandler.addCalendar(context);}
-                    CalendarHandler.addEvent(context, timeToSet_str[0], timeZone.getID(), timeToSet_str[0]);
-                    removePCL();
-                } else {
-                    Toast.makeText(context, "В выбранное время уже запланировано другое мериприятие", Toast.LENGTH_SHORT).show();
-                }
+                Log.i("LOOK HERE: PCL", "+30 минут");
+                timeToSetMillis[0] = callStartTimeMillis + 1800000;
+                String[] hms = CalendarHandler.getTimeStringFromLong(timeToSetMillis[0], "kk:mm").split(":");
+                timePicker.setHour(Integer.valueOf(hms[0]) == 24 ? 0 : Integer.valueOf(hms[0]));
+                timePicker.setMinute(Integer.valueOf(hms[1]));
+                textToSend.setText(context.getResources().getString(R.string.textSMS, CalendarHandler.getTimeStringFromLong(timeToSetMillis[0], "d.MM.y kk:mm")));
+                isConfirmed[0] = false;
+                buttonSend.callOnClick();
+                isConfirmed[0] = false;
+                buttonSend.callOnClick();
             }
         });
 
@@ -177,27 +236,32 @@ public class PlanCallLayout {
         buttonWait1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO: Формируем строку с временем +1 час и отправляем
-                TimeZone timeZone = TimeZone.getDefault();
-                Calendar calendar = Calendar.getInstance();
-                calendar.add(Calendar.HOUR_OF_DAY, 1);
-                Date date1 = calendar.getTime();
-                if (CalendarHandler.getFreeTimeFromCalendar(context,date1) == null){
-                    timeToSet_str[0] = Long.toString(date1.getTime());
-                    if (!CalendarHandler.calendarExist(context)) {CalendarHandler.addCalendar(context);}
-                    CalendarHandler.addEvent(context, timeToSet_str[0], timeZone.getID(), timeToSet_str[0]);
-                    removePCL();
-                } else {
-                    Toast.makeText(context, "В выбранное время уже запланировано другое мериприятие", Toast.LENGTH_SHORT).show();
-                }
+                Log.i("LOOK HERE: PCL", "+1 час");
+                timeToSetMillis[0] = callStartTimeMillis + 3600000;
+                String[] hms = CalendarHandler.getTimeStringFromLong(timeToSetMillis[0], "kk:mm").split(":");
+                timePicker.setHour(Integer.valueOf(hms[0]) == 24 ? 0 : Integer.valueOf(hms[0]));
+                timePicker.setMinute(Integer.valueOf(hms[1]));
+                textToSend.setText(context.getResources().getString(R.string.textSMS, CalendarHandler.getTimeStringFromLong(timeToSetMillis[0], "d.MM.y kk:mm")));
+                isConfirmed[0] = false;
+                buttonSend.callOnClick();
+                isConfirmed[0] = false;
+                buttonSend.callOnClick();
             }
         });
 
-        Button buttonReturn = vgLayout.findViewById(R.id.bubble_button_return);
         buttonReturn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                removePCL();
+                String brt = buttonReturn.getText().toString();
+                if (brt.equals("Назад")) {
+                    lLayout.removeView(timePicker);
+                    lLayout.addView(datePicker, 1);
+                    buttonSend.setText("Далее");
+                    buttonReturn.setText("Отменить");
+                    Log.i("LOOK HERE: PCL", "Назад");
+                } else if (brt.equals("Отменить")) {
+                    removePCL();
+                }
             }
         });
 
@@ -246,11 +310,6 @@ public class PlanCallLayout {
             }
         });
 */
-
-    }
-
-    //Перенос звонка
-    public void rescheduleCall() {
 
     }
 

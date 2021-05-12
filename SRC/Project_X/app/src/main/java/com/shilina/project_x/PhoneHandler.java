@@ -1,11 +1,14 @@
 package com.shilina.project_x;
 
+import android.Manifest;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.PixelFormat;
 import android.os.Build;
+import android.telecom.TelecomManager;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
+import androidx.core.app.ActivityCompat;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -101,28 +105,26 @@ public class PhoneHandler extends BroadcastReceiver {
     }
 
     //Обработка начала входящего звонка
-    public void onIncomingCallReceived(Context context, String phoneNumber, Date start) {
+    public void onIncomingCallReceived(Context context, String phoneNumber, Date startTime) {
         Log.i("LOOK HERE: PhoneHandler", "Incoming call has been received");
-        //TODO: Проверка мероприятия в календаре
         if (SettingsActivity.isAuthorised(context)) {
             SharedPreferences sp_settings = context.getSharedPreferences(SettingsActivity.SP_FILE, Context.MODE_PRIVATE);
             String curModeIn = sp_settings.getString(SettingsActivity.SP_MODE_IN, SettingsActivity.SP_MODES_IN[0]);
             String curModeOut = sp_settings.getString(SettingsActivity.SP_MODE_OUT, SettingsActivity.SP_MODES_OUT[0]);
-            boolean isBusyNow = false;
+            boolean isBusyNow = !CalendarHandler.isFreeAt(context, startTime.getTime());
 
             if (!isBusyNow && (curModeOut.equals(SettingsActivity.SP_MODES_OUT[1]))) {
                 Log.i("LOOK HERE: PhoneHandler", "Mode for Out = OFF");
             } else if (isBusyNow && (curModeIn.equals(SettingsActivity.SP_MODES_IN[1]))) {
                 Log.i("LOOK HERE: PhoneHandler", "Mode for In = Auto");
-                //TODO: Окно со звонка с возможностью выбрать номер телефона
                 //TODO: Добавление на сервер
-                //TODO: Добавление в календарь
-                String recepient = phoneNumber;
-                String message = "С вами запланирован звонок - new";
-                //SMSHandler.sendSMS(getApplicationContext(), recipient, message);
+                long timeToSetMillis = CalendarHandler.getFreeTimeFromCalendar(context, startTime.getTime());
+                CalendarHandler.addEvent(context, phoneNumber, startTime.getTime(), timeToSetMillis);
+                String message = context.getResources().getString(R.string.textSMS, CalendarHandler.getTimeStringFromLong(timeToSetMillis, "kk:mm"));
+                SMSHandler.sendSMS(context, phoneNumber, message);
             } else {
                 Log.i("LOOK HERE: PhoneHandler", "Mode = Hand");
-                callLayout = new PlanCallLayout(context);
+                callLayout = new PlanCallLayout(context, phoneNumber, Calendar.getInstance().getTime());
                 callLayout.addButton();
             }
         } else {
@@ -133,7 +135,9 @@ public class PhoneHandler extends BroadcastReceiver {
     //Обработка начала входящего разговора
     public void onIncomingCallAnswered(Context context, String phoneNumber, Date startTime) {
         Log.i("LOOK HERE: PhoneHandler", "Incoming call has been answered");
-        callLayout.removePCL(); //Удаляем всплывающее окно
+        if (callLayout != null) {
+            callLayout.removePCL(); //Удаляем всплывающее окно
+        }
     }
 
     //Обработка окончания входящего разговора
@@ -164,7 +168,19 @@ public class PhoneHandler extends BroadcastReceiver {
         index = 0;
         phoneNumber = null;
         callStartTime = null;
-        callLayout.removePCL();
-        callLayout = null;
+        if (callLayout != null) {
+            callLayout.removePCL();
+            callLayout = null;
+        }
+    }
+
+    public static void endRingingCall(Context context, String phone){
+        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ANSWER_PHONE_CALLS) == PackageManager.PERMISSION_GRANTED) {
+            if (phone.equals(phoneNumber) && stateCur == TelephonyManager.CALL_STATE_RINGING) {
+                TelecomManager teleMan = (TelecomManager) context.getSystemService(Context.TELECOM_SERVICE);
+                teleMan.endCall();
+                Log.i("LOOK HERE: PCL", "Звонок завершен");
+            }
+        }
     }
 }
