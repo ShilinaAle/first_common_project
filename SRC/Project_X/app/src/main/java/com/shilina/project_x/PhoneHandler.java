@@ -23,6 +23,7 @@ import androidx.core.app.ActivityCompat;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 
 public class PhoneHandler extends BroadcastReceiver {
 
@@ -120,6 +121,25 @@ public class PhoneHandler extends BroadcastReceiver {
                 //TODO: Добавление на сервер
                 long timeToSetMillis = CalendarHandler.getFreeTimeFromCalendar(context, startTime.getTime());
                 CalendarHandler.addEvent(context, phoneNumber, startTime.getTime(), timeToSetMillis);
+                HashMap<String, String> parames = new HashMap<>();
+                parames.put("email", SettingsActivity.getUser(context));
+                parames.put("recipient_number", phoneNumber);
+                parames.put("call_date", CalendarHandler.getTimeStringFromLong(startTime.getTime(), "dd.MM.yy"));
+                parames.put("call_time", CalendarHandler.getTimeStringFromLong(startTime.getTime(), "kk:mm"));
+                parames.put("callback_date", CalendarHandler.getTimeStringFromLong(timeToSetMillis, "dd.MM.yy"));
+                parames.put("callback_time", CalendarHandler.getTimeStringFromLong(timeToSetMillis, "kk:mm"));
+                try
+                {
+                    SendData SD = new SendData();
+                    SD.parames = parames;
+                    SD.action = "set_rescheduling";
+                    SD.contextt = context;
+                    SD.execute();
+                }
+                catch (Exception e)
+                {
+
+                }
                 String message = context.getResources().getString(R.string.textSMS, CalendarHandler.getTimeStringFromLong(timeToSetMillis, "kk:mm"));
                 SMSHandler.sendSMS(context, phoneNumber, message);
             } else {

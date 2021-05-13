@@ -17,7 +17,6 @@ import static java.lang.String.valueOf;
 
 public class SignUpActivity extends AppCompatActivity {
 
-    public static String server = "http://192.168.3.7/?action=singup";
 
     public EditText email;
     public EditText pass1;
@@ -83,7 +82,6 @@ public class SignUpActivity extends AppCompatActivity {
                     {
                         SendData SD = new SendData();
                         SD.parames = parames;
-                        SD.server = server;
                         SD.action = "signup";
                         SD.contextt = getApplicationContext();
                         SD.execute();

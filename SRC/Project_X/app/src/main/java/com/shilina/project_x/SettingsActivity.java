@@ -68,6 +68,23 @@ public class SettingsActivity extends DrawerActivity {
                     if (isPremium(getApplicationContext())) {
                         prefEditor.putString(SP_THEME, newTheme);
                         prefEditor.apply();
+                        HashMap<String, String> parames = new HashMap<>();
+                        parames.put("email", SettingsActivity.getUser(getApplicationContext()));
+                        parames.put("device_name", Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID));
+                        parames.put("setting_name", "color_logo");
+                        parames.put("value", sp_theme);
+                        try
+                        {
+                            SendData SD = new SendData();
+                            SD.parames = parames;
+                            SD.action = "set_setting";
+                            SD.contextt = getApplicationContext();
+                            SD.execute();
+                        }
+                        catch (Exception e)
+                        {
+
+                        }
                         startActivity(getIntent());
                         finish();
                     } else {
@@ -96,6 +113,23 @@ public class SettingsActivity extends DrawerActivity {
                 Log.i("LOOK HERE: SettingsActivity", "Cur ModeIn is: " + curModeIn + "\nNew ModeIn is: " + newModeIn);
                 prefEditor.putString(SP_MODE_IN, newModeIn);
                 prefEditor.apply();
+                HashMap<String, String> parames = new HashMap<>();
+                parames.put("email", SettingsActivity.getUser(getApplicationContext()));
+                parames.put("device_name", Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID));
+                parames.put("setting_name", "rescheduling_in_event");
+                parames.put("value", newModeIn);
+                try
+                {
+                    SendData SD = new SendData();
+                    SD.parames = parames;
+                    SD.action = "set_setting";
+                    SD.contextt = getApplicationContext();
+                    SD.execute();
+                }
+                catch (Exception e)
+                {
+
+                }
             }
         });
 
@@ -115,6 +149,23 @@ public class SettingsActivity extends DrawerActivity {
                 Log.i("LOOK HERE: SettingsActivity", "Cur ModeOut is: " + curModeOut + "\nNew ModeOut is: " + newModeOut);
                 prefEditor.putString(SP_MODE_OUT, newModeOut);
                 prefEditor.apply();
+                HashMap<String, String> parames = new HashMap<>();
+                parames.put("email", SettingsActivity.getUser(getApplicationContext()));
+                parames.put("device_name", Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID));
+                parames.put("setting_name", "rescheduling_out_event");
+                parames.put("value", newModeOut);
+                try
+                {
+                    SendData SD = new SendData();
+                    SD.parames = parames;
+                    SD.action = "set_settings";
+                    SD.contextt = getApplicationContext();
+                    SD.execute();
+                }
+                catch (Exception e)
+                {
+
+                }
             }
         });
 
@@ -125,6 +176,21 @@ public class SettingsActivity extends DrawerActivity {
         String pass2 = ((EditText) findViewById(R.id.settings_password_check)).getText().toString();
         if (pass1.equals(pass2)) {
             //TODO:сменить пароль на сервере
+            HashMap<String, String> parames = new HashMap<>();
+            parames.put("email", SettingsActivity.getUser(getApplicationContext()));
+            parames.put("new_pass", pass1);
+            try
+            {
+                SendData SD = new SendData();
+                SD.parames = parames;
+                SD.action = "change_pass";
+                SD.contextt = getApplicationContext();
+                SD.execute();
+            }
+            catch (Exception e)
+            {
+
+            }
             Toast.makeText(getApplicationContext(), "Пароль был изменен", Toast.LENGTH_SHORT).show();
             Log.i("LOOK HERE: SettingsActivity", "Password was changed");
         } else {
@@ -194,6 +260,23 @@ public class SettingsActivity extends DrawerActivity {
         SharedPreferences.Editor prefEditor = sp_settings.edit();;
         prefEditor.putBoolean(SP_PREMIUM, value);
         prefEditor.apply();
+        HashMap<String, String> parames = new HashMap<>();
+        parames.put("email", SettingsActivity.getUser(context));
+        parames.put("summ", "100");
+        parames.put("pay_date", "01.01.1000");
+        parames.put("pay_time", "00:00");
+        try
+        {
+            SendData SD = new SendData();
+            SD.parames = parames;
+            SD.action = "set_premium";
+            SD.contextt = context;
+            SD.execute();
+        }
+        catch (Exception e)
+        {
+
+        }
         Log.i("LOOK HERE: SettingsActivity", "Premium now: " + value);
     }
 

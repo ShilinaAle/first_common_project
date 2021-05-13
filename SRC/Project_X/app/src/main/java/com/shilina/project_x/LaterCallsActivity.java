@@ -23,6 +23,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 
 import static android.util.TypedValue.COMPLEX_UNIT_SP;
 
@@ -47,8 +48,23 @@ public class LaterCallsActivity extends DrawerActivity {
         TextView textById = findViewById(R.id.nameOfWindow);
         textById.setText("Отложенные звонки");
 
+        HashMap<String, String> parames = new HashMap<>();
+        parames.put("email", SettingsActivity.getUser(getApplicationContext()));
+        try
+        {
+            SendData SD = new SendData();
+            SD.parames = parames;
+            SD.action = "get_rescheduling";
+            SD.contextt = getApplicationContext();
+            SD.execute();
+        }
+        catch (Exception e)
+        {
+
+        }
+
         plannedCallsList.add(new OneCall("89998194728-0", new Date()));
-        plannedCallsList.add(new OneCall("89998194728-1", new Date()));
+        /*plannedCallsList.add(new OneCall("89998194728-1", new Date()));
         plannedCallsList.add(new OneCall("89998194728-2", new Date()));
         plannedCallsList.add(new OneCall("89998194728-3", new Date()));
         plannedCallsList.add(new OneCall("89998194728-4", new Date()));
@@ -56,7 +72,7 @@ public class LaterCallsActivity extends DrawerActivity {
         plannedCallsList.add(new OneCall("89998194728-6", new Date()));
         plannedCallsList.add(new OneCall("89998194728-7", new Date()));
         plannedCallsList.add(new OneCall("89998194728-8", new Date()));
-        plannedCallsList.add(new OneCall("89998194728-9", new Date()));
+        plannedCallsList.add(new OneCall("89998194728-9", new Date()));*/
 
         Log.i("LOOK HERE: LCA", "PCList is: " + plannedCallsList.size());
 

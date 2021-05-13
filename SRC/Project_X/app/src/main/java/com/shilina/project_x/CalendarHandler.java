@@ -3,6 +3,7 @@ package com.shilina.project_x;
 
 import android.Manifest;
 import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -73,6 +74,13 @@ public class CalendarHandler {
         builder.appendQueryParameter(Calendars.ACCOUNT_TYPE, CalendarContract.ACCOUNT_TYPE_LOCAL);
         builder.appendQueryParameter(CalendarContract.CALLER_IS_SYNCADAPTER, "true");
         cr.insert(builder.build(), contentValues);
+    }
+
+    public static void deleteCalendar(Context context) {
+        ContentResolver cr = context.getContentResolver();
+        String calendarId = getCalendarID(context);
+        Uri uri = ContentUris.withAppendedId(Calendars.CONTENT_URI, Integer.parseInt(calendarId));
+        cr.delete(uri, null, null);
     }
 
     public static long getFreeTimeFromCalendar(Context context, long currentTime) {

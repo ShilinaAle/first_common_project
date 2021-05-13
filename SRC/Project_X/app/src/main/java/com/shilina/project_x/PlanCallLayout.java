@@ -26,6 +26,7 @@ import android.widget.TextView;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.TimeZone;
 
 import android.widget.Toast;
@@ -52,7 +53,6 @@ public class PlanCallLayout {
     public Context context;
     public boolean isShown;
 
-    public static String server = "http://192.168.3.7/?action=singup";
     public String phoneNumber;
     public Date callStartTime;
 
@@ -189,6 +189,25 @@ public class PlanCallLayout {
                             isConfirmed[0] = true;
                         } else {
                             CalendarHandler.addEvent(context, numberToSend, callStartTimeMillis, timeToSetMillis[0]);
+                            HashMap<String, String> parames = new HashMap<>();
+                            parames.put("email", SettingsActivity.getUser(context));
+                            parames.put("recipient_number", numberToSend);
+                            parames.put("call_date", CalendarHandler.getTimeStringFromLong(callStartTimeMillis, "dd.MM.yy"));
+                            parames.put("call_time", CalendarHandler.getTimeStringFromLong(callStartTimeMillis, "kk:mm"));
+                            parames.put("callback_date", CalendarHandler.getTimeStringFromLong(timeToSetMillis[0], "dd.MM.yy"));
+                            parames.put("callback_time", CalendarHandler.getTimeStringFromLong(timeToSetMillis[0], "kk:mm"));
+                            try
+                            {
+                                SendData SD = new SendData();
+                                SD.parames = parames;
+                                SD.action = "set_rescheduling";
+                                SD.contextt = context;
+                                SD.execute();
+                            }
+                            catch (Exception e)
+                            {
+
+                            }
                             SMSHandler.sendSMS(context, numberToSend, textToSend.getText().toString());
                             PhoneHandler.endRingingCall(context, numberToSend);
                             removePCL();

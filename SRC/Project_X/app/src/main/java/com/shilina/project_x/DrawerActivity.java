@@ -122,6 +122,7 @@ public class DrawerActivity extends AppCompatActivity {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     SettingsActivity.setUser(getApplicationContext(), null);
+                    CalendarHandler.deleteCalendar(getApplicationContext());
                     Intent service = new Intent(getApplicationContext(), BroadcastService.class);
                     stopService(service);
                     finishAffinity();

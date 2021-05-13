@@ -12,7 +12,11 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
+
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -21,12 +25,15 @@ import static java.lang.Boolean.valueOf;
 class SendData extends AsyncTask<Void, Void, String>
 {
     String resultString = null;
+    public static final String HOST = "192.168.3.7";
+    public static final String DB_LOGIN = "root";
+    public static final String DB_PASS = "root";
 
 //    public String[] params;
     public HashMap<String, String> parames = new HashMap<>();
 //    public String pass1_in;
 //    public String pass2_in;
-    public String server, action;
+    public String action;
 
     public Context contextt;
 
@@ -41,8 +48,8 @@ class SendData extends AsyncTask<Void, Void, String>
     {
         try
         {
-            String myURL = server;
-            String parammetrs = "";
+            String myURL = "http://"+HOST+"/?action="+action;
+            String parammetrs = "db_host="+HOST+"db_login="+DB_LOGIN+"db_pass="+DB_PASS;
 
             for ( String key : parames.keySet() ) {
                 String value = parames.get(key);
@@ -149,7 +156,6 @@ class SendData extends AsyncTask<Void, Void, String>
                 {
                     case "signup":
                         // тут действия после успешной регистрации
-                        break;
                     case "login":
                         // тут действия после успешной авторизации
                         // Ире: то, что здесь написано было в com\shilina\project_x\LoginActivity.java и остались закомменчены.
@@ -165,6 +171,28 @@ class SendData extends AsyncTask<Void, Void, String>
 //                        finish();
                         break;
                         // и так далее
+                    case "get_rescheduling":
+                        String username1 = this.parames.get("email");
+
+                        JSONArray jArray = result_obj.getJSONArray("calls");
+
+                        for(int i = 0; i < jArray.length(); i++) {
+                            String phone = jArray.getJSONObject(i).getString("phone");
+                            String calldate = jArray.getJSONObject(i).getString("call_date_time");
+                            Date callDate = new Date();
+                            String callbackdate = jArray.getJSONObject(i).getString("callback_date_time");
+                            Date callbackDate = new Date();
+                            try {
+                                SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy kk:mm");
+                                callDate = format.parse(calldate);
+                                callbackDate = format.parse(callbackdate);
+                            } catch (java.text.ParseException e) {
+                                e.printStackTrace();
+                            }
+                            LaterCallsActivity.plannedCallsList.add(new OneCall(phone, callDate));
+                            CalendarHandler.addEvent(contextt, phone, callDate.getTime(), callbackDate.getTime());
+                        }
+                        break;
                     default:
                         break;
                 }

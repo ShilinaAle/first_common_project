@@ -50,7 +50,6 @@ public class LoginActivity extends AppCompatActivity {
         {
             SendData SD = new SendData();
             SD.parames = parames;
-            SD.server = "http://192.168.3.7/?action=login";
             SD.action = "login";
             SD.contextt = getApplicationContext();
             SD.execute();
