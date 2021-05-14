@@ -77,6 +77,7 @@ public class CalendarHandler {
     }
 
     public static void deleteCalendar(Context context) {
+        addCalendar(context);
         ContentResolver cr = context.getContentResolver();
         String calendarId = getCalendarID(context);
         Uri uri = ContentUris.withAppendedId(Calendars.CONTENT_URI, Integer.parseInt(calendarId));

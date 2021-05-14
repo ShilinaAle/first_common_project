@@ -118,30 +118,28 @@ public class PhoneHandler extends BroadcastReceiver {
                 Log.i("LOOK HERE: PhoneHandler", "Mode for Out = OFF");
             } else if (isBusyNow && (curModeIn.equals(SettingsActivity.SP_MODES_IN[1]))) {
                 Log.i("LOOK HERE: PhoneHandler", "Mode for In = Auto");
-                //TODO: Добавление на сервер
                 long timeToSetMillis = CalendarHandler.getFreeTimeFromCalendar(context, startTime.getTime());
                 CalendarHandler.addEvent(context, phoneNumber, startTime.getTime(), timeToSetMillis);
-                HashMap<String, String> parames = new HashMap<>();
-                parames.put("email", SettingsActivity.getUser(context));
-                parames.put("recipient_number", phoneNumber);
-                parames.put("call_date", CalendarHandler.getTimeStringFromLong(startTime.getTime(), "dd.MM.yy"));
-                parames.put("call_time", CalendarHandler.getTimeStringFromLong(startTime.getTime(), "kk:mm"));
-                parames.put("callback_date", CalendarHandler.getTimeStringFromLong(timeToSetMillis, "dd.MM.yy"));
-                parames.put("callback_time", CalendarHandler.getTimeStringFromLong(timeToSetMillis, "kk:mm"));
-                try
-                {
-                    SendData SD = new SendData();
-                    SD.parames = parames;
-                    SD.action = "set_rescheduling";
-                    SD.contextt = context;
-                    SD.execute();
-                }
-                catch (Exception e)
-                {
 
-                }
-                String message = context.getResources().getString(R.string.textSMS, CalendarHandler.getTimeStringFromLong(timeToSetMillis, "kk:mm"));
-                SMSHandler.sendSMS(context, phoneNumber, message);
+                Runnable backgroundProcess = new Runnable() {
+                    public void run() {
+                        try {
+                            HashMap<String, String> data = new HashMap<String, String>() {{
+                                put("email", SettingsActivity.getUser(context));
+                                put("recipient_number", phoneNumber);
+                                put("call_date", CalendarHandler.getTimeStringFromDate(startTime, "d.MM.y"));
+                                put("call_time", CalendarHandler.getTimeStringFromDate(startTime, "kk:mm"));
+                                put("callback_date", CalendarHandler.getTimeStringFromLong(timeToSetMillis, "d.MM.y"));
+                                put("callback_time", CalendarHandler.getTimeStringFromLong(timeToSetMillis, "kk:mm"));
+                            }};
+                            ServerHandler addCallQuery = new ServerHandler(ServerHandler.ACTION_SET_RESCHEDULING, data);
+                            addCallQuery.execute();
+                            String message = context.getResources().getString(R.string.textSMS, CalendarHandler.getTimeStringFromLong(timeToSetMillis, "kk:mm"));
+                            SMSHandler.sendSMS(context, phoneNumber, message);
+                        } catch (Exception e) {
+                        }
+                    }
+                };
             } else {
                 Log.i("LOOK HERE: PhoneHandler", "Mode = Hand");
                 callLayout = new PlanCallLayout(context, phoneNumber, Calendar.getInstance().getTime());

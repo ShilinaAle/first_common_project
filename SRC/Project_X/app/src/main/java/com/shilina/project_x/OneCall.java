@@ -1,5 +1,7 @@
 package com.shilina.project_x;
 
+import android.util.Log;
+
 import java.util.Date;
 
 public class OneCall {
@@ -7,12 +9,10 @@ public class OneCall {
     Date callStartTime;
     Date callPlannedTime;
 
-    public OneCall(String caller, Date callStartTime){
+    public OneCall(String caller, Date callStartTime, Date callPlannedTime){
         this.caller = caller;
         this.callStartTime = callStartTime;
-    }
-
-    public void planCallTime(Date callPlannedTime) {
         this.callPlannedTime = callPlannedTime;
+        Log.i("LOOK HERE: OC", "Call with: " + caller + "\nWas planned: " + callStartTime + "\nWill: " + callPlannedTime);
     }
 }

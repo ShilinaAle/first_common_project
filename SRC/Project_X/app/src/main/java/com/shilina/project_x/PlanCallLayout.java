@@ -1,20 +1,15 @@
 package com.shilina.project_x;
 
-import android.Manifest;
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.graphics.Insets;
 import android.graphics.PixelFormat;
 import android.icu.util.GregorianCalendar;
-import android.media.AudioManager;
 import android.os.Build;
-import android.telecom.TelecomManager;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewManager;
 import android.view.WindowInsets;
 import android.view.WindowManager;
 import android.view.WindowMetrics;
@@ -27,19 +22,13 @@ import android.widget.TextView;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.TimeZone;
 
 import android.widget.Toast;
 import android.widget.TimePicker;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
-import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
 import androidx.annotation.RequiresApi;
-import androidx.core.app.ActivityCompat;
 
 
 public class PlanCallLayout {
@@ -189,26 +178,26 @@ public class PlanCallLayout {
                             isConfirmed[0] = true;
                         } else {
                             CalendarHandler.addEvent(context, numberToSend, callStartTimeMillis, timeToSetMillis[0]);
-                            HashMap<String, String> parames = new HashMap<>();
-                            parames.put("email", SettingsActivity.getUser(context));
-                            parames.put("recipient_number", numberToSend);
-                            parames.put("call_date", CalendarHandler.getTimeStringFromLong(callStartTimeMillis, "dd.MM.yy"));
-                            parames.put("call_time", CalendarHandler.getTimeStringFromLong(callStartTimeMillis, "kk:mm"));
-                            parames.put("callback_date", CalendarHandler.getTimeStringFromLong(timeToSetMillis[0], "dd.MM.yy"));
-                            parames.put("callback_time", CalendarHandler.getTimeStringFromLong(timeToSetMillis[0], "kk:mm"));
-                            try
-                            {
-                                SendData SD = new SendData();
-                                SD.parames = parames;
-                                SD.action = "set_rescheduling";
-                                SD.contextt = context;
-                                SD.execute();
-                            }
-                            catch (Exception e)
-                            {
-
-                            }
-                            SMSHandler.sendSMS(context, numberToSend, textToSend.getText().toString());
+                            Runnable backgroundProcess = new Runnable() {
+                                public void run() {
+                                    try {
+                                        HashMap<String, String> data = new HashMap<String, String>() {{
+                                            put("email", SettingsActivity.getUser(context));
+                                            put("recipient_number", numberToSend);
+                                            put("call_date", CalendarHandler.getTimeStringFromLong(callStartTimeMillis, "d.MM.y"));
+                                            put("call_time", CalendarHandler.getTimeStringFromLong(callStartTimeMillis, "kk:mm"));
+                                            put("callback_date", CalendarHandler.getTimeStringFromLong(timeToSetMillis[0], "d.MM.y"));
+                                            put("callback_time", CalendarHandler.getTimeStringFromLong(timeToSetMillis[0], "kk:mm"));
+                                        }};
+                                        ServerHandler addCallQuery = new ServerHandler(ServerHandler.ACTION_SET_RESCHEDULING, data);
+                                        addCallQuery.execute();
+                                        SMSHandler.sendSMS(context, numberToSend, textToSend.getText().toString());
+                                    } catch (Exception e) {
+                                    }
+                                }
+                            };
+                            Thread thread = new Thread(null, backgroundProcess, "Background");
+                            thread.start();
                             PhoneHandler.endRingingCall(context, numberToSend);
                             removePCL();
                         }

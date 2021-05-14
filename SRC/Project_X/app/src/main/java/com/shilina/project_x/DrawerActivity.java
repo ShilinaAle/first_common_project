@@ -27,8 +27,6 @@ public class DrawerActivity extends AppCompatActivity {
     //Открыть новое окно
     public void redirectActivity(Activity activity, Class aclass){
         Intent intent = new Intent(activity, aclass);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        finish();
         activity.startActivity(intent);
     }
 
