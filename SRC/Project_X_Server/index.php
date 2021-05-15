@@ -28,6 +28,9 @@ switch ($action)
     case "change_pass":
         $scr = '/process/change_pass.php';
         break;
+    case "delete_call":
+        $scr = '/delete_call.php';
+        break;
     case "test":
         $scr = '/test.php';
         break;
