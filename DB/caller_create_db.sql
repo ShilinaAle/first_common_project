@@ -40,8 +40,8 @@ CREATE TABLE Calls
     id INT PRIMARY KEY AUTO_INCREMENT,
     user_id	INT NOT NULL,
     recipient_number VARCHAR(20) NOT NULL,
-    call_date_time DATETIME NOT NULL,
-	callback_date_time DATETIME NOT NULL,
+    call_date_time VARCHAR(20) NOT NULL,
+	callback_date_time VARCHAR(20) NOT NULL,
     FOREIGN KEY (user_id) REFERENCES Users (id)
 );
 
