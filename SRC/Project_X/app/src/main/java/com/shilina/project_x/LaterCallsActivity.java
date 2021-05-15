@@ -82,7 +82,21 @@ public class LaterCallsActivity extends DrawerActivity {
             }
         });
         oneCallLayout.addView(planOneCall);
-        Log.i("LOOK HERE: LCA", "poc number is: " + planOneCall.getId());
+
+        //TODO: Local branch
+        if ("admin".equals(SettingsActivity.getUser(getApplicationContext()))) {
+            plannedCallsList.add(new OneCall("89998194728-0", new Date(), new Date()));
+            plannedCallsList.add(new OneCall("89998194728-1", new Date(), new Date()));
+            plannedCallsList.add(new OneCall("89998194728-2", new Date(), new Date()));
+            plannedCallsList.add(new OneCall("89998194728-3", new Date(), new Date()));
+            plannedCallsList.add(new OneCall("89998194728-4", new Date(), new Date()));
+            plannedCallsList.add(new OneCall("89998194728-5", new Date(), new Date()));
+            plannedCallsList.add(new OneCall("89998194728-6", new Date(), new Date()));
+            plannedCallsList.add(new OneCall("89998194728-7", new Date(), new Date()));
+            plannedCallsList.add(new OneCall("89998194728-8", new Date(), new Date()));
+            plannedCallsList.add(new OneCall("89998194728-9", new Date(), new Date()));
+            Log.i("LOOK HERE: LCA", "poc number is: " + planOneCall.getId());
+        }
 
         //Вывод всех View в Layout'е
         /*
@@ -95,6 +109,34 @@ public class LaterCallsActivity extends DrawerActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
+        //TODO: Local branch
+        if ("admin".equals(SettingsActivity.getUser(getApplicationContext()))) {
+            for (int i = 0; i < plannedCallsList.size(); i++) {
+                OneCall poc = plannedCallsList.get(i);
+                View nextOneCall = getLayoutInflater().inflate(R.layout.one_call_view, oneCallLayout, false);
+                nextOneCall.setId(i + 1);
+                TextView oneCallViewText = (TextView) nextOneCall.findViewById(R.id.one_call_view_text);
+                oneCallViewText.setText("Звонок с абонентом: " + poc.caller +
+                        "\nБыл запланирован: " + CalendarHandler.getTimeStringFromDate(poc.callStartTime, "d.MM.y kk:mm")
+                        + "\nБудет: " + CalendarHandler.getTimeStringFromDate(poc.callPlannedTime, "d.MM.y kk:mm"));
+                Button oneCallViewButton = (Button) nextOneCall.findViewById(R.id.one_call_view_button);
+                oneCallViewButton.setOnClickListener(new Button.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        View removedOneCall = (View) view.getParent();
+                        Log.i("LOOK HERE: LCA", "Removing poc number: " + removedOneCall.getId());
+                        //TODO: Всплывающее диалоговое окно
+                        //TODO: Удаление с сервера
+                        //TODO: Удаление из календаря
+                        //TODO: Отправка сообщения пользователю?
+                        oneCallLayout.removeView(removedOneCall);
+                    }
+                });
+                oneCallLayout.addView(nextOneCall);
+            }
+        }
+
         plannedCallsList = new ArrayList<>();
         Runnable backgroundProcess = new Runnable() {
             public void run() {

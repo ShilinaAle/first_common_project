@@ -40,6 +40,17 @@ public class LoginActivity extends AppCompatActivity {
         et_password.clearFocus();
         String android_id = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
 
+        //TODO: Local branch
+        if ("admin".equals(username) && "admin".equals(et_password.getText().toString())) {
+            SettingsActivity.setUser(this, username);
+            SettingsActivity.setPremium(this, false);
+            Toast.makeText(getApplicationContext(), "Вход выполнен!", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, LaterCallsActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            return;
+        }
+
         //Обращение к серверу
         Runnable backgroundProcess = new Runnable() {
             public void run() {
@@ -82,18 +93,6 @@ public class LoginActivity extends AppCompatActivity {
         };
         Thread thread = new Thread(null, backgroundProcess,"Background");
         thread.start();
-
-        /*
-        if (username.equals(user) && et_password.getText().toString().equals(hash)) {
-            SettingsActivity.setUser(this, username);
-            SettingsActivity.setPremium(this, status);
-            Toast.makeText(getApplicationContext(), "Вход выполнен!", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(this, LaterCallsActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
-            finish();
-        }
-        */
     }
 
     public void GoSignUp(View view) {

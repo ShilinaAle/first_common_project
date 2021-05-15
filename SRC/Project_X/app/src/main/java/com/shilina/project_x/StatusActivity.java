@@ -45,6 +45,12 @@ public class StatusActivity extends DrawerActivity {
         Log.i("LOOK HERE: SA", "Purchased premium ");
         SettingsActivity.setPremium(this, true);
 
+        //TODO: Local branch
+        if ("admin".equals(SettingsActivity.getUser(getApplicationContext()))) {
+            startActivity(getIntent());
+            return;
+        }
+
         Runnable backgroundProcess = new Runnable() {
             public void run() {
                 try {
