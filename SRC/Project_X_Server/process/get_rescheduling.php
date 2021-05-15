@@ -22,7 +22,7 @@ $user = R::findOne('users', 'e_mail = ?', array($data['email']));
 $user_id = $user->id;
 if ($user)
 {
-    $calls = R::find('calls', 'user_id = ? AND call_date_time >= ?', array($user_id, time()));
+    $calls = R::find('calls', 'user_id = ? AND callback_date_time >= ?', array($user_id, time()));
     if ($calls)
     {
         $i = 1;
