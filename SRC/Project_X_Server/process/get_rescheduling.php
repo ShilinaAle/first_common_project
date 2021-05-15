@@ -22,16 +22,23 @@ $user = R::findOne('users', 'e_mail = ?', array($data['email']));
 $user_id = $user->id;
 if ($user)
 {
-    $calls = R::findOne('calls', 'user_id = ? AND call_date_time >= ?', array($user_id, time()));
-    foreach ($calls as $call)
+    $calls = R::find('calls', 'user_id = ? AND call_date_time >= ?', array($user_id, time()));
+    if ($calls)
     {
-        $json_array["calls"]["phone"] = $call -> recipient_number;
-        $json_array["calls"]["call_date_time"] = date("d.m.Y H:i", $call -> call_date_time);
-        $json_array["calls"]["callback_date_time"] = date("d.m.Y H:i", $call -> callback_date_time);
-    }
+        $i = 1;
+        foreach ($calls as $call)
+        {
+            $json_array["calls"][$i]["id"] = $call->id;
+            $json_array["calls"][$i]["phone"] = $call -> recipient_number;
+            $json_array["calls"][$i]["call_date_time"] = date("d.m.Y H:i", $call -> call_date_time);
+            $json_array["calls"][$i]["callback_date_time"] = date("d.m.Y H:i", $call -> callback_date_time);
+            $i ++;
+        }
 
-    $json_array["error"] = 0;
-    $json_array["error_text"] = "";
+        $json_array["error"] = 0;
+        $json_array["error_text"] = "";
+    }
+    else $errors[] = 'Нет запланированных звонков';
 }
 else $errors[] = 'Пользователь с такой почтой не найден ╮(._.)╭';
 
