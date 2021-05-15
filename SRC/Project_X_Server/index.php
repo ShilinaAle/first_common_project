@@ -1,9 +1,9 @@
 <?php
 require_once 'initialization.php';
 $data = $_POST;
-initialize($data['host'], $data['db_login'], $data['db_pass']);
+$service_root_path = "";
+initialize($data['host'], $data['db_login'], $data['db_pass'], $service_root_path);
 $action = $_GET['action'];
-//echo $action;
 
 switch ($action)
 {

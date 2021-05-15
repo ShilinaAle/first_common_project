@@ -1,6 +1,6 @@
 <?php
 // Здесь процессы, которые необходимо выполнять при каждом обращении к серверу
-function initialize($host, $db_login, $db_pass)
+function initialize($host, $db_login, $db_pass, &$service_root_path)
 {
     require "libs/rb-mysql.php";
     R::setup( 'mysql:host='.$host.';dbname=caller', $db_login, $db_pass );
