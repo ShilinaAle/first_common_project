@@ -2,107 +2,127 @@ package com.shilina.project_x;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import static java.lang.String.valueOf;
 
 public class SignUpActivity extends AppCompatActivity {
 
-    public static String server = "http://192.168.3.7/?action=singup";
-
-    public EditText email;
-    public EditText pass1;
-    public EditText pass2;
-    public EditText phone;
-
-//    public String[] params = {};
-
-    public static String email_in, pass1_in, pass2_in, tel_in, android_id;
+    EditText email;
+    EditText pass1;
+    EditText pass2;
+    EditText phone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         SettingsActivity.chooseTheme(this);
         setContentView(R.layout.activity_sign_up);
-
-        //сначала обратимся к нашим полям и кнопке
-        Button btn = (Button) findViewById(R.id.signUpNow);
         email = (EditText) findViewById(R.id.email);
         pass1 = (EditText) findViewById(R.id.enterPassword);
         pass2 = (EditText) findViewById(R.id.checkPassword);
-        // TODO: получить номер телефона без участия пользователя
         phone = (EditText) findViewById(R.id.phone_number);
-
-        btn.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                email_in = email.getText().toString();
-                pass1_in = pass1.getText().toString();
-                pass2_in = pass2.getText().toString();
-                tel_in = phone.getText().toString();
-                android_id = android_id = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
-
-                List<String> errors = new ArrayList<String>();
-
-                if (!pass1_in.equals(pass2_in))
-                    errors.add("Пароли не совпадают");
-                if (!email_in.matches("\\w+@gmail\\.com"))
-                    errors.add("Почта не принадлежит домену gmail.com");
-                if (email_in.length() >= 50)
-                    errors.add("Длина почты слишком большая");
-                if (pass1_in.length() >= 50)
-                    errors.add("Длина пароля слишком большая");
-
-                // TODO: Выбрать формат номера. (Сейчас работаю с *+7или8**код**номер* без пробелов или иных разделителей)
-                // preg_match("/([+]7|8)[0-9]{10}$/", $data['phone'], $matchesPhone);
-                if (errors.size() > 0)
-                {
-                    Toast toast = Toast.makeText(getApplicationContext(), errors.get(0), Toast.LENGTH_SHORT);
-                    toast.show();
-                }
-                else
-                {
-                    HashMap<String, String> parames = new HashMap<>();
-                    parames.put("phone", tel_in);
-                    parames.put("email", email_in);
-                    parames.put("pass", pass1_in);
-                    parames.put("android_id", android_id);
-//                String[] params = new String[] {email_in, pass1_in, pass2_in};
-                    try
-                    {
-                        SendData SD = new SendData();
-                        SD.parames = parames;
-                        SD.server = server;
-                        SD.action = "signup";
-                        SD.contextt = getApplicationContext();
-                        SD.execute();
-                    }
-                    catch (Exception e)
-                    {
-
-                    }
-                }
-            }
-        });
     }
 
-    private void EnterErrors(){
+    private void EnterErrors() {
         //Is correct Edit texts?
     }
 
     public void onSingUpButtonClick(View view) {
+        pass1.setBackgroundColor(Color.red(1));
+        pass2.setBackgroundColor(Color.red(1));
 
-        finish();
+        String email_in = email.getText().toString();
+        String pass1_in = pass1.getText().toString();
+        String pass2_in = pass2.getText().toString();
+        String phone_in = phone.getText().toString();
+        String android_id = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+
+        List<String> errors = new ArrayList<String>();
+        if (!email_in.matches("\\w+@gmail\\.com")) {
+            email.setBackgroundColor(Color.red(1));
+            errors.add("Почта не принадлежит домену gmail.com");
+        }
+        if (email_in.length() >= 50) {
+            email.setBackgroundColor(Color.red(1));
+            errors.add("Длина почты слишком большая");
+        }
+        if (!pass1_in.equals(pass2_in)) {
+            pass1.setBackgroundColor(Color.red(1));
+            pass2.setBackgroundColor(Color.red(1));
+            errors.add("Пароли не совпадают");
+        }
+        if (pass1_in.length() >= 50) {
+            pass1.setBackgroundColor(Color.red(1));
+            pass2.setBackgroundColor(Color.red(1));
+            errors.add("Длина пароля слишком большая");
+        }
+        if (!Pattern.matches("^((8|\\+7)[\\- ]?)?(\\(?\\d{3}\\)?[\\- ]?)?[\\d\\- ]{7,10}$", (phone_in))) {
+            phone.setBackgroundColor(Color.red(1));
+            errors.add("Длина пароля слишком большая");
+        }
+
+        if (errors.size() > 0) {
+            Toast.makeText(getApplicationContext(), errors.get(0), Toast.LENGTH_SHORT).show();
+        } else {
+            Runnable backgroundProcess = new Runnable() {
+                public void run() {
+                    try {
+                        Context context = getApplicationContext();
+                        HashMap<String, String> data = new HashMap<String, String>() {{
+                            put("phone", phone_in);
+                            put("email", email_in);
+                            put("pass", pass1_in);
+                            put("android_id", android_id);
+                        }};
+                        ServerHandler signupQuery = new ServerHandler(ServerHandler.ACTION_SIGNUP, data);
+                        signupQuery.execute();
+                        String responseString = signupQuery.get();
+                        JSONObject responseJSON = new JSONObject(responseString);
+                        if (ServerHandler.isErrored(responseString) == null) {
+                            runOnUiThread(new Runnable() {
+                                public void run() {
+                                    Toast.makeText(context, "Регистрация успешна", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                            SettingsActivity.setUser(context, data.get("email"));
+                            SettingsActivity.setPremium(context, false);
+                            Intent intent = new Intent(context, LaterCallsActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            context.startActivity(intent);
+                        } else {
+                            runOnUiThread(new Runnable() {
+                                public void run() {
+                                    try {
+                                        Toast.makeText(context, "Ошибка регистрации: " + responseJSON.getString("error_text"), Toast.LENGTH_SHORT).show();
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            });
+                        }
+                    } catch (Exception e) {
+                    }
+                }
+            };
+            Thread thread = new Thread(null, backgroundProcess,"Background");
+            thread.start();
+        }
     }
 }
