@@ -32,6 +32,7 @@ class ServerHandler extends AsyncTask<Void, Void, String>
     public static final String ACTION_CHANGE_PASS = "change_pass";
     public static final String ACTION_GET_RESCHEDULING = "get_rescheduling";
     public static final String ACTION_SET_RESCHEDULING = "set_rescheduling";
+    public static final String ACTION_DELETE_CALL = "delete_call";
 
 
     HashMap<String, String> data;
@@ -105,6 +106,7 @@ class ServerHandler extends AsyncTask<Void, Void, String>
         } catch (Exception e) {
             resultString = "Exception: " + e.getMessage();
         }
+        Log.i("LOOK HERE: SH", "ОТВЕТ: " + resultString);
         return resultString;
     }
 

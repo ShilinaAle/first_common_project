@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
@@ -57,7 +59,7 @@ public class LoginActivity extends AppCompatActivity {
                     if (ServerHandler.isErrored(responseString) == null) {
                         SettingsActivity.setUser(context, data.get("email"));
                         SettingsActivity.setPremium(context, Boolean.parseBoolean(responseJSON.getString("user_premium")));
-                        runOnUiThread(new Runnable() {
+                        new Handler(Looper.getMainLooper()).post(new Runnable() {
                             public void run() {
                                 Toast.makeText(context, "Вход выполнен", Toast.LENGTH_SHORT).show();
                             }
@@ -66,7 +68,7 @@ public class LoginActivity extends AppCompatActivity {
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         context.startActivity(intent);
                     } else {
-                        runOnUiThread(new Runnable() {
+                        new Handler(Looper.getMainLooper()).post(new Runnable() {
                             public void run() {
                                 try {
                                     Toast.makeText(context, "Ошибка авторизации: " + responseJSON.getString("error_text"), Toast.LENGTH_SHORT).show();

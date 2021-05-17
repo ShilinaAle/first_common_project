@@ -12,10 +12,8 @@ public class SMSHandler {
         try {
             SmsManager smsMan = SmsManager.getDefault();
             smsMan.sendTextMessage(recipient, null, message, null, null);
-            Toast.makeText(context, "Сообщение отправлено", Toast.LENGTH_SHORT).show();
             Log.i("LOOK HERE: SMSHandler", "SMS was sent");
         } catch (Exception e) {
-            Toast.makeText(context, "Сообщение не отправлено", Toast.LENGTH_SHORT).show();
             Log.i("LOOK HERE: SMSHandler", "SMS wasn't sent");
         }
     }

@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.provider.Settings;
 import android.view.View;
 import android.widget.EditText;
@@ -96,7 +98,7 @@ public class SignUpActivity extends AppCompatActivity {
                         String responseString = signupQuery.get();
                         JSONObject responseJSON = new JSONObject(responseString);
                         if (ServerHandler.isErrored(responseString) == null) {
-                            runOnUiThread(new Runnable() {
+                            new Handler(Looper.getMainLooper()).post(new Runnable() {
                                 public void run() {
                                     Toast.makeText(context, "Регистрация успешна", Toast.LENGTH_SHORT).show();
                                 }
@@ -107,7 +109,7 @@ public class SignUpActivity extends AppCompatActivity {
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             context.startActivity(intent);
                         } else {
-                            runOnUiThread(new Runnable() {
+                            new Handler(Looper.getMainLooper()).post(new Runnable() {
                                 public void run() {
                                     try {
                                         Toast.makeText(context, "Ошибка регистрации: " + responseJSON.getString("error_text"), Toast.LENGTH_SHORT).show();

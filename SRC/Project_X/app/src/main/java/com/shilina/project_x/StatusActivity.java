@@ -7,6 +7,8 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -53,21 +55,21 @@ public class StatusActivity extends DrawerActivity {
                         put("email", SettingsActivity.getUser(context));
                         put("summ", "100");
                         put("pay_date", CalendarHandler.getTimeStringFromDate(Calendar.getInstance().getTime(), "dd.MM.yy"));
-                        put("pay_time", CalendarHandler.getTimeStringFromDate(Calendar.getInstance().getTime(), "kk:mm"));
+                        put("pay_time", CalendarHandler.getTimeStringFromDate(Calendar.getInstance().getTime(), "HH:mm"));
                     }};
                     ServerHandler premiumQuery = new ServerHandler(ServerHandler.ACTION_SET_PREMIUM, data);
                     premiumQuery.execute();
                     String responseString = premiumQuery.get();
                     JSONObject responseJSON = new JSONObject(responseString);
                     if (ServerHandler.isErrored(responseString) == null) {
-                        runOnUiThread(new Runnable() {
+                        new Handler(Looper.getMainLooper()).post(new Runnable() {
                             public void run() {
                                 Toast.makeText(context, "Премиум куплен", Toast.LENGTH_SHORT).show();
                             }
                         });
                         startActivity(getIntent());
                     } else {
-                        runOnUiThread(new Runnable() {
+                        new Handler(Looper.getMainLooper()).post(new Runnable() {
                             public void run() {
                                 try {
                                     Toast.makeText(context, "Ошибка покупки: " + responseJSON.getString("error_text"), Toast.LENGTH_SHORT).show();

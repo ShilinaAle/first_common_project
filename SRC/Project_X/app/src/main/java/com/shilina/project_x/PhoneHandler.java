@@ -119,7 +119,6 @@ public class PhoneHandler extends BroadcastReceiver {
             } else if (isBusyNow && (curModeIn.equals(SettingsActivity.SP_MODES_IN[1]))) {
                 Log.i("LOOK HERE: PhoneHandler", "Mode for In = Auto");
                 long timeToSetMillis = CalendarHandler.getFreeTimeFromCalendar(context, startTime.getTime());
-                CalendarHandler.addEvent(context, phoneNumber, startTime.getTime(), timeToSetMillis);
 
                 Runnable backgroundProcess = new Runnable() {
                     public void run() {
@@ -127,22 +126,27 @@ public class PhoneHandler extends BroadcastReceiver {
                             HashMap<String, String> data = new HashMap<String, String>() {{
                                 put("email", SettingsActivity.getUser(context));
                                 put("recipient_number", phoneNumber);
-                                put("call_date", CalendarHandler.getTimeStringFromDate(startTime, "d.MM.y"));
-                                put("call_time", CalendarHandler.getTimeStringFromDate(startTime, "kk:mm"));
-                                put("callback_date", CalendarHandler.getTimeStringFromLong(timeToSetMillis, "d.MM.y"));
-                                put("callback_time", CalendarHandler.getTimeStringFromLong(timeToSetMillis, "kk:mm"));
+                                put("call_date", CalendarHandler.getTimeStringFromDate(startTime, "dd.MM.y"));
+                                put("call_time", CalendarHandler.getTimeStringFromDate(startTime, "HH:mm"));
+                                put("callback_date", CalendarHandler.getTimeStringFromLong(timeToSetMillis, "dd.MM.y"));
+                                put("callback_time", CalendarHandler.getTimeStringFromLong(timeToSetMillis, "HH:mm"));
                             }};
                             ServerHandler addCallQuery = new ServerHandler(ServerHandler.ACTION_SET_RESCHEDULING, data);
                             addCallQuery.execute();
-                            String message = context.getResources().getString(R.string.textSMS, CalendarHandler.getTimeStringFromLong(timeToSetMillis, "kk:mm"));
-                            SMSHandler.sendSMS(context, phoneNumber, message);
                         } catch (Exception e) {
+                            e.printStackTrace();
                         }
                     }
                 };
+                Thread thread = new Thread(null, backgroundProcess,"Background");
+                thread.start();
+                CalendarHandler.addEvent(context, phoneNumber, startTime.getTime(), timeToSetMillis);
+                String message = context.getResources().getString(R.string.textSMS, CalendarHandler.getTimeStringFromLong(timeToSetMillis, "dd.MM.y HH:mm"));
+                SMSHandler.sendSMS(context, phoneNumber, message);
+                endRingingCall(context,phoneNumber);
             } else {
                 Log.i("LOOK HERE: PhoneHandler", "Mode = Hand");
-                callLayout = new PlanCallLayout(context, phoneNumber, Calendar.getInstance().getTime());
+                callLayout = new PlanCallLayout(context, PhoneHandler.this, phoneNumber, Calendar.getInstance().getTime());
                 callLayout.addButton();
             }
         } else {

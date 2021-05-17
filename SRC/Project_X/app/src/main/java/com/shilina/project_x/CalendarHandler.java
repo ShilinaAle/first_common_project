@@ -14,7 +14,6 @@ import android.provider.CalendarContract;
 import android.provider.CalendarContract.Calendars;
 import android.provider.CalendarContract.Events;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.core.app.ActivityCompat;
 
@@ -112,7 +111,7 @@ public class CalendarHandler {
         cur.close();
 
         if (freeTimeMil < 0) {
-            Log.i("LOOK HERE: CalendarHandler", "No current events");
+            Log.i("LOOK HERE: CalendarHandler", "No events at that time");
         } else {
             if (freeTimeMil != currentTime){
                 Log.i("LOOK HERE: CalendarHandler", "Сравниваеются " + freeTimeMil + " и " + currentTime);
@@ -135,8 +134,8 @@ public class CalendarHandler {
                 .appendQueryParameter(CalendarContract.CALLER_IS_SYNCADAPTER, "true")
                 .appendQueryParameter(Calendars.ACCOUNT_NAME, "cal@projectx.com")
                 .appendQueryParameter(Calendars.ACCOUNT_TYPE, "com.projectx").build();
-        Cursor curCal = null;
         String[] projection = new String[] { Calendars._ID, Calendars.ACCOUNT_TYPE};
+        Cursor curCal = null;
         curCal = cr.query(uriCal, projection, null, null, null);
         while (curCal.moveToNext()) {
             String calType = curCal.getString(curCal.getColumnIndex(Calendars.ACCOUNT_TYPE));
@@ -151,23 +150,64 @@ public class CalendarHandler {
 
     public static void addEvent(Context context, String phoneNumber, long callStartTime, long freeTime) {
         addCalendar(context);
-        String descr = context.getResources().getString(R.string.textCalendar, phoneNumber, getTimeStringFromLong(callStartTime, "d.MM.y kk:mm"));
-        ContentResolver cr = context.getContentResolver();
-        ContentValues values = new ContentValues();
-        values.put(Events.DTSTART, freeTime);
-        values.put(Events.DTEND, freeTime + 300000);
-        values.put(Events.TITLE, "Запланированный звонок");
-        values.put(Events.DESCRIPTION, descr);
-        values.put(Events.CALENDAR_ID, getCalendarID(context));
-        values.put(Events.EVENT_TIMEZONE, TimeZone.getDefault().getID());
-        values.put(Events.GUESTS_CAN_INVITE_OTHERS, "1");
-        values.put(Events.GUESTS_CAN_SEE_GUESTS, "1");
-        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
-            return;
+        if (getEventUri(context, phoneNumber, callStartTime, freeTime) == null) {
+            String descr = context.getResources().getString(R.string.textCalendar, phoneNumber, getTimeStringFromLong(callStartTime, "dd.MM.y HH:mm"));
+            ContentResolver cr = context.getContentResolver();
+            ContentValues values = new ContentValues();
+            values.put(Events.DTSTART, freeTime);
+            values.put(Events.DTEND, freeTime + 300000);
+            values.put(Events.TITLE, "Запланированный звонок");
+            values.put(Events.DESCRIPTION, descr);
+            values.put(Events.CALENDAR_ID, getCalendarID(context));
+            values.put(Events.EVENT_TIMEZONE, TimeZone.getDefault().getID());
+            values.put(Events.GUESTS_CAN_INVITE_OTHERS, "1");
+            values.put(Events.GUESTS_CAN_SEE_GUESTS, "1");
+            if (ActivityCompat.checkSelfPermission(context, Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
+                return;
+            }
+            Uri eventUri = cr.insert(Events.CONTENT_URI, values);
+            Log.i("LOOK HERE: CalendarHandler", descr);
+            Log.i("LOOK HERE: CalendarHandler", "INSERTED Event ID: " + eventUri.getLastPathSegment());
         }
-        cr.insert(Events.CONTENT_URI, values);
-        Toast.makeText(context, "Напоминание добавлено в календарь", Toast.LENGTH_SHORT).show();
-        Log.i("LOOK HERE: CalendarHandler", descr);
+    }
+
+    public static void deleteEvent(Context context, String phoneNumber, long callStartTime, long freeTime) {
+        Uri eventUri = getEventUri(context, phoneNumber, callStartTime, freeTime);
+        if (eventUri != null) {
+            ContentResolver cr = context.getContentResolver();
+            cr.delete(eventUri, null, null);
+            Log.i("LOOK HERE: CalendarHandler", "DELETED Event Uri: " + eventUri);
+        }
+    }
+
+    public static Uri getEventUri(Context context, String phoneNumber, long callStartTime, long freeTime) {
+        String descr = context.getResources().getString(R.string.textCalendar, phoneNumber, getTimeStringFromLong(callStartTime, "dd.MM.y HH:mm"));
+        ContentResolver cr = context.getContentResolver();
+        Uri uri = Events.CONTENT_URI;
+
+        String[] from = {
+                Events._ID,
+                Events.TITLE,
+                Events.DESCRIPTION,
+        };
+        String where = "((" + Events.DESCRIPTION + " = ?))";
+        String[] equal = new String[] { descr };
+
+        long eventID = -1;
+        Cursor cur = cr.query(uri, from, where, equal, null);
+        while (cur.moveToNext()) {
+            eventID = cur.getLong(cur.getColumnIndex(Events._ID));
+            Log.i("LOOK HERE: CalendarHandler", "CHECKED Event title: " + cur.getString(cur.getColumnIndex(Events.TITLE)));
+            Log.i("LOOK HERE: CalendarHandler", "CHECKED Event ID: " + eventID);
+        }
+        cur.close();
+        if (eventID == -1) {
+            Log.i("LOOK HERE: CalendarHandler", "CHECK: new");
+            return null;
+        } else {
+            Log.i("LOOK HERE: CalendarHandler", "CHECK: old");
+            return ContentUris.withAppendedId(Events.CONTENT_URI, eventID);
+        }
     }
 
     public static String getTimeStringFromDate(Date SomeTimeDate, String formatStyle) {

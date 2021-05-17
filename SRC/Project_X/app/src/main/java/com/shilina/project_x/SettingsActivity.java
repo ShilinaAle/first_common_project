@@ -79,6 +79,7 @@ public class SettingsActivity extends DrawerActivity {
                                     ServerHandler setQuery = new ServerHandler(ServerHandler.ACTION_SET_SETTING, data);
                                     setQuery.execute();
                                 } catch (Exception e) {
+                                    e.printStackTrace();
                                 }
                             }
                         };
@@ -124,6 +125,7 @@ public class SettingsActivity extends DrawerActivity {
                             ServerHandler setQuery = new ServerHandler(ServerHandler.ACTION_SET_SETTING, data);
                             setQuery.execute();
                         } catch (Exception e) {
+                            e.printStackTrace();
                         }
                     }
                 };
@@ -161,6 +163,7 @@ public class SettingsActivity extends DrawerActivity {
                             ServerHandler setQuery = new ServerHandler(ServerHandler.ACTION_SET_SETTING, data);
                             setQuery.execute();
                         } catch (Exception e) {
+                            e.printStackTrace();
                         }
                     }
                 };
@@ -185,6 +188,7 @@ public class SettingsActivity extends DrawerActivity {
                         ServerHandler passQuery = new ServerHandler(ServerHandler.ACTION_CHANGE_PASS, data);
                         passQuery.execute();
                     } catch (Exception e) {
+                        e.printStackTrace();
                     }
                 }
             };
