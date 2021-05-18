@@ -4,6 +4,7 @@ $data = $_POST;
 $service_root_path = "";
 initialize($data['host'], $data['db_login'], $data['db_pass'], $service_root_path);
 $action = $_GET['action'];
+//echo "action: ".$action."\n";
 
 switch ($action)
 {
@@ -29,7 +30,7 @@ switch ($action)
         $scr = '/process/change_pass.php';
         break;
     case "delete_call":
-        $scr = '/delete_call.php';
+        $scr = '/process/delete_call.php';
         break;
     case "test":
         $scr = '/test.php';
