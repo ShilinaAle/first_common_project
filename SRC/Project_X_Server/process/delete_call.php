@@ -1,0 +1,35 @@
+<?php
+/*
+ * Обработка удаления звонка
+ * Приходят данные:
+ * id_call - ид звонка, который нужно удалить
+ *
+ * Возвращает:
+ * JSON с полями:
+ * * error: 1 или 0
+ * * error_text: пустая строка или текст ошибки
+ */
+$data = $_POST;
+$errors = array();
+$json_array = array(
+    "error" => 1,
+    "error_text" => "Неотлавливаемая ошибка",
+);
+
+$call = R::findOne('calls', 'id = ?', array($data['id_call']));
+if ($call)
+{
+    R::trash($call);
+
+    $json_array["error"] = 0;
+    $json_array["error_text"] = "";
+}
+else $errors[] = 'Звонок с таким id не найден ╮(._.)╭';
+
+if(!empty($errors))
+{
+    $json_array["error"] = 1;
+    $json_array["error_text"] = $errors[0];
+}
+
+echo json_encode($json_array);

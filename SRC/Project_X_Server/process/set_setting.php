@@ -13,6 +13,7 @@
  * * error_text: пустая строка или текст ошибки
  */
 $data = $_POST;
+//var_dump($data);
 $errors = array();
 $json_array = array(
     "error" => 1,
@@ -22,28 +23,34 @@ $json_array = array(
 $user = R::findOne('users', 'e_mail = ?', array($data['email']));
 if ($user)
 {
-    $device = R::findOne('devices', 'user_id = ? AND device_name = ?', array($user -> id, $data["device_name"]));
-    if ($device)
+    $u_device = R::findOne('userdevice', 'user_id = ?', array($user -> id));
+    if ($u_device)
     {
-        switch ($data["setting_name"])
+        $device = R::findOne('devices', 'device_name = ?', array($data["device_name"]));
+//        var_dump($device);
+        if ($device)
         {
-            case "color_logo":
-                $device -> color_logo = $data["value"];
-                break;
-            case "rescheduling_in_event":
-                $device -> rescheduling_in_event = $data["value"];
-                break;
-            case "rescheduling_out_event":
-                $device -> rescheduling_out_event = $data["value"];
-                break;
+            switch ($data["setting_name"])
+            {
+                case "color_logo":
+                    $device -> color_logo = $data["value"];
+                    break;
+                case "rescheduling_in_event":
+                    $device -> rescheduling_in_event = $data["value"];
+                    break;
+                case "rescheduling_out_event":
+                    $device -> rescheduling_out_event = $data["value"];
+                    break;
+            }
+
+            R::store($device);
+
+            $json_array["error"] = 0;
+            $json_array["error_text"] = "";
         }
+        else $errors[] = 'У данного пользователя нет устройства с этим AndroidId ╮(._.)╭';
     }
-    else $errors[] = 'У данного пользователя нет устройства с этим AndroidId ╮(._.)╭';
-
-    R::store($device);
-
-    $json_array["error"] = 0;
-    $json_array["error_text"] = "";
+    else $errors[] = 'У данного пользователя нет устройств ╮(._.)╭';
 }
 else $errors[] = 'Пользователь с такой почтой не найден ╮(._.)╭';
 

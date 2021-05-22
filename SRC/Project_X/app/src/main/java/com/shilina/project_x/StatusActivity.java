@@ -4,10 +4,21 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.Calendar;
+import java.util.HashMap;
 
 public class StatusActivity extends DrawerActivity {
 
@@ -35,7 +46,44 @@ public class StatusActivity extends DrawerActivity {
     public void onPurchaseClick(View view) {
         Log.i("LOOK HERE: SA", "Purchased premium ");
         SettingsActivity.setPremium(this, true);
-        finish();
-        startActivity(getIntent());
+
+        Runnable backgroundProcess = new Runnable() {
+            public void run() {
+                try {
+                    Context context = getApplicationContext();
+                    HashMap<String, String> data = new HashMap<String, String>() {{
+                        put("email", SettingsActivity.getUser(context));
+                        put("summ", "100");
+                        put("pay_date", CalendarHandler.getTimeStringFromDate(Calendar.getInstance().getTime(), "dd.MM.yy"));
+                        put("pay_time", CalendarHandler.getTimeStringFromDate(Calendar.getInstance().getTime(), "HH:mm"));
+                    }};
+                    ServerHandler premiumQuery = new ServerHandler(ServerHandler.ACTION_SET_PREMIUM, data);
+                    premiumQuery.execute();
+                    String responseString = premiumQuery.get();
+                    JSONObject responseJSON = new JSONObject(responseString);
+                    if (ServerHandler.isErrored(responseString) == null) {
+                        new Handler(Looper.getMainLooper()).post(new Runnable() {
+                            public void run() {
+                                Toast.makeText(context, "Премиум куплен", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                        startActivity(getIntent());
+                    } else {
+                        new Handler(Looper.getMainLooper()).post(new Runnable() {
+                            public void run() {
+                                try {
+                                    Toast.makeText(context, "Ошибка покупки: " + responseJSON.getString("error_text"), Toast.LENGTH_SHORT).show();
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+                    }
+                } catch (Exception e) {
+                }
+            }
+        };
+        Thread thread = new Thread(null, backgroundProcess,"Background");
+        thread.start();
     }
 }

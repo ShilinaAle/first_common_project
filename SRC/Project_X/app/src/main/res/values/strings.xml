@@ -25,5 +25,7 @@
     <string name="statusNo">Ваш статус - обычный\n\nА можно получить красивые темы:3</string>
     <string name="statusYes">Ваш статус - Премиум\n\nСпасибо, что Вы с нами!</string>
     <string name="textSMS">Я хочу запланировать с вами звонок: %1$s</string>
+    <string name="cancelSMS">Простите, я не смогу присутствовать на звонке, запланированном на: %1$s</string>
     <string name="textCalendar">Этот звонок был создан %2$s.\nНомер собеседника: %1$s</string>
+    <string name="textOneCall">Звонок с абонентом: %1$s\nБыл запланирован: %2$s\nБудет: %3$s</string>
 </resources>

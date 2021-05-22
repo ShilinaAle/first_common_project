@@ -1,20 +1,17 @@
 package com.shilina.project_x;
 
-import android.Manifest;
+import android.app.Activity;
+import android.app.Application;
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.graphics.Insets;
 import android.graphics.PixelFormat;
 import android.icu.util.GregorianCalendar;
-import android.media.AudioManager;
 import android.os.Build;
-import android.telecom.TelecomManager;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewManager;
 import android.view.WindowInsets;
 import android.view.WindowManager;
 import android.view.WindowMetrics;
@@ -26,19 +23,14 @@ import android.widget.TextView;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.TimeZone;
+import java.util.HashMap;
 
 import android.widget.Toast;
 import android.widget.TimePicker;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
-import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
 import androidx.annotation.RequiresApi;
-import androidx.core.app.ActivityCompat;
 
 
 public class PlanCallLayout {
@@ -51,17 +43,22 @@ public class PlanCallLayout {
     public int height;
     public Context context;
     public boolean isShown;
+    Object parentObject;
 
-    public static String server = "http://192.168.3.7/?action=singup";
     public String phoneNumber;
     public Date callStartTime;
 
     //Создание управления окном
-    public PlanCallLayout(Context context, String phoneNumber, Date callStartTime) {
+    public PlanCallLayout(Context context, Object parentObject, String phoneNumber, Date callStartTime) {
         Log.i("LOOK HERE: PCL", "Inflater has been created");
         this.context = context;
+        this.parentObject = parentObject;
         this.phoneNumber = phoneNumber;
-        this.callStartTime = callStartTime;
+        if (callStartTime != null) {
+            this.callStartTime = callStartTime;
+        } else {
+            this.callStartTime = Calendar.getInstance().getTime();
+        }
         SettingsActivity.chooseTheme(context);
         windowMan = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE); //Получаем сервис управления окном
         layInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE); //Получаем сервис управления макетом
@@ -133,7 +130,7 @@ public class PlanCallLayout {
             public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                 c.set(year, monthOfYear, dayOfMonth, 0, 0, 0);
                 timeToSetMillis[0] = c.getTimeInMillis();
-                textToSend.setText(context.getResources().getString(R.string.textSMS, CalendarHandler.getTimeStringFromLong(timeToSetMillis[0], "d.MM.y")));
+                textToSend.setText(context.getResources().getString(R.string.textSMS, CalendarHandler.getTimeStringFromLong(c.getTimeInMillis(), "dd.MM.y")));
             }
         });
 
@@ -143,7 +140,8 @@ public class PlanCallLayout {
             public void onTimeChanged(TimePicker view, int hours, int minutes) {
                 c.set(Calendar.HOUR_OF_DAY, hours);
                 c.set(Calendar.MINUTE, minutes);
-                textToSend.setText(context.getResources().getString(R.string.textSMS, CalendarHandler.getTimeStringFromLong(c.getTimeInMillis(), "d.MM.y kk:mm")));
+                timeToSetMillis[0] = c.getTimeInMillis();
+                textToSend.setText(context.getResources().getString(R.string.textSMS, CalendarHandler.getTimeStringFromLong(c.getTimeInMillis(), "dd.MM.y HH:mm")));
                 isConfirmed[0] = false;
             }
         });
@@ -155,9 +153,9 @@ public class PlanCallLayout {
             textToSend.setText(context.getResources().getString(R.string.textSMS, "[Выберите дату и время]"));
         } else {
             lLayout.removeView(datePicker);
-            textToSend.setText(context.getResources().getString(R.string.textSMS, CalendarHandler.getTimeStringFromLong(timeToSetMillis[0], "d.MM.y kk:mm")));
-            String[] hms = CalendarHandler.getTimeStringFromLong(timeToSetMillis[0], "kk:mm").split(":");
-            timePicker.setHour(Integer.valueOf(hms[0]) == 24 ? 0 : Integer.valueOf(hms[0]));
+            textToSend.setText(context.getResources().getString(R.string.textSMS, CalendarHandler.getTimeStringFromLong(timeToSetMillis[0], "dd.MM.y HH:mm")));
+            String[] hms = CalendarHandler.getTimeStringFromLong(timeToSetMillis[0], "HH:mm").split(":");
+            timePicker.setHour(Integer.valueOf(hms[0]));
             timePicker.setMinute(Integer.valueOf(hms[1]));
             buttonSend.setText("Отправить");
             buttonReturn.setText("Назад");
@@ -180,7 +178,7 @@ public class PlanCallLayout {
                 } else if (bst.equals("Отправить")) {
                     Log.i("LOOK HERE: PCL", "Отправить");
                     String numberToSend = textPhone.getText().toString();
-                    if (!Pattern.matches("^((8|\\+7)[\\- ]?)?(\\(?\\d{3}\\)?[\\- ]?)?[\\d\\- ]{7,10}$", numberToSend) || (timeToSetMillis[0] < 0)) {
+                    if (!Pattern.matches("^((8|\\+7)[\\- ]?)?(\\(?\\d{3}\\)?[\\- ]?)?[\\d\\- ]{7,10}$", numberToSend) || (textToSend.getText().toString().split(":").length != 3)) {
                         Log.i("LOOK HERE: PCL", "Номер или время введены некорректно");
                         Toast.makeText(context, "Введите корректный номер телефона и время", Toast.LENGTH_SHORT).show();
                     } else {
@@ -188,9 +186,34 @@ public class PlanCallLayout {
                             Toast.makeText(context, "На выбранное время уже запланировано другое мериприятие.\nНажмите \"Отправить\", чтобы подвердить", Toast.LENGTH_SHORT).show();
                             isConfirmed[0] = true;
                         } else {
+                            Runnable backgroundProcess = new Runnable() {
+                                public void run() {
+                                    try {
+                                        HashMap<String, String> data = new HashMap<String, String>() {{
+                                            put("email", SettingsActivity.getUser(context));
+                                            put("recipient_number", numberToSend);
+                                            put("call_date", CalendarHandler.getTimeStringFromLong(callStartTimeMillis, "dd.MM.y"));
+                                            put("call_time", CalendarHandler.getTimeStringFromLong(callStartTimeMillis, "HH:mm"));
+                                            put("callback_date", CalendarHandler.getTimeStringFromLong(timeToSetMillis[0], "dd.MM.y"));
+                                            put("callback_time", CalendarHandler.getTimeStringFromLong(timeToSetMillis[0], "HH:mm"));
+                                        }};
+                                        ServerHandler addCallQuery = new ServerHandler(ServerHandler.ACTION_SET_RESCHEDULING, data);
+                                        addCallQuery.execute();
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            };
+                            Thread thread = new Thread(null, backgroundProcess, "Background");
+                            thread.start();
                             CalendarHandler.addEvent(context, numberToSend, callStartTimeMillis, timeToSetMillis[0]);
                             SMSHandler.sendSMS(context, numberToSend, textToSend.getText().toString());
                             PhoneHandler.endRingingCall(context, numberToSend);
+                            try{
+                                ((LaterCallsActivity) parentObject).onResume();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
                             removePCL();
                         }
                     }
@@ -202,14 +225,16 @@ public class PlanCallLayout {
         buttonWait15.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i("LOOK HERE: PCL", "+15 миинут");
+                Log.i("LOOK HERE: PCL", "+15 минут");
                 timeToSetMillis[0] = callStartTimeMillis + 900000;
-                String[] hms = CalendarHandler.getTimeStringFromLong(timeToSetMillis[0], "kk:mm").split(":");
-                timePicker.setHour(Integer.valueOf(hms[0]) == 24 ? 0 : Integer.valueOf(hms[0]));
+                String[] hms = CalendarHandler.getTimeStringFromLong(timeToSetMillis[0], "HH:mm").split(":");
+                timePicker.setHour(Integer.valueOf(hms[0]));
                 timePicker.setMinute(Integer.valueOf(hms[1]));
-                textToSend.setText(context.getResources().getString(R.string.textSMS, CalendarHandler.getTimeStringFromLong(timeToSetMillis[0], "d.MM.y kk:mm")));
-                isConfirmed[0] = false;
-                buttonSend.callOnClick();
+                textToSend.setText(context.getResources().getString(R.string.textSMS, CalendarHandler.getTimeStringFromLong(timeToSetMillis[0], "dd.MM.y HH:mm")));
+                if (buttonSend.getText().toString().equals("Далее")) {
+                    isConfirmed[0] = false;
+                    buttonSend.callOnClick();
+                }
                 isConfirmed[0] = false;
                 buttonSend.callOnClick();
             }
@@ -221,12 +246,14 @@ public class PlanCallLayout {
             public void onClick(View v) {
                 Log.i("LOOK HERE: PCL", "+30 минут");
                 timeToSetMillis[0] = callStartTimeMillis + 1800000;
-                String[] hms = CalendarHandler.getTimeStringFromLong(timeToSetMillis[0], "kk:mm").split(":");
-                timePicker.setHour(Integer.valueOf(hms[0]) == 24 ? 0 : Integer.valueOf(hms[0]));
+                String[] hms = CalendarHandler.getTimeStringFromLong(timeToSetMillis[0], "HH:mm").split(":");
+                timePicker.setHour(Integer.valueOf(hms[0]));
                 timePicker.setMinute(Integer.valueOf(hms[1]));
-                textToSend.setText(context.getResources().getString(R.string.textSMS, CalendarHandler.getTimeStringFromLong(timeToSetMillis[0], "d.MM.y kk:mm")));
-                isConfirmed[0] = false;
-                buttonSend.callOnClick();
+                textToSend.setText(context.getResources().getString(R.string.textSMS, CalendarHandler.getTimeStringFromLong(timeToSetMillis[0], "dd.MM.y HH:mm")));
+                if (buttonSend.getText().toString().equals("Далее")) {
+                    isConfirmed[0] = false;
+                    buttonSend.callOnClick();
+                }
                 isConfirmed[0] = false;
                 buttonSend.callOnClick();
             }
@@ -238,12 +265,14 @@ public class PlanCallLayout {
             public void onClick(View v) {
                 Log.i("LOOK HERE: PCL", "+1 час");
                 timeToSetMillis[0] = callStartTimeMillis + 3600000;
-                String[] hms = CalendarHandler.getTimeStringFromLong(timeToSetMillis[0], "kk:mm").split(":");
-                timePicker.setHour(Integer.valueOf(hms[0]) == 24 ? 0 : Integer.valueOf(hms[0]));
+                String[] hms = CalendarHandler.getTimeStringFromLong(timeToSetMillis[0], "HH:mm").split(":");
+                timePicker.setHour(Integer.valueOf(hms[0]));
                 timePicker.setMinute(Integer.valueOf(hms[1]));
-                textToSend.setText(context.getResources().getString(R.string.textSMS, CalendarHandler.getTimeStringFromLong(timeToSetMillis[0], "d.MM.y kk:mm")));
-                isConfirmed[0] = false;
-                buttonSend.callOnClick();
+                textToSend.setText(context.getResources().getString(R.string.textSMS, CalendarHandler.getTimeStringFromLong(timeToSetMillis[0], "dd.MM.y HH:mm")));
+                if (buttonSend.getText().toString().equals("Далее")) {
+                    isConfirmed[0] = false;
+                    buttonSend.callOnClick();
+                }
                 isConfirmed[0] = false;
                 buttonSend.callOnClick();
             }
@@ -264,53 +293,6 @@ public class PlanCallLayout {
                 }
             }
         });
-
-        /*Date call = new Date();
-        Date callback = new Date(Long.parseLong(timeToSet_str[0]));
-
-        HashMap<String, String> parames = new HashMap<>();
-        parames.put("email", SettingsActivity.getUser(context));
-        parames.put("recipient_number", tel_in);
-        parames.put("call_date", CalendarHandler.toFormat(call, "dd.MM.yy"));
-        parames.put("call_time", CalendarHandler.toFormat(call, "kk:mm"));
-        parames.put("callback_date", CalendarHandler.toFormat(callback, "dd.MM.yy"));
-        parames.put("callback_time", CalendarHandler.toFormat(callback, "kk:mm"));
-        try
-        {
-            SendData SD = new SendData();
-            SD.parames = parames;
-            SD.server = server;
-            SD.action = "set_rescheduling";
-            SD.contextt = context;
-            SD.execute();
-        }
-        catch (Exception e)
-        {
-
-        }
-         */
-
- /*       int[] timeToSet_str;
-        Button buttonSend = callLayout.findViewById(R.id.bubble_button_send);
-        buttonSend.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.P)
-            @Override
-            public void onClick(View v) {
-                if (timeToSet_str[0] == null) {
-                    Toast.makeText(context, "Пожалуйста, выберите время", Toast.LENGTH_SHORT).show();
-                    return;
-                } else {
-                    addEvent(context, timeToSet_str[0], freeTimeTZ, finalStartTimeStr);
-                    String recipient = phoneNumber;
-                    sendSMS(context, recipient, text.getText().toString());
-                    //sendTelegram(context, recipient, text.getText().toString());
-                    TelecomManager teleMan = (TelecomManager) context.getSystemService(Context.TELECOM_SERVICE);
-                    teleMan.endCall();
-                }
-            }
-        });
-*/
-
     }
 
     public static int[] getActivitySize(Context context) {

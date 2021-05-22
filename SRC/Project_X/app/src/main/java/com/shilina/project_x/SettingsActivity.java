@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -18,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.HashMap;
 
 public class SettingsActivity extends DrawerActivity {
@@ -50,8 +50,6 @@ public class SettingsActivity extends DrawerActivity {
         sp_settings = getSharedPreferences(SP_FILE, MODE_PRIVATE);
         prefEditor = sp_settings.edit();
 
-        //TODO: Отправка данных на сервер при ищменении настроек
-
         //Обработка смены темы
         String sp_theme = sp_settings.getString(SP_THEME, SP_THEMES[0]);
         String curTheme = sp_theme;
@@ -68,8 +66,26 @@ public class SettingsActivity extends DrawerActivity {
                     if (isPremium(getApplicationContext())) {
                         prefEditor.putString(SP_THEME, newTheme);
                         prefEditor.apply();
+
+                        Runnable backgroundProcess = new Runnable() {
+                            public void run() {
+                                try {
+                                    HashMap<String, String> data = new HashMap<String, String>() {{
+                                        put("email", SettingsActivity.getUser(getApplicationContext()));
+                                        put("device_name", Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID));
+                                        put("setting_name", "color_logo");
+                                        put("value", sp_theme);
+                                    }};
+                                    ServerHandler setQuery = new ServerHandler(ServerHandler.ACTION_SET_SETTING, data);
+                                    setQuery.execute();
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        };
+                        Thread thread = new Thread(null, backgroundProcess, "Background");
+                        thread.start();
                         startActivity(getIntent());
-                        finish();
                     } else {
                         spinnerThemes.setSelection(0);
                         Toast.makeText(getApplicationContext(), "Чтобы сменить тему, купите премиум", Toast.LENGTH_SHORT).show();
@@ -96,6 +112,25 @@ public class SettingsActivity extends DrawerActivity {
                 Log.i("LOOK HERE: SettingsActivity", "Cur ModeIn is: " + curModeIn + "\nNew ModeIn is: " + newModeIn);
                 prefEditor.putString(SP_MODE_IN, newModeIn);
                 prefEditor.apply();
+
+                Runnable backgroundProcess = new Runnable() {
+                    public void run() {
+                        try {
+                            HashMap<String, String> data = new HashMap<String, String>() {{
+                                put("email", SettingsActivity.getUser(getApplicationContext()));
+                                put("device_name", Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID));
+                                put("setting_name", "rescheduling_in_event");
+                                put("value", newModeIn);
+                            }};
+                            ServerHandler setQuery = new ServerHandler(ServerHandler.ACTION_SET_SETTING, data);
+                            setQuery.execute();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                };
+                Thread thread = new Thread(null, backgroundProcess, "Background");
+                thread.start();
             }
         });
 
@@ -115,6 +150,25 @@ public class SettingsActivity extends DrawerActivity {
                 Log.i("LOOK HERE: SettingsActivity", "Cur ModeOut is: " + curModeOut + "\nNew ModeOut is: " + newModeOut);
                 prefEditor.putString(SP_MODE_OUT, newModeOut);
                 prefEditor.apply();
+
+                Runnable backgroundProcess = new Runnable() {
+                    public void run() {
+                        try {
+                            HashMap<String, String> data = new HashMap<String, String>() {{
+                                put("email", SettingsActivity.getUser(getApplicationContext()));
+                                put("device_name", Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID));
+                                put("setting_name", "rescheduling_out_event");
+                                put("value", newModeOut);
+                            }};
+                            ServerHandler setQuery = new ServerHandler(ServerHandler.ACTION_SET_SETTING, data);
+                            setQuery.execute();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                };
+                Thread thread = new Thread(null, backgroundProcess, "Background");
+                thread.start();
             }
         });
 
@@ -124,7 +178,22 @@ public class SettingsActivity extends DrawerActivity {
         String pass1 = ((EditText) findViewById(R.id.settings_password)).getText().toString();
         String pass2 = ((EditText) findViewById(R.id.settings_password_check)).getText().toString();
         if (pass1.equals(pass2)) {
-            //TODO:сменить пароль на сервере
+            Runnable backgroundProcess = new Runnable() {
+                public void run() {
+                    try {
+                        HashMap<String, String> data = new HashMap<String, String>() {{
+                            put("email", SettingsActivity.getUser(getApplicationContext()));
+                            put("new_pass", pass1);
+                        }};
+                        ServerHandler passQuery = new ServerHandler(ServerHandler.ACTION_CHANGE_PASS, data);
+                        passQuery.execute();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            };
+            Thread thread = new Thread(null, backgroundProcess, "Background");
+            thread.start();
             Toast.makeText(getApplicationContext(), "Пароль был изменен", Toast.LENGTH_SHORT).show();
             Log.i("LOOK HERE: SettingsActivity", "Password was changed");
         } else {
@@ -137,14 +206,12 @@ public class SettingsActivity extends DrawerActivity {
     public void onResetClick(View view){
         setAllDefault(getApplicationContext());
         startActivity(getIntent());
-        finish();
     }
 
     public void onPermissionsClick(View view) {
         Intent intent = new Intent(getApplicationContext(), PermissionsActivity.class);
         intent.putExtra("calling-activity", className);
         startActivity(intent);
-        finish();
     }
 
     public static void chooseTheme(Context context){

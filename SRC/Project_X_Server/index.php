@@ -1,15 +1,17 @@
 <?php
 require_once 'initialization.php';
 $data = $_POST;
+$service_root_path = "";
+initialize($data['host'], $data['db_login'], $data['db_pass'], $service_root_path);
 $action = $_GET['action'];
-//echo $action;
+//echo "action: ".$action."\n";
 
 switch ($action)
 {
     case "login":
         $scr = '/process/login.php';
         break;
-    case "singup":
+    case "signup":
         $scr = '/process/sign_up.php';
         break;
     case "set_premium":
@@ -26,6 +28,9 @@ switch ($action)
         break;
     case "change_pass":
         $scr = '/process/change_pass.php';
+        break;
+    case "delete_call":
+        $scr = '/process/delete_call.php';
         break;
     case "test":
         $scr = '/test.php';
