@@ -1,9 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <attr name="logoSrc" format="reference" />
+
+    <attr name="colorText" format="color"/>
+    <attr name="colorButton" format="color"/>
+    <attr name="colorTextOnButton" format="color"/>
+    <attr name="colorBackground" format="color"/>
+    <attr name="colorDrawerTextHead" format="color"/>
+    <attr name="colorDrawerBody" format="color"/>
+    <attr name="colorDrawerTextBody" format="color"/>
+
     <attr name="onGradientStart" format="color"/>
     <attr name="onGradientEnd" format="color"/>
     <attr name="offGradientStart" format="color"/>
     <attr name="offGradientEnd" format="color"/>
-    <attr name="drawerBackground" format="color" />
 </resources>

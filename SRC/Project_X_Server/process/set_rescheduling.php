@@ -21,6 +21,8 @@ $json_array = array(
     "error_text" => "Неотлавливаемая ошибка",
 );
 
+//var_dump($data);
+
 $user = R::findOne('users', 'e_mail = ?', array($data['email']));
 if ($user)
 {
@@ -33,6 +35,7 @@ if ($user)
     $call -> call_date_time = strtotime($call_date_time);
     $call -> callback_date_time = strtotime($callback_date_time);
     R::store($call);
+//echo "TTTTTTTTTT".$callback_date_time ;
 
 
     $json_array["error"] = 0;

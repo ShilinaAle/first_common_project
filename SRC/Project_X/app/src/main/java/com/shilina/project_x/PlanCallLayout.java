@@ -103,7 +103,7 @@ public class PlanCallLayout {
         Log.i("LOOK HERE: PCL", "Высота\n\tэкрана: " + height + "\n\tокна: " + height * 30 / 100);
 
         layPar = new WindowManager.LayoutParams( //Задаем параметры отображения
-                width * 90 / 100, height * 30 / 100,
+                width, height,
                 WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,// Говорим, что приложение будет поверх других
                 WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL,  // Необходимо для того чтобы TouchEvent'ы в пустой области передавались на другие приложения
                 PixelFormat.TRANSLUCENT); // Само окно прозрачное

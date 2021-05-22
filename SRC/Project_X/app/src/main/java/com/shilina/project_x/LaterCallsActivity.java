@@ -45,7 +45,7 @@ public class LaterCallsActivity extends DrawerActivity {
 
         //Assign variable
         TextView textById = findViewById(R.id.nameOfWindow);
-        textById.setText("Отложенные звонки");
+        textById.setText("Запланированные звонки");
 
         oneCallLayout = (ViewGroup) findViewById(R.id.scroll_view_layout);
 

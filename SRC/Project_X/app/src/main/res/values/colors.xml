@@ -1,17 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="purple_200">#FFBB86FC</color>
-    <color name="purple_500">#FF6200EE</color>
-    <color name="purple_700">#FF3700B3</color>
-    <color name="teal_200">#FF03DAC5</color>
-    <color name="teal_700">#FF018786</color>
+
+    <color name="sharkPrimary">#1455af</color>
+    <color name="sharkHead">#0e4187</color>
+    <color name="sharkGrey">#666666</color>
+    <color name="sharkWhite">#FFFFFFFF</color>
+    <color name="sharkDrawer">#9ebce6</color>
+
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="panteraPrimary">#212121</color>
+    <color name="panteraHead">#000000</color>
+    <color name="panteraGrey">#424242</color>
+    <color name="panteraWhite">#FFFFFFFF</color>
+    <color name="panteraDrawer">#666666</color>
+    <color name="panteraBack">#303030</color>
+    <color name="panteraText">#a0a0a0</color>
+
 
     <color name="enot1">#785A46</color>
     <color name="enotDark">#4B311E</color>
     <color name="enotoOnSecDark">#9C4B00</color>
     <color name="enot2">#D37830</color>
 
-    <color name="pantera_back">#9f9fab</color>
 </resources>

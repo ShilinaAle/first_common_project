@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/drawer_layout"
-    tools:context=".SettingsActivity">
+    tools:context=".SettingsActivity"
+    android:background="?attr/colorBackground">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -29,7 +30,8 @@
                 app:layout_constraintTop_toBottomOf="@layout/main_toolbar"
                 android:layout_marginLeft="50dp"
                 android:text="Тема"
-                android:textSize="14dp" />
+                android:textSize="14dp"
+                android:textColor="?attr/colorText"/>
             <Spinner
                 android:id="@+id/spinnerTheme"
                 android:layout_width="80pt"
@@ -48,7 +50,8 @@
             android:layout_marginLeft="50dp"
             android:layout_marginVertical="5dp"
             android:text="Переносить во время мероприятий:"
-            android:textSize="14dp" />
+            android:textSize="14dp"
+            android:textColor="?attr/colorText"/>
         <RadioGroup
             android:id="@+id/modeIn"
             android:layout_width="wrap_content"
@@ -60,13 +63,15 @@
                 android:id="@+id/modeInHand"
                 android:layout_width="wrap_content"
                 android:layout_height="25dp"
-                android:text="Вручную" />
+                android:text="Вручную"
+                android:textColor="?attr/colorText"/>
             <RadioButton
                 android:id="@+id/modeInAuto"
                 android:layout_width="wrap_content"
                 android:layout_height="25dp"
                 android:text="Авто (на свободное время)"
-                android:checked="true"/>
+                android:checked="true"
+                android:textColor="?attr/colorText"/>
         </RadioGroup>
 
         <TextView
@@ -78,7 +83,8 @@
             android:layout_marginLeft="50dp"
             android:text="Переносить вне мероприятий:"
             android:textSize="14dp"
-            android:layout_marginVertical="5dp"/>
+            android:layout_marginVertical="5dp"
+            android:textColor="?attr/colorText"/>
         <RadioGroup
             android:id="@+id/modeOut"
             android:layout_width="wrap_content"
@@ -90,13 +96,15 @@
                 android:id="@+id/modeOutHand"
                 android:layout_width="wrap_content"
                 android:layout_height="25dp"
-                android:text="Вручную" />
+                android:text="Вручную"
+                android:textColor="?attr/colorText"/>
             <RadioButton
                 android:id="@+id/modeOutOff"
                 android:layout_width="wrap_content"
                 android:layout_height="25dp"
                 android:text="Выключить"
-                android:checked="true" />
+                android:checked="true"
+                android:textColor="?attr/colorText"/>
         </RadioGroup>
 
         <EditText
@@ -109,7 +117,9 @@
             android:inputType="textPassword"
             android:layout_gravity="center_horizontal"
             android:layout_marginVertical="5dp"
-            android:textSize="14dp" />
+            android:textSize="14dp"
+            android:textColor="?attr/colorText"
+            android:textColorHint="?attr/colorText"/>
 
         <EditText
             android:id="@+id/settings_password_check"
@@ -121,7 +131,9 @@
             android:inputType="textPassword"
             android:layout_gravity="center_horizontal"
             android:layout_marginVertical="5dp"
-            android:textSize="14dp" />
+            android:textSize="14dp"
+            android:textColor="?attr/colorText"
+            android:textColorHint="?attr/colorText"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -132,26 +144,38 @@
                 android:id="@+id/password_change_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
                 android:layout_gravity="center"
                 android:layout_marginVertical="5dp"
                 android:onClick="onPasswordChangeClick"
-                android:text="Сменить пароль" />
+                android:text="Сменить пароль"
+                android:background="?attr/colorButton"
+                android:textColor="?attr/colorTextOnButton"/>
             <Button
                 android:id="@+id/reset_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
                 android:layout_gravity="center"
                 android:layout_marginVertical="5dp"
                 android:onClick="onResetClick"
-                android:text="Сбросить настройки" />
+                android:text="Сбросить настройки"
+                android:background="?attr/colorButton"
+                android:textColor="?attr/colorTextOnButton"/>
             <Button
                 android:id="@+id/button5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
                 android:layout_gravity="center"
                 android:layout_marginVertical="5dp"
                 android:onClick="onPermissionsClick"
-                android:text="Посмотреть разрешения" />
+                android:text="Посмотреть разрешения"
+                android:background="?attr/colorButton"
+                android:textColor="?attr/colorTextOnButton"/>
         </LinearLayout>
     </LinearLayout>
 

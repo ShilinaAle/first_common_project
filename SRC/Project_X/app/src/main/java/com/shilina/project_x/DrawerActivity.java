@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -112,11 +113,13 @@ public class DrawerActivity extends AppCompatActivity {
 
     public void onLogoutClick(View view) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle(Html.fromHtml("<font color='#000000'>Logout</font>"));
+            builder.setMessage(Html.fromHtml("<font color='#000000'>Are u sure?</font>"));
+            //builder.setTitle("Logout");
+            //builder.setMessage("Are u sure?");
 
-            builder.setTitle("Logout");
-            builder.setMessage("Are u sure?");
-
-            builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+            builder.setPositiveButton(Html.fromHtml("<font color='#000000'>YES</font>"), new DialogInterface.OnClickListener() {
+            //builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     SettingsActivity.setUser(getApplicationContext(), null);
@@ -126,7 +129,9 @@ public class DrawerActivity extends AppCompatActivity {
                     finishAffinity();
                 }
             });
-            builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+
+            builder.setNegativeButton(Html.fromHtml("<font color='#000000'>NO</font>"), new DialogInterface.OnClickListener() {
+            //builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     dialog.dismiss();
