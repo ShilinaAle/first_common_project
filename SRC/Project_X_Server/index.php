@@ -11,7 +11,7 @@ switch ($action)
     case "login":
         $scr = '/process/login.php';
         break;
-    case "singup":
+    case "signup":
         $scr = '/process/sign_up.php';
         break;
     case "set_premium":
