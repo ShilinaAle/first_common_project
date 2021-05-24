@@ -1,72 +1,74 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
+    <!-- Base application theme - shark -->
     <style name="Theme.Project_X" parent="Theme.AppCompat.DayNight.DarkActionBar">
-        <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_500</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
-        <item name="colorOnPrimary">@color/white</item>
-        <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/teal_200</item>
-        <item name="colorSecondaryVariant">@color/teal_700</item>
-        <item name="colorOnSecondary">@color/black</item>
-        <!-- StatusActivity bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+
+        <item name="colorPrimary">@color/sharkPrimary</item>
+        <item name="colorPrimaryVariant">@color/sharkHead</item>
+        <item name="colorText">@color/sharkGrey</item>
+        <item name="colorButton">@color/sharkPrimary</item>
+        <item name="colorTextOnButton">@color/sharkWhite</item>
+        <item name="colorBackground">@color/sharkWhite</item>
+        <item name="colorOnPrimary">@color/sharkWhite</item>
+        <item name="colorDrawerTextHead">@color/sharkGrey</item>
+        <item name="colorDrawerBody">@color/white</item>
+        <item name="colorDrawerTextBody">@color/sharkPrimary</item>
+
+        <!--  <item name="colorOnSecondary">@color/black</item>-->
+
         <!-- Logo and gradients. -->
         <item name="logoSrc">@drawable/logo_shark</item>
         <item name="onGradientStart">#1455af</item>
         <item name="onGradientEnd">#46a5e6</item>
         <item name="offGradientStart">#557d9b</item>
         <item name="offGradientEnd">#c3d7e6</item>
-        <item name="drawerBackground">#c3d7e6</item>
     </style>
 
-    <style name="Theme.Project_X_enot"  parent="Theme.AppCompat.DayNight.DarkActionBar">
-        <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/enot1</item>
-        <item name="colorPrimaryVariant">@color/enotDark</item>
-        <item name="colorOnPrimary">@color/white</item>
-        <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/enot2</item>
-        <item name="colorSecondaryVariant">@color/enotoOnSecDark</item>
-        <item name="colorOnSecondary">@color/black</item>
-        <!-- StatusActivity bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
-        <!-- Logo and gradients. -->
-        <item name="logoSrc">@drawable/logo_enot</item>
-        <item name="onGradientStart">@color/enotDark</item>
-        <item name="onGradientEnd">@color/enot1</item>
-        <item name="offGradientStart">@color/enotoOnSecDark</item>
-        <item name="offGradientEnd">@color/enot2</item>
-        <item name="drawerBackground">@color/material_on_primary_emphasis_medium</item>
-    </style>
-
+    <!-- Base application theme. -->
     <style name="Theme.Project_X_pantera"  parent="Theme.AppCompat.DayNight.DarkActionBar">
-        <!-- Primary brand color.
-        <item name="colorOnBackground">#63636a</item> -->
-        <!--<item name="android:text">@color/white</item>-->
-        <item name="colorAccent">@color/white</item>
-        <!--фон-->
-        <item name="android:colorBackground">@color/pantera_back</item>
-        <!--> -->
-        <item name="colorOnBackground">@color/white</item>
-        <item name="colorPrimary">#39393f</item>
-        <!--верхняя шапка-->
-        <item name="colorPrimaryVariant">#464650</item>
-        <item name="colorOnPrimary">@color/white</item>
-        <!-- Secondary brand color. -->
-        <item name="colorSecondary">#3c3a43</item>
-        <item name="colorSecondaryVariant">#464650</item>
-        <item name="colorOnSecondary">@color/black</item>
-        <item name="android:toolbarStyle">@color/pantera_back</item>
-        <item name="tooltipFrameBackground">@color/pantera_back</item>
-        <!-- StatusActivity bar color.-->
-        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+
+        <item name="colorPrimary">@color/panteraPrimary</item>
+        <item name="colorPrimaryVariant">@color/panteraHead</item>
+        <item name="colorText">@color/panteraDrawer</item>
+        <item name="colorButton">@color/panteraPrimary</item>
+        <item name="colorTextOnButton">@color/panteraWhite</item>
+        <item name="colorBackground">@color/panteraBack</item>
+        <item name="colorOnPrimary">@color/panteraWhite</item>
+        <item name="colorDrawerTextHead">@color/panteraWhite</item>
+        <item name="colorDrawerBody">@color/panteraDrawer</item>
+        <item name="colorDrawerTextBody">@color/panteraPrimary</item>
+
         <!-- Logo and gradients. -->
         <item name="logoSrc">@drawable/logo_pantera</item>
-        <item name="onGradientStart">#39393f</item>
-        <item name="onGradientEnd">#464650</item>
-        <item name="offGradientStart">#464650</item>
-        <item name="offGradientEnd">@color/pantera_back</item>
-        <item name="drawerBackground">@color/pantera_back</item>
+        <item name="onGradientStart">@color/panteraGrey</item>
+        <item name="onGradientEnd">@color/panteraDrawer</item>
+        <item name="offGradientStart">@color/panteraDrawer</item>
+        <item name="offGradientEnd">@color/panteraBack</item>
+
     </style>
+
+    <!-- Base application theme. -->
+    <style name="Theme.Project_X_enot"  parent="Theme.AppCompat.DayNight.DarkActionBar">
+        <!-- Primary brand color. -->
+
+        <item name="colorPrimary">@color/enotPrimary</item>
+        <item name="colorPrimaryVariant">@color/enotHead</item>
+        <item name="colorText">@color/enotPrimary</item>
+        <item name="colorButton">@color/enotPrimary</item>
+        <item name="colorTextOnButton">@color/enotWhite</item>
+        <item name="colorBackground">@color/enotWhite</item>
+        <item name="colorOnPrimary">@color/enotWhite</item>
+        <item name="colorDrawerTextHead">@color/enotGrey</item>
+        <item name="colorDrawerBody">@color/enotDrawer</item>
+        <item name="colorDrawerTextBody">@color/enotPrimary</item>
+
+        <!-- Logo and gradients. -->
+        <item name="logoSrc">@drawable/logo_enot</item>
+        <item name="onGradientStart">@color/enotHead</item>
+        <item name="onGradientEnd">@color/enotPrimary</item>
+        <item name="offGradientStart">@color/enotBright</item>
+        <item name="offGradientEnd">@color/enot2</item>
+
+    </style>
+
+
 </resources>

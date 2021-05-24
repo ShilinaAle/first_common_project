@@ -4,7 +4,8 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:padding="12dp"
-    android:gravity="center_vertical">
+    android:gravity="center_vertical"
+    android:background="?attr/colorBackground">
 
     <ImageView
         android:layout_width="wrap_content"
@@ -19,9 +20,9 @@
         android:layout_weight="35"
         android:text="@string/nameOfWindow"
         android:textAlignment="center"
-        android:textColor="#636363"
         android:textSize="20sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:textColor="?attr/colorText"/>
 
     <ImageView
         android:id="@+id/imageView"

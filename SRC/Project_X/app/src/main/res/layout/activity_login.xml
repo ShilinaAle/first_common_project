@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".LoginActivity"
-    tools:ignore="ExtraText">
+    tools:ignore="ExtraText"
+    android:background="?attr/colorBackground">
 
     <ImageView
         android:id="@+id/logo"
@@ -17,7 +18,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_weight="1" />
+        app:layout_constraintVertical_weight="1"
+        />
 
     <EditText
         android:id="@+id/login"
@@ -49,18 +51,24 @@
         android:id="@+id/sign_in"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
         android:text="@string/sign_in"
         app:layout_constraintEnd_toEndOf="@+id/sign_up"
         app:layout_constraintStart_toStartOf="@+id/sign_up"
         android:layout_gravity="center"
         app:layout_constraintTop_toBottomOf="@+id/password"
         app:layout_constraintBottom_toBottomOf="@+id/sign_up"
-        android:onClick="CheckLogin"/>
+        android:onClick="CheckLogin"
+        android:background="?attr/colorButton"
+        android:textColor="?attr/colorTextOnButton"/>
 
     <Button
         android:id="@+id/sign_up"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
         android:text="@string/sign_up"
         app:layout_constraintTop_toBottomOf="@id/sign_in"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -68,7 +76,9 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:onClick="GoSignUp"/>
+        android:onClick="GoSignUp"
+        android:background="?attr/colorButton"
+        android:textColor="?attr/colorTextOnButton"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".SignUpActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="?attr/colorBackground">
 
 
     <EditText
@@ -52,10 +53,14 @@
         android:id="@+id/signUpNow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
         android:text="Зарегистрироваться"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="70dp"
-        android:onClick="onSingUpButtonClick"/>
+        android:onClick="onSingUpButtonClick"
+        android:background="?attr/colorButton"
+        android:textColor="?attr/colorTextOnButton"/>
 </LinearLayout>
