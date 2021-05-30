@@ -1,5 +1,6 @@
 package com.shilina.project_x;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -11,6 +12,8 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,9 +23,51 @@ import org.json.JSONObject;
 import java.util.Calendar;
 import java.util.HashMap;
 
-public class StatusActivity extends DrawerActivity {
+
+
+public class StatusActivity extends DrawerActivity{
+
+    private AlertDialog.Builder dialogBuilder;
+    private AlertDialog dialog;
+    private EditText pay_number, pay_month, pay_year, pay_name, pay_cvc;
+    private Button pay_cancel, pay_buy;
+
+    public void  createPayMenuDialog(){
+        dialogBuilder = new AlertDialog.Builder(this);
+        final View pay_view = getLayoutInflater().inflate(R.layout.activity_pay, null);
+        pay_number = (EditText) pay_view.findViewById(R.id.pay_number);
+        pay_month = (EditText) pay_view.findViewById(R.id.pay_month);
+        pay_year = (EditText) pay_view.findViewById(R.id.pay_year);
+        pay_name = (EditText) pay_view.findViewById(R.id.pay_name);
+        pay_cvc = (EditText) pay_view.findViewById(R.id.pay_cvc);
+
+        pay_buy = (Button) pay_view.findViewById(R.id.buy);
+        pay_cancel = (Button) pay_view.findViewById(R.id.pay_cancel);
+
+        dialogBuilder.setView(pay_view);
+        dialog = dialogBuilder.create();
+        dialog.show();
+
+
+        pay_cancel.setOnClickListener(new View.OnClickListener(){
+        @Override
+        public void onClick(View v) {
+            //define cancel button here!
+            dialog.dismiss();
+        }
+        });
+
+        pay_buy.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                //TODO define buy button here!!!
+            }
+        });
+    }
+
 
     public static final String className = Thread.currentThread().getStackTrace()[2].getClassName();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +89,9 @@ public class StatusActivity extends DrawerActivity {
     }
 
     public void onPurchaseClick(View view) {
+        createPayMenuDialog();
+
+        /*
         Log.i("LOOK HERE: SA", "Purchased premium ");
         SettingsActivity.setPremium(this, true);
 
@@ -84,6 +132,6 @@ public class StatusActivity extends DrawerActivity {
             }
         };
         Thread thread = new Thread(null, backgroundProcess,"Background");
-        thread.start();
+        thread.start(); */
     }
 }

@@ -162,6 +162,7 @@ public class CalendarHandler {
             values.put(Events.EVENT_TIMEZONE, TimeZone.getDefault().getID());
             values.put(Events.GUESTS_CAN_INVITE_OTHERS, "1");
             values.put(Events.GUESTS_CAN_SEE_GUESTS, "1");
+            values.put(Events.ORGANIZER,"168irishka10@gmail.com");
             if (ActivityCompat.checkSelfPermission(context, Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
                 return;
             }
