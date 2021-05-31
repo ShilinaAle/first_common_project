@@ -192,10 +192,8 @@ public class PlanCallLayout {
                                         HashMap<String, String> data = new HashMap<String, String>() {{
                                             put("email", SettingsActivity.getUser(context));
                                             put("recipient_number", numberToSend);
-                                            put("call_date", CalendarHandler.getTimeStringFromLong(callStartTimeMillis, "dd.MM.y"));
-                                            put("call_time", CalendarHandler.getTimeStringFromLong(callStartTimeMillis, "HH:mm"));
-                                            put("callback_date", CalendarHandler.getTimeStringFromLong(timeToSetMillis[0], "dd.MM.y"));
-                                            put("callback_time", CalendarHandler.getTimeStringFromLong(timeToSetMillis[0], "HH:mm"));
+                                            put("call_datetime", Long.toString(callStartTimeMillis/1000));
+                                            put("callback_datetime", Long.toString(timeToSetMillis[0]/1000));
                                         }};
                                         ServerHandler addCallQuery = new ServerHandler(ServerHandler.ACTION_SET_RESCHEDULING, data);
                                         addCallQuery.execute();
