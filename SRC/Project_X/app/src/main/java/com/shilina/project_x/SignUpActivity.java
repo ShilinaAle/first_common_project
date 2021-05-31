@@ -11,6 +11,7 @@ import android.os.Looper;
 import android.provider.Settings;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -30,6 +31,7 @@ public class SignUpActivity extends AppCompatActivity {
     EditText pass1;
     EditText pass2;
     EditText phone;
+    TextView textAlert;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +42,7 @@ public class SignUpActivity extends AppCompatActivity {
         pass1 = (EditText) findViewById(R.id.enterPassword);
         pass2 = (EditText) findViewById(R.id.checkPassword);
         phone = (EditText) findViewById(R.id.phone_number);
+        textAlert = (TextView) findViewById(R.id.textAlertSign);
     }
 
     private void EnterErrors() {
@@ -58,30 +61,25 @@ public class SignUpActivity extends AppCompatActivity {
 
         List<String> errors = new ArrayList<String>();
         if (!email_in.matches("\\w+@gmail\\.com")) {
-            email.setBackgroundColor(Color.red(1));
             errors.add("Почта не принадлежит домену gmail.com");
         }
         if (email_in.length() >= 50) {
-            email.setBackgroundColor(Color.red(1));
             errors.add("Длина почты слишком большая");
         }
-        if (!pass1_in.equals(pass2_in)) {
-            pass1.setBackgroundColor(Color.red(1));
-            pass2.setBackgroundColor(Color.red(1));
-            errors.add("Пароли не совпадают");
-        }
-        if (pass1_in.length() >= 50) {
-            pass1.setBackgroundColor(Color.red(1));
-            pass2.setBackgroundColor(Color.red(1));
-            errors.add("Длина пароля слишком большая");
-        }
         if (!Pattern.matches("^((8|\\+7)[\\- ]?)?(\\(?\\d{3}\\)?[\\- ]?)?[\\d\\- ]{7,10}$", (phone_in))) {
-            phone.setBackgroundColor(Color.red(1));
-            errors.add("Длина пароля слишком большая");
+            errors.add("Неверный формат номера телефона");
+        }
+        if (pass1_in.length() >= 50 || pass1_in.length() <= 1) {
+            errors.add("Пароль должен содержать от 1 до 50 символов");
+        }
+        if (!pass1_in.equals(pass2_in)) {
+            errors.add("Пароли не совпадают");
         }
 
         if (errors.size() > 0) {
-            Toast.makeText(getApplicationContext(), errors.get(0), Toast.LENGTH_SHORT).show();
+            textAlert.setVisibility(View.VISIBLE);
+            textAlert.setText(errors.get(0));
+            return;
         } else {
             Runnable backgroundProcess = new Runnable() {
                 public void run() {

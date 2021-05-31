@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+
+    <EditText
+        android:id="@+id/pay_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:textSize="20sp"
+        android:ems="15"
+        android:maxLength="16"
+        android:hint="Номер карты"
+        android:inputType="number"
+         />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginHorizontal="50dp">
+
+        <EditText
+            android:id="@+id/pay_month"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1"
+            android:ems="10"
+            android:maxLength="2"
+            android:hint="Месяц"
+            android:inputType="number"
+            android:layout_marginTop="10dp"
+            />
+
+        <EditText
+            android:id="@+id/pay_year"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1"
+            android:ems="10"
+            android:maxLength="2"
+            android:hint="Год"
+            android:inputType="number"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="161dp"
+            />
+
+        <EditText
+            android:id="@+id/pay_cvc"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint="CVC"
+            android:maxLength="3"
+            android:inputType="number"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="161dp"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textAlert"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="Введите корректные данные"
+        android:textSize="15sp"
+        android:textColor="#ff0000"
+        android:visibility="invisible"/>
+
+    <EditText
+        android:id="@+id/pay_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:textSize="20sp"
+        android:ems="15"
+        android:hint="ИМЯ ФАМИЛИЯ"
+        android:inputType="textCapCharacters"
+        />
+
+
+    <Button
+        android:id="@+id/buy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:background="?attr/colorButton"
+        android:onClick="onSingUpButtonClick"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:text="Купить"
+        android:textColor="?attr/colorTextOnButton"
+        android:layout_marginVertical="10dp"/>
+
+    <Button
+        android:id="@+id/pay_cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:background="?attr/colorButton"
+        android:onClick="onSingUpButtonClick"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:text="Отменить"
+        android:textColor="?attr/colorTextOnButton"
+        android:layout_marginVertical="10dp" />
+
+</LinearLayout>

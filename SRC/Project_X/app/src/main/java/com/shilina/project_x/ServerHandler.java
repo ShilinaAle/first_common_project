@@ -21,9 +21,9 @@ import static java.lang.Boolean.valueOf;
 
 class ServerHandler extends AsyncTask<Void, Void, String>
 {
-    public static final String HOST = "192.168.3.112";
-    public static final String DB_LOGIN = "zxc";
-    public static final String DB_PASS = "zxc";
+    public static final String HOST = "192.168.0.101";
+    public static final String DB_LOGIN = "qwe";
+    public static final String DB_PASS = "qwe";
 
     public static final String ACTION_LOGIN = "login";
     public static final String ACTION_SIGNUP = "signup";

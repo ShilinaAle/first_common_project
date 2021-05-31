@@ -63,4 +63,15 @@
         android:onClick="onSingUpButtonClick"
         android:background="?attr/colorButton"
         android:textColor="?attr/colorTextOnButton"/>
+
+    <TextView
+        android:id="@+id/textAlertSign"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginVertical="30dp"
+        android:text="Введите корректные данные"
+        android:textSize="15sp"
+        android:textColor="#ff0000"
+        android:visibility="invisible"/>
 </LinearLayout>
