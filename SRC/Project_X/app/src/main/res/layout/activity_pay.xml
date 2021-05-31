@@ -72,6 +72,16 @@
 
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/textAlert"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="Введите корректные данные"
+        android:textSize="15sp"
+        android:textColor="#ff0000"
+        android:visibility="invisible"/>
+
     <EditText
         android:id="@+id/pay_name"
         android:layout_width="wrap_content"

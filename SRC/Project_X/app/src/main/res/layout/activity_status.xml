@@ -44,7 +44,7 @@
                 android:layout_margin="50dp"
                 android:layout_weight="1"
                 android:onClick="onPurchaseClick"
-                android:text="Купить премиум"
+                android:text="Купить премиум за 250р."
                 app:layout_constraintTop_toBottomOf="@id/textStatus"
                 android:background="?attr/colorButton"
                 android:textColor="?attr/colorTextOnButton"/>
