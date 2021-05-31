@@ -4,10 +4,8 @@
  * Приходят данные:
  * email - почта пользователя
  * recipient_number - номер входящего звонка
- * call_date - дата звонка в формате дд.мм.гггг
- * call_time - время звонка в формате чч:мм
- * callback_date - дата, на которую переносится звонок в формате дд.мм.гггг
- * callback_time - время, на которое переносится звонок в формате чч:мм
+ * call_datetime - дата и время звонка в формате UNIX-time
+ * callback_datetime - дата и время, на которую переносится звонок в формате UNIX-time
  *
  * Возвращает:
  * JSON с полями:
@@ -21,8 +19,6 @@ $json_array = array(
     "error_text" => "Неотлавливаемая ошибка",
 );
 
-//var_dump($data);
-
 $user = R::findOne('users', 'e_mail = ?', array($data['email']));
 if ($user)
 {
@@ -32,11 +28,9 @@ if ($user)
     $call = R::dispense('calls');
     $call -> user_id = $user->id;
     $call -> recipient_number = $data['recipient_number'];
-    $call -> call_date_time = strtotime($call_date_time);
-    $call -> callback_date_time = strtotime($callback_date_time);
+    $call -> call_date_time = (int)$call_date_time;
+    $call -> callback_date_time = (int)$callback_date_time;
     R::store($call);
-//echo "TTTTTTTTTT".$callback_date_time ;
-
 
     $json_array["error"] = 0;
     $json_array["error_text"] = "";

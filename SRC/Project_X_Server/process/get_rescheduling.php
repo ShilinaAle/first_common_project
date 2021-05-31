@@ -8,7 +8,7 @@
  * JSON с полями:
  * * error: 1 или 0
  * * error_text: пустая строка или текст ошибки
- * * calls: {phone: date_time}, где calls - звонки, phone - номер на который нужно перезвонить, call_date_time - время звонка, callback_date_time - вреемя, когда нужно перезвонить
+ * * calls: {phone: date_time}, где calls - звонки, phone - номер на который нужно перезвонить, call_date_time - время звонка в UNIX-time, callback_date_time - вреемя, когда нужно перезвонить в UNIX-time
  */
 $data = $_POST;
 $errors = array();
@@ -30,8 +30,8 @@ if ($user)
         {
             $json_array["calls"][$i]["id"] = $call->id;
             $json_array["calls"][$i]["phone"] = $call -> recipient_number;
-            $json_array["calls"][$i]["call_date_time"] = date("d.m.Y H:i", $call -> call_date_time);
-            $json_array["calls"][$i]["callback_date_time"] = date("d.m.Y H:i", $call -> callback_date_time);
+            $json_array["calls"][$i]["call_date_time"] = $call -> call_date_time;
+            $json_array["calls"][$i]["callback_date_time"] = $call -> callback_date_time;
             $i ++;
         }
 
