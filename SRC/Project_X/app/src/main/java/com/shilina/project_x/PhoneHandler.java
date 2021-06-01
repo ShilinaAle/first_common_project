@@ -126,10 +126,8 @@ public class PhoneHandler extends BroadcastReceiver {
                             HashMap<String, String> data = new HashMap<String, String>() {{
                                 put("email", SettingsActivity.getUser(context));
                                 put("recipient_number", phoneNumber);
-                                put("call_date", CalendarHandler.getTimeStringFromDate(startTime, "dd.MM.y"));
-                                put("call_time", CalendarHandler.getTimeStringFromDate(startTime, "HH:mm"));
-                                put("callback_date", CalendarHandler.getTimeStringFromLong(timeToSetMillis, "dd.MM.y"));
-                                put("callback_time", CalendarHandler.getTimeStringFromLong(timeToSetMillis, "HH:mm"));
+                                put("call_datetime", Long.toString(startTime.getTime() / 1000));
+                                put("callback_datetime", Long.toString(timeToSetMillis / 1000));
                             }};
                             ServerHandler addCallQuery = new ServerHandler(ServerHandler.ACTION_SET_RESCHEDULING, data);
                             addCallQuery.execute();
