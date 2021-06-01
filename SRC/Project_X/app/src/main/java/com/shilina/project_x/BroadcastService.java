@@ -57,9 +57,11 @@ public class BroadcastService extends Service {
     public void onDestroy() {
         super.onDestroy();
         Log.i("LOOK HERE: BroadcastService", "Destroyed");
-        unregisterReceiver(phoneCall);
-        phoneCall = null;
-        PhoneHandler.isRegistered = false;
+        if (PhoneHandler.isRegistered) {
+            unregisterReceiver(phoneCall);
+            PhoneHandler.isRegistered = false;
+            phoneCall = null;
+        }
     }
 
 
