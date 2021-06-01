@@ -22,14 +22,11 @@ $json_array = array(
 $user = R::findOne('users', 'e_mail = ?', array($data['email']));
 if ($user)
 {
-    $call_date_time = $data["call_date"]." ".$data["call_time"];
-    $callback_date_time = $data["callback_date"]." ".$data["callback_time"];
-
     $call = R::dispense('calls');
     $call -> user_id = $user->id;
     $call -> recipient_number = $data['recipient_number'];
-    $call -> call_date_time = (int)$call_date_time;
-    $call -> callback_date_time = (int)$callback_date_time;
+    $call -> call_date_time = (int)$data['call_datetime'];
+    $call -> callback_date_time = (int)$data['callback_datetime'];
     R::store($call);
 
     $json_array["error"] = 0;

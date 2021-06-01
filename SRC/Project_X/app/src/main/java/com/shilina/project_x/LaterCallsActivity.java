@@ -107,9 +107,8 @@ public class LaterCallsActivity extends DrawerActivity {
                                 JSONObject calli = plannedCallsArray.getJSONObject(Integer.toString(i));
                                 int id = Integer.parseInt(calli.getString("id"));
                                 String phone = calli.getString("phone");
-                                SimpleDateFormat format = new SimpleDateFormat("dd.MM.y HH:mm");
-                                Date callDate = format.parse(calli.getString("call_date_time"));
-                                Date callbackDate = format.parse(calli.getString("callback_date_time"));
+                                Date callDate = new Date(Long.valueOf(calli.getString("call_datetime").concat("000")));
+                                Date callbackDate = new Date(Long.valueOf(calli.getString("callback_datetime").concat("000")));
 
                                 CalendarHandler.addEvent(context, phone, callDate.getTime(), callbackDate.getTime());
 
