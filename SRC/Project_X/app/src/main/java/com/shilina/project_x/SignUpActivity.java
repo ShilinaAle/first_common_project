@@ -69,7 +69,7 @@ public class SignUpActivity extends AppCompatActivity {
         if (!Pattern.matches("^((8|\\+7)[\\- ]?)?(\\(?\\d{3}\\)?[\\- ]?)?[\\d\\- ]{7,10}$", (phone_in))) {
             errors.add("Неверный формат номера телефона");
         }
-        if (pass1_in.length() >= 50 || pass1_in.length() <= 1) {
+        if (pass1_in.length() > 50 || pass1_in.length() < 1) {
             errors.add("Пароль должен содержать от 1 до 50 символов");
         }
         if (!pass1_in.equals(pass2_in)) {
