@@ -40,8 +40,8 @@ CREATE TABLE Calls
     id INT PRIMARY KEY AUTO_INCREMENT,
     user_id	INT NOT NULL,
     recipient_number VARCHAR(20) NOT NULL,
-    call_date_time VARCHAR(20) NOT NULL,
-	callback_date_time VARCHAR(20) NOT NULL,
+    call_date_time INT NOT NULL,
+	callback_date_time INT NOT NULL,
     FOREIGN KEY (user_id) REFERENCES Users (id)
 );
 
@@ -50,6 +50,6 @@ CREATE TABLE Payments
     id INT PRIMARY KEY AUTO_INCREMENT,
     user_id	INT NOT NULL,
     summ DECIMAL(5,2) NOT NULL,
-    pay_date_time DATETIME NOT NULL,
+    pay_date_time INT NOT NULL,
     FOREIGN KEY (user_id) REFERENCES Users (id)
 );

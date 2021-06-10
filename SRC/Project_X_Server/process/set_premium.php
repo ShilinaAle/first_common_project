@@ -26,8 +26,8 @@ if ($user)
 
     $pay = R::dispense('payments');
     $pay -> user_id = $user->id;
-    $pay -> summ = $data['summ'];
-    $pay -> pay_date_time = $data["pay_datetime"];
+    $pay -> summ = (int)$data['summ'];
+    $pay -> pay_date_time = (int)$data["pay_datetime"];
     R::store($pay);
 
 
