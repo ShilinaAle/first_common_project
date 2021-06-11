@@ -66,20 +66,12 @@ public class StatusActivity extends DrawerActivity{
             @Override
             public void onClick(View v) {
 
-                if (pay_number.getText().toString().length() < 16 || pay_month.getText().toString().length() < 2 ||
-                        pay_cvc.getText().toString().length() < 3 || pay_year.getText().toString().length() < 2 ||
+                if (pay_number.getText().toString().length() < 16 ||
+                        Integer.parseInt(pay_month.getText().toString()) < 1 || Integer.parseInt(pay_month.getText().toString()) > 12 ||
+                        pay_cvc.getText().toString().length() < 3 || Integer.parseInt(pay_year.getText().toString()) < 21 ||
                         pay_name.getText().toString() == "") {
                     textAlert.setVisibility(View.VISIBLE);
                     return;
-                }
-
-                int month = Integer.parseInt(pay_month.getText().toString());
-                int year = Integer.parseInt(pay_year.getText().toString());
-
-                if (month < 1 || month > 12 || year < 21)
-                {
-                    textAlert.setVisibility(View.VISIBLE);
-                    
                 } else {
 
                     Log.i("LOOK HERE: SA", "Purchased premium ");
@@ -92,7 +84,8 @@ public class StatusActivity extends DrawerActivity{
                                 HashMap<String, String> data = new HashMap<String, String>() {{
                                     put("email", SettingsActivity.getUser(context));
                                     put("summ", "250");
-                                    put("pay_datetime", Long.toString(Calendar.getInstance().getTime().getTime() / 1000));
+                                    put("pay_date", CalendarHandler.getTimeStringFromDate(Calendar.getInstance().getTime(), "dd.MM.yy"));
+                                    put("pay_time", CalendarHandler.getTimeStringFromDate(Calendar.getInstance().getTime(), "HH:mm"));
                                 }};
                                 ServerHandler premiumQuery = new ServerHandler(ServerHandler.ACTION_SET_PREMIUM, data);
                                 premiumQuery.execute();
@@ -153,5 +146,13 @@ public class StatusActivity extends DrawerActivity{
 
     public void onPurchaseClick(View view) {
         createPayMenuDialog();
+    }
+
+    @Override
+    public void onPause() {
+        if (dialog != null) {
+            dialog.dismiss();
+        }
+        super.onPause();
     }
 }
