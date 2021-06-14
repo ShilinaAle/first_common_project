@@ -120,6 +120,7 @@ public class PlanCallLayout {
         final long callStartTimeMillis = callStartTime.getTime();
         final long timeToSetMillis[] = new long[1];
         timeToSetMillis[0] = CalendarHandler.getFreeTimeFromCalendar(context, callStartTimeMillis);
+        Log.i("LOOK HERE: PCL", "Primary time: " + CalendarHandler.getTimeStringFromLong(timeToSetMillis[0], "dd.MM.y HH:mm"));
 
         TextView textPhone = (TextView) vgLayout.findViewById(R.id.bubble_phone);
         textPhone.setText(phoneNumber);
@@ -154,6 +155,8 @@ public class PlanCallLayout {
         } else {
             lLayout.removeView(datePicker);
             textToSend.setText(context.getResources().getString(R.string.textSMS, CalendarHandler.getTimeStringFromLong(timeToSetMillis[0], "dd.MM.y HH:mm")));
+            String[] ymd = CalendarHandler.getTimeStringFromLong(timeToSetMillis[0], "yyyy:M:d").split(":");
+            c.set(Integer.valueOf(ymd[0]), Integer.valueOf(ymd[1]) - 1, Integer.valueOf(ymd[2]), 0, 0, 0);
             String[] hms = CalendarHandler.getTimeStringFromLong(timeToSetMillis[0], "HH:mm").split(":");
             timePicker.setHour(Integer.valueOf(hms[0]));
             timePicker.setMinute(Integer.valueOf(hms[1]));

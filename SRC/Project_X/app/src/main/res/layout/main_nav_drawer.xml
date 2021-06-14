@@ -22,7 +22,7 @@
         android:textSize="20sp"
         android:textStyle="bold"
         android:textAlignment="center"
-        android:textColor="?attr/colorText"/>
+        android:textColor="?attr/colorDrawerTextHead"/>
 
     <View
         android:layout_width="match_parent"

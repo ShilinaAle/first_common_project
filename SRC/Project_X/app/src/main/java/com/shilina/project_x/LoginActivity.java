@@ -58,7 +58,7 @@ public class LoginActivity extends AppCompatActivity {
                     Context context = getApplicationContext();
                     if (ServerHandler.isErrored(responseString) == null) {
                         SettingsActivity.setUser(context, data.get("email"));
-                        SettingsActivity.setPremium(context, Boolean.parseBoolean(responseJSON.getString("user_premium")));
+                        SettingsActivity.setPremium(context, "1".equals(responseJSON.getString("user_premium")));
                         new Handler(Looper.getMainLooper()).post(new Runnable() {
                             public void run() {
                                 Toast.makeText(context, "Вход выполнен", Toast.LENGTH_SHORT).show();

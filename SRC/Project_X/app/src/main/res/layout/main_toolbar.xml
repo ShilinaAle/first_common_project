@@ -19,7 +19,7 @@
         android:layout_height="40dp"
         android:layout_weight="35"
         android:text="@string/nameOfWindow"
-        android:textAlignment="center"
+        android:gravity="center"
         android:textSize="20sp"
         android:textStyle="bold"
         android:textColor="?attr/colorText"/>

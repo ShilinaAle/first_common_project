@@ -4,6 +4,8 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -54,7 +56,7 @@ public class LaterCallsActivity extends DrawerActivity {
         planOneCall.setId(0);
         planOneCall.setTag("plan");
         TextView plannedCallViewText = (TextView) planOneCall.findViewById(R.id.one_call_view_text);
-        plannedCallViewText.setText("Чтобы запланировать звонок, нажмите:");
+        plannedCallViewText.setText("Можно запланировать звонок, нажав->\nили\nМожно позвонить сейчас, нажав нужный номер телефона снизу");
         Button plannedCallViewButton = (Button) planOneCall.findViewById(R.id.one_call_view_button);
         plannedCallViewButton.setText("Запланировать");
         plannedCallViewButton.setTextSize(COMPLEX_UNIT_SP, 8);
@@ -147,6 +149,13 @@ public class LaterCallsActivity extends DrawerActivity {
                                 new Handler(Looper.getMainLooper()).post(new Runnable() {
                                     public void run() {
                                         oneCallLayout.addView(nextOneCall);
+                                        nextOneCall.findViewById(R.id.one_call_view_text).setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                Intent callIntent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + phone));
+                                                startActivity(callIntent);
+                                            }
+                                        });
                                     }
                                 });
                             } catch (Exception e) {

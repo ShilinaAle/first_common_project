@@ -4,8 +4,7 @@
  * Приходят данные:
  * email - почта пользователя
  * summ - сумма платежа
- * pay_date - дата платежа в формате дд.мм.гггг
- * pay_time - время платежа в формате чч:мм
+ * pay_datetime - дата и время платежа в UNIX-формате
  *
  * Возвращает:
  * JSON с полями:
@@ -22,15 +21,13 @@ $json_array = array(
 $user = R::findOne('users', 'e_mail = ?', array($data['email']));
 if ($user)
 {
-    $date_time = $data["pay_date"]." ".$data["pay_time"];
-
     $user->premium = 1;
     R::store($user);
 
     $pay = R::dispense('payments');
     $pay -> user_id = $user->id;
-    $pay -> summ = $data['summ'];
-    $pay -> pay_date_time = strtotime($date_time);
+    $pay -> summ = (int)$data['summ'];
+    $pay -> pay_date_time = (int)$data["pay_datetime"];
     R::store($pay);
 
 

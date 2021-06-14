@@ -8,7 +8,7 @@
     android:paddingHorizontal="15dp"
     android:paddingTop="160dp"
     android:paddingBottom="250dp"
-    android:background="#202020"
+    android:background="#80202020"
     >
 
     <LinearLayout

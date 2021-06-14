@@ -114,8 +114,11 @@ public class CalendarHandler {
             Log.i("LOOK HERE: CalendarHandler", "No events at that time");
         } else {
             if (freeTimeMil != currentTime){
-                Log.i("LOOK HERE: CalendarHandler", "Сравниваеются " + freeTimeMil + " и " + currentTime);
-                freeTimeMil = getFreeTimeFromCalendar(context, freeTimeMil);
+                Log.i("LOOK HERE: CalendarHandler", "Comparing " + freeTimeMil + " и " + currentTime);
+                long t = getFreeTimeFromCalendar(context, freeTimeMil + 60000);
+                if (t > 0) {
+                    freeTimeMil = t;
+                }
             }
             Log.i("LOOK HERE: CalendarHandler", "Current event has been found");
         }
