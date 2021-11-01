@@ -21,9 +21,7 @@ import static java.lang.Boolean.valueOf;
 
 class ServerHandler extends AsyncTask<Void, Void, String>
 {
-    public static final String HOST = "192.168.0.101";
-    public static final String DB_LOGIN = "asd";
-    public static final String DB_PASS = "asd";
+    public static final String SERVER = "projectxacaller.000webhostapp.com";
 
     public static final String ACTION_LOGIN = "login";
     public static final String ACTION_SIGNUP = "signup";
@@ -53,8 +51,8 @@ class ServerHandler extends AsyncTask<Void, Void, String>
     @Override
     protected String doInBackground(Void... params) {
         try {
-            String myURL = "http://" + HOST + "/?action=" + action;
-            String myData = "host=" + HOST + "&db_login=" + DB_LOGIN + "&db_pass=" + DB_PASS;
+            String myURL = "http://" + SERVER + "/?action=" + action;
+            String myData = "";
 
             for (String key : data.keySet()) {
                 String value = data.get(key);

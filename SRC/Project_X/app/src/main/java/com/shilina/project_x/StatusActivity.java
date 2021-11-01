@@ -84,8 +84,7 @@ public class StatusActivity extends DrawerActivity{
                                 HashMap<String, String> data = new HashMap<String, String>() {{
                                     put("email", SettingsActivity.getUser(context));
                                     put("summ", "250");
-                                    put("pay_date", CalendarHandler.getTimeStringFromDate(Calendar.getInstance().getTime(), "dd.MM.yy"));
-                                    put("pay_time", CalendarHandler.getTimeStringFromDate(Calendar.getInstance().getTime(), "HH:mm"));
+                                    put("pay_datetime", CalendarHandler.getTimeStringFromDate(Calendar.getInstance().getTime(), "dd.MM.yy HH:mm"));
                                 }};
                                 ServerHandler premiumQuery = new ServerHandler(ServerHandler.ACTION_SET_PREMIUM, data);
                                 premiumQuery.execute();
